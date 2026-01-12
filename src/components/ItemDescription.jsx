@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchProductById } from '../services/api';
 import { useCart } from '../context/CartContext';
-import './ItemDescription.css';
+import '../componets/ItemDescription.css';
 
 const ItemDescription = () => {
   const { id } = useParams();

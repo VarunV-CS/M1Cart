@@ -6,7 +6,8 @@ import './App.css';
 
 const Home = lazy(() => import('./pages/Home'));
 const Categories = lazy(() => import('./pages/Categories'));
-const ItemDescription = lazy(() => import('./pages/ItemDescription'));
+const Search = lazy(() => import('./components/Search'));
+const ItemDescription = lazy(() => import('./components/ItemDescription'));
 const Cart = lazy(() => import('./pages/Cart'));
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/categories" element={<Categories />} />
+              <Route path="/search" element={<Search />} />
               <Route path="/product/:id" element={<ItemDescription />} />
               <Route path="/cart" element={<Cart />} />
             </Routes>

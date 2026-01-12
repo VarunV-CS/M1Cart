@@ -1,0 +1,60 @@
+.search-page {
+  min-height: calc(100vh - 80px);
+  padding: 3rem 2rem;
+  background: #f8f9fa;
+}
+
+.search-page .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.search-page h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+  text-align: center;
+}
+
+.search-query {
+  text-align: center;
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+.products-count {
+  text-align: center;
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.no-products {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #666;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .search-page {
+    padding: 2rem 1rem;
+  }
+
+  .search-page h1 {
+    font-size: 2rem;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+}
