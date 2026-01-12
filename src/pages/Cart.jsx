@@ -1,9 +1,10 @@
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
+import CartItem from '../components/CartItem';
 import './Cart.css';
 
 const Cart = () => {
-  const { cartItems, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart();
+  const { cartItems, getCartTotal, clearCart } = useCart();
   const navigate = useNavigate();
   const total = getCartTotal();
 
@@ -35,42 +36,7 @@ const Cart = () => {
         <div className="cart-content">
           <div className="cart-items">
             {cartItems.map(item => (
-              <div key={item.id} className="cart-item">
-                <div className="cart-item-image">
-                  <img src={item.image} alt={item.name} onClick={() => navigate(`/product/${item.id}`)} />
-                </div>
-                <div className="cart-item-details">
-                  <h3 onClick={() => navigate(`/product/${item.id}`)}>{item.name}</h3>
-                  <p className="cart-item-category">{item.category}</p>
-                  <p className="cart-item-price">${item.price.toFixed(2)}</p>
-                </div>
-                <div className="cart-item-controls">
-                  <div className="quantity-controls">
-                    <button
-                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                      className="quantity-button"
-                    >
-                      −
-                    </button>
-                    <span className="quantity-value">{item.quantity}</span>
-                    <button
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="quantity-button"
-                    >
-                      +
-                    </button>
-                  </div>
-                  <div className="cart-item-total">
-                    ${(item.price * item.quantity).toFixed(2)}
-                  </div>
-                  <button
-                    onClick={() => removeFromCart(item.id)}
-                    className="remove-button"
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
+              <CartItem key={item.id} item={item} />
             ))}
           </div>
           <div className="cart-summary">
