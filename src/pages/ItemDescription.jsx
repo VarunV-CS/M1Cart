@@ -1,5 +1,6 @@
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { products } from '../data/products';
+import { fetchProductById } from '../services/api';
 import { useCart } from '../context/CartContext';
 import './ItemDescription.css';
 
@@ -7,10 +8,29 @@ const ItemDescription = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart, cartItems } = useCart();
-  
-  const product = products.find(p => p.id === parseInt(id));
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  if (!product) {
+  useEffect(() => {
+    const loadProduct = async () => {
+      try {
+        const data = await fetchProductById(parseInt(id));
+        setProduct(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProduct();
+  }, [id]);
+
+  if (loading) {
+    return <div className="loading">Loading product...</div>;
+  }
+
+  if (error || !product) {
     return (
       <div className="item-description-page">
         <div className="container">
