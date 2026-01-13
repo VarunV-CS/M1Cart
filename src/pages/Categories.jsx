@@ -10,6 +10,10 @@ const Categories = () => {
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('All');
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [priceRange, setPriceRange] = useState({ min: '', max: '' });
+  const [sortBy, setSortBy] = useState('name-asc');
+
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -28,9 +32,46 @@ const Categories = () => {
     loadData();
   }, []);
 
-  const filteredProducts = selectedCategory === 'All'
-    ? products
-    : products.filter(product => product.category === selectedCategory);
+  const filteredAndSortedProducts = products
+    .filter(product => {
+      const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
+      
+      const matchesSearch = !searchQuery || 
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      const matchesPrice = 
+        (priceRange.min === '' || product.price >= parseFloat(priceRange.min)) &&
+        (priceRange.max === '' || product.price <= parseFloat(priceRange.max));
+      
+      return matchesCategory && matchesSearch && matchesPrice;
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'price-asc':
+          return a.price - b.price;
+        case 'price-desc':
+          return b.price - a.price;
+        case 'name-desc':
+          return b.name.localeCompare(a.name);
+        case 'name-asc':
+        default:
+          return a.name.localeCompare(b.name);
+      }
+    });
+
+  const handlePriceChange = (type, value) => {
+    setPriceRange(prev => ({
+      ...prev,
+      [type]: value
+    }));
+  };
+
+  const clearFilters = () => {
+    setSearchQuery('');
+    setPriceRange({ min: '', max: '' });
+    setSortBy('name-asc');
+  };
 
   if (loading) {
     return <div className="loading">Loading products...</div>;
@@ -44,6 +85,8 @@ const Categories = () => {
     <div className="categories-page">
       <div className="container">
         <h1>Shop by Category</h1>
+        
+        {/* Category Filters */}
         <div className="category-filters">
           {categories.map(category => (
             <button
@@ -55,17 +98,82 @@ const Categories = () => {
             </button>
           ))}
         </div>
+        
+        {/* Additional Filters */}
+        <div className="filters-section">
+          <div className="filters-grid">
+            <div className="filter-group">
+              <label htmlFor="search-products">Search Products:</label>
+              <input
+                id="search-products"
+                type="text"
+                placeholder="Search by name or category..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="filter-input"
+              />
+            </div>
+            
+            <div className="filter-group">
+              <label htmlFor="price-min">Min Price:</label>
+              <input
+                id="price-min"
+                type="number"
+                placeholder="0"
+                value={priceRange.min}
+                onChange={(e) => handlePriceChange('min', e.target.value)}
+                className="filter-input"
+                min="0"
+                step="0.01"
+              />
+            </div>
+            
+            <div className="filter-group">
+              <label htmlFor="price-max">Max Price:</label>
+              <input
+                id="price-max"
+                type="number"
+                placeholder="No limit"
+                value={priceRange.max}
+                onChange={(e) => handlePriceChange('max', e.target.value)}
+                className="filter-input"
+                min="0"
+                step="0.01"
+              />
+            </div>
+            
+            <div className="filter-group">
+              <label htmlFor="sort-by">Sort by:</label>
+              <select
+                id="sort-by"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="filter-select"
+              >
+                <option value="name-asc">Name (A-Z)</option>
+                <option value="name-desc">Name (Z-A)</option>
+                <option value="price-asc">Price (Low to High)</option>
+                <option value="price-desc">Price (High to Low)</option>
+              </select>
+            </div>
+          </div>
+          
+          <button onClick={clearFilters} className="clear-filters-btn">
+            Clear Filters
+          </button>
+        </div>
+        
         <div className="products-count">
-          {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} found
+          {filteredAndSortedProducts.length} product{filteredAndSortedProducts.length !== 1 ? 's' : ''} found
         </div>
         <div className="products-grid">
-          {filteredProducts.map(product => (
+          {filteredAndSortedProducts.map(product => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
-        {filteredProducts.length === 0 && (
+        {filteredAndSortedProducts.length === 0 && (
           <div className="no-products">
-            <p>No products found in this category.</p>
+            <p>No products found matching your criteria.</p>
           </div>
         )}
       </div>
