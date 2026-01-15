@@ -48,12 +48,6 @@ const Navigation = () => {
             Categories
           </Link>
           <Link 
-            to="/demo" 
-            className={location.pathname === '/demo' ? 'active' : ''}
-          >
-            Demo
-          </Link>
-          <Link 
             to="/cart" 
             className={`cart-link ${location.pathname === '/cart' ? 'active' : ''}`}
           >

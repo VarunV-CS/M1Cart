@@ -9,7 +9,6 @@ const Categories = lazy(() => import('./pages/Categories'));
 const Search = lazy(() => import('./components/Search'));
 const ItemDescription = lazy(() => import('./components/ItemDescription'));
 const Cart = lazy(() => import('./pages/Cart'));
-const Demo = lazy(() => import('./pages/Demo'));
 
 function App() {
   return (
@@ -24,7 +23,6 @@ function App() {
               <Route path="/search" element={<Search />} />
               <Route path="/product/:id" element={<ItemDescription />} />
               <Route path="/cart" element={<Cart />} />
-              <Route path="/demo" element={<Demo />} />
             </Routes>
           </Suspense>
         </div>
