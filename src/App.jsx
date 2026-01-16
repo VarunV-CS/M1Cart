@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
-import { CartProvider } from './context/CartContext';
+import AppProvider from './context/AppProvider';
 import Navigation from './components/Navigation';
+import NotificationDisplay from './components/NotificationDisplay';
 import './App.css';
 
 const Home = lazy(() => import('./pages/Home'));
@@ -12,10 +13,11 @@ const Cart = lazy(() => import('./pages/Cart'));
 
 function App() {
   return (
-    <CartProvider>
+    <AppProvider>
       <Router>
         <div className="app">
           <Navigation />
+          <NotificationDisplay />
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -27,7 +29,7 @@ function App() {
           </Suspense>
         </div>
       </Router>
-    </CartProvider>
+    </AppProvider>
   );
 }
 
