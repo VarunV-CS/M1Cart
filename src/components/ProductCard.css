@@ -11,6 +11,23 @@
   height: 100%;
 }
 
+.app.theme-dark .product-card {
+  background: #2d2d2d !important;
+  color: #e0e0e0 !important;
+}
+
+.app.theme-dark .product-name {
+  color: #e0e0e0 !important;
+}
+
+.app.theme-dark .product-category {
+  color: #b0b0b0 !important;
+}
+
+.app.theme-dark .product-image-container {
+  background: #3d3d3d !important;
+}
+
 .product-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);

@@ -5,6 +5,12 @@
   position: sticky;
   top: 0;
   z-index: 100;
+  transition: background 0.3s ease;
+}
+
+.app.theme-dark .navigation {
+  background: linear-gradient(135deg, #1a3a52 0%, #2d1b4e 100%) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .nav-container {
@@ -54,6 +60,10 @@
 
 .search-button:hover {
   background: rgba(255, 255, 255, 0.3);
+}
+
+.app.theme-dark .search-button {
+  background: #2d1b4e !important;
 }
 
 .nav-links {

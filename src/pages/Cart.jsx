@@ -1,6 +1,8 @@
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import CartItem from '../components/CartItem';
+import CartSummary from '../components/CartSummary';
+import withLogger from '../hocs/withLogger';
 import './Cart.css';
 
 const Cart = () => {
@@ -39,34 +41,17 @@ const Cart = () => {
               <CartItem key={item.id} item={item} />
             ))}
           </div>
-          <div className="cart-summary">
-            <h2>Order Summary</h2>
-            <div className="summary-row">
-              <span>Subtotal:</span>
-              <span>${total.toFixed(2)}</span>
-            </div>
-            <div className="summary-row">
-              <span>Shipping:</span>
-              <span>Free</span>
-            </div>
-            <div className="summary-row total">
-              <span>Total:</span>
-              <span>${total.toFixed(2)}</span>
-            </div>
-            <button className="checkout-button">
-              Proceed to Checkout
-            </button>
-            <button
-              onClick={() => navigate('/categories')}
-              className="continue-shopping-button"
-            >
-              Continue Shopping
-            </button>
-          </div>
+          <CartSummary />
+          <button
+            onClick={() => navigate('/categories')}
+            className="continue-shopping-button"
+          >
+            Continue Shopping
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default Cart;
+export default withLogger(Cart, 'Cart');

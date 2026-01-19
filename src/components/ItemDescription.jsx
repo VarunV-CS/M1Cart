@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { fetchProductById } from '../services/api';
 import { useCart } from '../context/CartContext';
 import './ItemDescription.css';
@@ -7,6 +7,7 @@ import './ItemDescription.css';
 const ItemDescription = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { addToCart, cartItems } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -15,6 +16,7 @@ const ItemDescription = () => {
   useEffect(() => {
     const loadProduct = async () => {
       try {
+        setLoading(true);
         const data = await fetchProductById(parseInt(id));
         setProduct(data);
       } catch (err) {
@@ -24,10 +26,17 @@ const ItemDescription = () => {
       }
     };
     loadProduct();
-  }, [id]);
+  }, [id, location.pathname]);
 
   if (loading) {
-    return <div className="loading">Loading product...</div>;
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+          <p>Loading product...</p>
+        </div>
+      </div>
+    );
   }
 
   if (error || !product) {

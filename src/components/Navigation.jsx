@@ -1,12 +1,17 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useState } from 'react';
+import { useWindowSize } from '../hooks/useWindowSize';
+import ThemeToggle from './ThemeToggle';
+import withLogger from '../hocs/withLogger';
 import './Navigation.css';
 
 const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { getCartItemsCount } = useCart();
+  const windowSize = useWindowSize();
+  const isMobile = windowSize.width < 768;
   const cartCount = getCartItemsCount();
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -54,10 +59,11 @@ const Navigation = () => {
             Cart
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </Link>
+          <ThemeToggle />
         </div>
       </div>
     </nav>
   );
 };
 
-export default Navigation;
+export default withLogger(Navigation, 'Navigation');

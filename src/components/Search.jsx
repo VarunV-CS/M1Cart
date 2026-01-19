@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import { fetchProducts, fetchCategories } from '../services/api';
+import { useWindowSize } from '../hooks/useWindowSize';
 import ProductCard from './ProductCard';
 import './Search.css';
 
 const Search = () => {
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const query = searchParams.get('q') || '';
+  const windowSize = useWindowSize();
+  const isMobile = windowSize.width < 768;
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,6 +23,7 @@ const Search = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
+        setLoading(true);
         const [productsData, categoriesData] = await Promise.all([
           fetchProducts(),
           fetchCategories()
@@ -32,7 +37,7 @@ const Search = () => {
       }
     };
     loadData();
-  }, []);
+  }, [location.search]);
 
   // Filter and sort products
   const filteredAndSortedProducts = products
@@ -80,7 +85,14 @@ const Search = () => {
   };
 
   if (loading) {
-    return <div className="loading">Loading products...</div>;
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+          <p>Loading products...</p>
+        </div>
+      </div>
+    );
   }
 
   if (error) {

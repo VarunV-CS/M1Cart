@@ -1,3 +1,4 @@
+import { Button } from '../patterns';
 import { useCart } from '../../context/CartContext';
 
 const CartItemRemoveButton = ({ item, onRemove, className = '' }) => {
@@ -12,12 +13,14 @@ const CartItemRemoveButton = ({ item, onRemove, className = '' }) => {
   };
 
   return (
-    <button
+    <Button
       onClick={handleRemove}
       className={`remove-button ${className}`}
+      variant="danger"
+      size="small"
     >
       Remove
-    </button>
+    </Button>
   );
 };
 

@@ -1,3 +1,4 @@
+import { Card } from './patterns';
 import CartItemImage from './cart-item/CartItemImage';
 import CartItemDetails from './cart-item/CartItemDetails';
 import CartItemControls from './cart-item/CartItemControls';
@@ -6,18 +7,20 @@ import './CartItem.css';
 const CartItem = ({ item, children, className = '', ...props }) => {
   if (children) {
     return (
-      <div className={`cart-item ${className}`} {...props}>
+      <Card className={`cart-item ${className}`} {...props}>
         {children}
-      </div>
+      </Card>
     );
   }
 
   return (
-    <CartItem item={item}>
-      <CartItem.Image item={item} />
-      <CartItem.Details item={item} />
-      <CartItem.Controls item={item} />
-    </CartItem>
+    <Card className="cart-item">
+      <Card.Body>
+        <CartItem.Image item={item} />
+        <CartItem.Details item={item} />
+        <CartItem.Controls item={item} />
+      </Card.Body>
+    </Card>
   );
 };
 

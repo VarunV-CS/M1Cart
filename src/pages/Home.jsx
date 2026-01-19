@@ -1,15 +1,44 @@
 import { Link } from 'react-router-dom';
-import { useProducts } from '../hooks/useProducts';
+import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { fetchProducts } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import './Home.css';
 
 const Home = () => {
-  const { products, loading, error } = useProducts();
+  const location = useLocation();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchProducts();
+        setProducts(data);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProducts();
+  }, [location.pathname]);
 
   const featuredProducts = products.slice(0, 6);
 
   if (loading) {
-    return <div className="loading">Loading products...</div>;
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+          <p>Loading products...</p>
+        </div>
+      </div>
+    );
   }
 
   if (error) {

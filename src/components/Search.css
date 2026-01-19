@@ -2,6 +2,46 @@
   min-height: calc(100vh - 80px);
   padding: 3rem 2rem;
   background: #f8f9fa;
+  transition: background-color 0.3s ease;
+}
+
+.app.theme-dark .search-page {
+  background: #1a1a1a !important;
+  color: #e0e0e0;
+}
+
+.app.theme-dark .search-page h1 {
+  color: #e0e0e0 !important;
+}
+
+.app.theme-dark .search-query {
+  color: #b0b0b0 !important;
+}
+
+.app.theme-dark .filters-section {
+  background: #2d2d2d !important;
+  color: #e0e0e0 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.app.theme-dark .filter-group label {
+  color: #e0e0e0 !important;
+}
+
+.app.theme-dark .filter-select,
+.app.theme-dark .filter-input {
+  background: #3d3d3d !important;
+  border-color: #555 !important;
+  color: #e0e0e0 !important;
+}
+
+.app.theme-dark .filter-select:focus,
+.app.theme-dark .filter-input:focus {
+  border-color: #667eea !important;
+}
+
+.app.theme-dark .clear-filters-btn {
+  background: #444 !important;
 }
 
 .search-page .container {
@@ -115,3 +155,4 @@
     gap: 1.5rem;
   }
 }
+

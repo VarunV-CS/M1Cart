@@ -11,7 +11,7 @@ export const ThemeToggle = () => {
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       title={`Current theme: ${theme}`}
     >
-      {isDark ? '☀️ Light' : '🌙 Dark'}
+      {isDark ? '☀️' : '🌙'}
     </button>
   );
 };

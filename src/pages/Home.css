@@ -2,6 +2,31 @@
   min-height: calc(100vh - 80px);
 }
 
+.featured-products {
+  padding: 4rem 2rem;
+  background-color: #ffffff;
+  transition: background-color 0.3s ease;
+}
+
+.app.theme-dark .featured-products {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
+
+.app.theme-dark .featured-products h2 {
+  color: #e0e0e0;
+}
+
+.app.theme-dark .hero {
+  background: linear-gradient(135deg, #1a3a52 0%, #2d1b4e 100%);
+}
+
+.app.theme-dark .cta-button {
+  background: #2d2d2d;
+  color: #90caf9;
+  border: 2px solid #90caf9;
+}
+
 .hero {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;

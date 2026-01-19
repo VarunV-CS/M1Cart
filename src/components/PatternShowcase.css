@@ -1,0 +1,15 @@
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.bg-white {
+  background-color: white;
+}
+
+.text-dark {
+  color: #343a40;
+}
+
+section {
+  scroll-margin-top: 80px;
+}

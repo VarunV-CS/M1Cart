@@ -1,4 +1,201 @@
 .app {
   min-height: 100vh;
   background: #f8f9fa;
+  color: #212529;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Theme */
+.app.theme-dark {
+  background: #1a1a1a;
+  color: #e0e0e0;
+}
+
+/* Dark theme - Navigation */
+.app.theme-dark .navigation {
+  background-color: #2d2d2d;
+  border-bottom-color: #444;
+}
+
+.app.theme-dark .navigation a,
+.app.theme-dark .navigation .logo {
+  color: #e0e0e0;
+}
+
+.app.theme-dark .navigation a:hover {
+  color: #007bff;
+}
+
+.app.theme-dark .search-input {
+  background-color: #3d3d3d;
+  border-color: #555;
+  color: #e0e0e0;
+}
+
+.app.theme-dark .search-input::placeholder {
+  color: #999;
+}
+
+.app.theme-dark .search-button {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Dark theme - Cards */
+.app.theme-dark .card {
+  background-color: #2d2d2d;
+  color: #e0e0e0;
+}
+
+.app.theme-dark .card-header {
+  border-bottom-color: #444;
+}
+
+.app.theme-dark .card-footer {
+  border-top-color: #444;
+  background-color: #1f1f1f;
+}
+
+/* Dark theme - Buttons */
+.app.theme-dark .btn-ghost {
+  color: #007bff;
+  border-color: #007bff;
+}
+
+.app.theme-dark .btn-ghost:hover:not(:disabled) {
+  background-color: rgba(0, 123, 255, 0.1);
+  border-color: #0056b3;
+  color: #0056b3;
+}
+
+/* Dark theme - Forms */
+.app.theme-dark input,
+.app.theme-dark select,
+.app.theme-dark textarea {
+  background-color: #3d3d3d;
+  border-color: #555;
+  color: #e0e0e0;
+}
+
+.app.theme-dark input::placeholder,
+.app.theme-dark textarea::placeholder {
+  color: #999;
+}
+
+.app.theme-dark input:focus,
+.app.theme-dark select:focus,
+.app.theme-dark textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Dark theme - Text */
+.app.theme-dark h1,
+.app.theme-dark h2,
+.app.theme-dark h3,
+.app.theme-dark h4,
+.app.theme-dark h5,
+.app.theme-dark h6 {
+  color: #e0e0e0;
+}
+
+.app.theme-dark p {
+  color: #b0b0b0;
+}
+
+/* Dark theme - Links */
+.app.theme-dark a {
+  color: #64b5f6;
+}
+
+.app.theme-dark a:hover {
+  color: #90caf9;
+}
+
+/* Dark theme - Tables */
+.app.theme-dark table {
+  background-color: #2d2d2d;
+  color: #e0e0e0;
+}
+
+.app.theme-dark thead {
+  background-color: #3d3d3d;
+}
+
+.app.theme-dark th,
+.app.theme-dark td {
+  border-bottom-color: #444;
+  color: #e0e0e0;
+}
+
+/* Dark theme - Badges */
+.app.theme-dark .badge-primary {
+  background-color: rgba(0, 123, 255, 0.2);
+  color: #64b5f6;
+}
+
+.app.theme-dark .badge-success {
+  background-color: rgba(40, 167, 69, 0.2);
+  color: #66bb6a;
+}
+
+.app.theme-dark .badge-danger {
+  background-color: rgba(220, 53, 69, 0.2);
+  color: #ef5350;
+}
+
+.app.theme-dark .badge-warning {
+  background-color: rgba(255, 193, 7, 0.2);
+  color: #fbc02d;
+}
+
+/* Dark theme - Utility backgrounds */
+.app.theme-dark .bg-light {
+  background-color: #3d3d3d !important;
+}
+
+.app.theme-dark .bg-white {
+  background-color: #2d2d2d !important;
+  color: #e0e0e0;
+}
+
+/* Dark theme - Borders */
+.app.theme-dark .border {
+  border-color: #444 !important;
+}
+
+.app.theme-dark .border-top {
+  border-top-color: #444 !important;
+}
+
+.app.theme-dark .border-bottom {
+  border-bottom-color: #444 !important;
+}
+
+.app.theme-dark .border-left {
+  border-left-color: #444 !important;
+}
+
+.app.theme-dark .border-right {
+  border-right-color: #444 !important;
+}
+
+/* Dark theme - Shadows */
+.app.theme-dark .shadow,
+.app.theme-dark .shadow-sm,
+.app.theme-dark .shadow-md,
+.app.theme-dark .shadow-lg,
+.app.theme-dark .shadow-xl {
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Dark theme - Code */
+.app.theme-dark code {
+  background-color: #3d3d3d;
+  color: #64b5f6;
+}
+
+.app.theme-dark pre {
+  background-color: #1f1f1f;
+  color: #e0e0e0;
 }

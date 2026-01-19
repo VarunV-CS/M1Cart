@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { fetchProducts, fetchCategories } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import './Categories.css';
 
 const Categories = () => {
+  const location = useLocation();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +32,7 @@ const Categories = () => {
       }
     };
     loadData();
-  }, []);
+  }, [location.pathname]);
 
   const filteredAndSortedProducts = products
     .filter(product => {
@@ -74,7 +76,14 @@ const Categories = () => {
   };
 
   if (loading) {
-    return <div className="loading">Loading products...</div>;
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+          <p>Loading products...</p>
+        </div>
+      </div>
+    );
   }
 
   if (error) {

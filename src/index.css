@@ -23,6 +23,14 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #ffffff;
+  color: #213547;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.app.theme-dark body {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
 }
 
 a {

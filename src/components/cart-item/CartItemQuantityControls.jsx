@@ -5,19 +5,19 @@ const CartItemQuantityControls = ({ item, className = '' }) => {
 
   return (
     <div className={`quantity-controls ${className}`}>
-      <button
+      <Button
         onClick={() => updateQuantity(item.id, item.quantity - 1)}
         className="quantity-button"
       >
         −
-      </button>
+      </Button>
       <span className="quantity-value">{item.quantity}</span>
-      <button
+      <Button
         onClick={() => updateQuantity(item.id, item.quantity + 1)}
         className="quantity-button"
       >
         +
-      </button>
+      </Button>
     </div>
   );
 };

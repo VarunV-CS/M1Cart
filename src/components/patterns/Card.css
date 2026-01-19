@@ -1,0 +1,91 @@
+/* Card Pattern - Base Styles */
+.card {
+  border-radius: 8px;
+  background-color: white;
+  color: #212529;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+/* Variants */
+.card-elevated {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-elevated:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-flat {
+  box-shadow: none;
+  background-color: #f8f9fa;
+}
+
+.card-outlined {
+  border: 1px solid #e0e0e0;
+  box-shadow: none;
+}
+
+/* Card Sections */
+.card-header {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.card-header:last-child {
+  border-bottom: none;
+}
+
+.card-body {
+  padding: 16px;
+}
+
+.card-footer {
+  padding: 16px;
+  border-top: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+}
+
+/* Remove borders when sections are single or last */
+.card-header:only-child,
+.card-body:only-child,
+.card-footer:only-child {
+  border: none;
+}
+
+.card-footer:last-child {
+  border-top: 1px solid #f0f0f0;
+}
+
+/* Dark Theme */
+.app.theme-dark .card {
+  background-color: #2d2d2d !important;
+  color: #e0e0e0 !important;
+}
+
+.app.theme-dark .card-flat {
+  background-color: #3d3d3d !important;
+}
+
+.app.theme-dark .card-outlined {
+  border-color: #444 !important;
+}
+
+.app.theme-dark .card-header {
+  border-bottom-color: #444 !important;
+}
+
+.app.theme-dark .card-header h1,
+.app.theme-dark .card-header h2,
+.app.theme-dark .card-header h3,
+.app.theme-dark .card-header h4,
+.app.theme-dark .card-header h5,
+.app.theme-dark .card-header h6 {
+  color: #ffffff !important;
+}
+
+.app.theme-dark .card-footer {
+  border-top-color: #444 !important;
+  background-color: #1f1f1f !important;
+}
+

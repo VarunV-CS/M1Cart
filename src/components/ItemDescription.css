@@ -2,6 +2,40 @@
   min-height: calc(100vh - 80px);
   padding: 3rem 2rem;
   background: #f8f9fa;
+  transition: background-color 0.3s ease;
+}
+
+.app.theme-dark .item-description-page {
+  background: #1a1a1a !important;
+  color: #e0e0e0;
+}
+
+.app.theme-dark .back-button {
+  background: #2d2d2d !important;
+  border-color: #444 !important;
+  color: #e0e0e0 !important;
+}
+
+.app.theme-dark .back-button:hover {
+  border-color: #667eea !important;
+  color: #667eea !important;
+}
+
+.app.theme-dark .not-found h2 {
+  color: #e0e0e0 !important;
+}
+
+.app.theme-dark .product-detail {
+  background: #2d2d2d !important;
+  color: #e0e0e0 !important;
+}
+
+.app.theme-dark .product-image-large {
+  background: #3d3d3d !important;
+}
+
+.app.theme-dark .product-details h1 {
+  color: #e0e0e0 !important;
 }
 
 .item-description-page .container {

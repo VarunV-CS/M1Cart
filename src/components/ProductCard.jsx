@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { Badge, Button } from './patterns';
+import withLogger from '../hocs/withLogger';
 import './ProductCard.css';
 
 const ProductCard = ({ product, children, className = '', ...props }) => {
@@ -28,7 +30,9 @@ ProductCard.Image = ({ product, showBadge = true, className = '' }) => {
     <div className={`product-image-container ${className}`}>
       <img src={product.image} alt={product.name} className="product-image" />
       {showBadge && !product.inStock && (
-        <div className="out-of-stock-badge">Out of Stock</div>
+        <Badge variant="danger" className="out-of-stock-badge">
+          Out of Stock
+        </Badge>
       )}
     </div>
   );
@@ -117,16 +121,18 @@ ProductCard.Button = ({ product, onAddToCart, className = '' }) => {
   };
 
   return (
-    <button 
+    <Button 
       className={`add-to-cart-btn ${className}`}
       onClick={handleAddToCart}
       disabled={!product.inStock}
+      variant={product.inStock ? 'primary' : 'secondary'}
+      size="small"
     >
       {product.inStock ? 'Add to Cart' : 'Out of Stock'}
-    </button>
+    </Button>
   );
 };
 
-export default ProductCard;
+export default withLogger(ProductCard, 'ProductCard');
 
 // Implemented compound components and a default implementation for backward compatibility

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
 const withLoading = (WrappedComponent) => {
-  const WithLoadingComponent = ({ loading: externalLoading, ...props }) => {
+  const WithLoadingComponent = (props) => {
     const [internalLoading, setInternalLoading] = useState(false);
-    const loading = externalLoading !== undefined ? externalLoading : internalLoading;
+    const loading = props.loading !== undefined ? props.loading : internalLoading;
 
     const setLoading = (newLoadingState) => {
       setInternalLoading(newLoadingState);
@@ -12,7 +12,10 @@ const withLoading = (WrappedComponent) => {
     if (loading) {
       return (
         <div className="loading-container">
-          <div className="loading-spinner">Loading...</div>
+          <div className="loading-spinner">
+            <div className="spinner"></div>
+            <p>Loading products...</p>
+          </div>
         </div>
       );
     }

@@ -3,13 +3,7 @@ import ProductCard from '../components/ProductCard';
 import withLoading from '../hocs/withLoading';
 import withErrorBoundary from '../hocs/withErrorBoundary';
 
-const ProductList = ({ category }) => {
-  const { products, error } = useProducts();
-
-  const filteredProducts = category
-    ? products.filter(product => product.category === category)
-    : products;
-
+const ProductListContent = ({ products, error, ...props }) => {
   if (error) {
     throw new Error(error);
   }
@@ -17,7 +11,7 @@ const ProductList = ({ category }) => {
   return (
     <div className="product-list">
       <div className="products-grid">
-        {filteredProducts.map(product => (
+        {products.map(product => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
@@ -25,7 +19,21 @@ const ProductList = ({ category }) => {
   );
 };
 
-const ProductListWithLoading = withLoading(ProductList);
-const ProductListWithErrorBoundary = withErrorBoundary(ProductListWithLoading);
+const ProductListWithLoading = withLoading(ProductListContent);
+
+// This wrapper component calls the hook once and passes data + loading to HOC
+const ProductList = (props) => {
+  const { products, error, loading } = useProducts();
+  return (
+    <ProductListWithLoading 
+      loading={loading} 
+      products={products}
+      error={error}
+      {...props} 
+    />
+  );
+};
+
+const ProductListWithErrorBoundary = withErrorBoundary(ProductList);
 
 export default ProductListWithErrorBoundary;
