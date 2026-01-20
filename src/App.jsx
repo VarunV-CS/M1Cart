@@ -29,8 +29,8 @@ function AppContent() {
             <Route path="/search" element={<Search />} />
             <Route path="/product/:id" element={<ItemDescription />} />
             <Route path="/cart" element={<Cart />} />
-            {/* <Route path="/products" element={<ProductList />} />
-            <Route path="/patterns" element={<PatternShowcase />} /> */}
+            {/* <Route path="/products" element={<ProductList />} /> */}
+            <Route path="/patterns" element={<PatternShowcase />} />
           </Routes>
         </Suspense>
       </div>

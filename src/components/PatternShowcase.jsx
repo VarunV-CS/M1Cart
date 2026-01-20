@@ -9,11 +9,13 @@ import {
   Heading1,
   Heading2,
   Heading3,
+  Heading4,
   Paragraph,
   Text,
   Caption,
   Label
 } from './patterns';
+import PatternComparison from './PatternComparison';
 
 import './PatternShowcase.css';
 
@@ -24,6 +26,116 @@ const PatternShowcase = () => {
       <Paragraph className="mb-6 text-muted">
         Complete demonstration of all available UI patterns in the M1Cart application.
       </Paragraph>
+
+      {/* Section: Design Patterns */}
+      <section className="mb-8">
+        <Heading2 className="mb-4">Design Patterns</Heading2>
+        <Card variant="outlined">
+          <Card.Body>
+            <Stack spacing="large">
+              <div>
+                <Heading4>Architectural Patterns in M1Cart</Heading4>
+                <Paragraph>
+                  This application demonstrates several design patterns used in modern React applications.
+                  Each pattern serves a specific purpose and has its own trade-offs.
+                </Paragraph>
+              </div>
+              
+              <Grid columns={2} gap="large">
+                <Card variant="flat">
+                  <Card.Header>
+                    <Heading4>Observer Pattern</Heading4>
+                  </Card.Header>
+                  <Card.Body>
+                    <Stack spacing="medium">
+                      <Paragraph size="small">
+                        Used in Context APIs (ThemeContext, CartContext, NotificationContext)
+                      </Paragraph>
+                      <ul className="pattern-list">
+                        <li>Components "observe" state changes</li>
+                        <li>Automatic updates via React re-render</li>
+                        <li>Tight coupling with Provider</li>
+                      </ul>
+                    </Stack>
+                  </Card.Body>
+                </Card>
+                
+                <Card variant="flat">
+                  <Card.Header>
+                    <Heading4>Pub-Sub Pattern</Heading4>
+                  </Card.Header>
+                  <Card.Body>
+                    <Stack spacing="medium">
+                      <Paragraph size="small">
+                        Used for cart events and cross-component communication
+                      </Paragraph>
+                      <ul className="pattern-list">
+                        <li>Loose coupling via EventBus</li>
+                        <li>Selective event subscriptions</li>
+                        <li>Great for analytics and logging</li>
+                      </ul>
+                    </Stack>
+                  </Card.Body>
+                </Card>
+                
+                <Card variant="flat">
+                  <Card.Header>
+                    <Heading4>Compound Components</Heading4>
+                  </Card.Header>
+                  <Card.Body>
+                    <Stack spacing="medium">
+                      <Paragraph size="small">
+                        Used in ProductCard and CartItem
+                      </Paragraph>
+                      <ul className="pattern-list">
+                        <li>Related components grouped together</li>
+                        <li>Flexible composition</li>
+                        <li>Intuitive API (Card.Image, Card.Body)</li>
+                      </ul>
+                    </Stack>
+                  </Card.Body>
+                </Card>
+                
+                <Card variant="flat">
+                  <Card.Header>
+                    <Heading4>Higher-Order Components (HOC)</Heading4>
+                  </Card.Header>
+                  <Card.Body>
+                    <Stack spacing="medium">
+                      <Paragraph size="small">
+                        Used for cross-cutting concerns
+                      </Paragraph>
+                      <ul className="pattern-list">
+                        <li>withCartActions, withLogger</li>
+                        <li>Code reuse without inheritance</li>
+                        <li>Separation of concerns</li>
+                      </ul>
+                    </Stack>
+                  </Card.Body>
+                </Card>
+              </Grid>
+              
+              <div className="text-center">
+                <Button 
+                  variant="primary" 
+                  onClick={() => {
+                    const element = document.getElementById('pattern-comparison');
+                    element?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  View Interactive Demo →
+                </Button>
+              </div>
+            </Stack>
+          </Card.Body>
+        </Card>
+      </section>
+
+      {/* Interactive Pattern Comparison */}
+      <section id="pattern-comparison" className="mb-8">
+        <Heading2 className="mb-4">Interactive: Pub-Sub vs Observer</Heading2>
+        <PatternComparison />
+      </section>
 
       {/* Section: Buttons */}
       <section className="mb-8">
