@@ -5,7 +5,8 @@ import { useCart } from '../context/CartContext';
 import './ItemDescription.css';
 
 const ItemDescription = () => {
-  const { id } = useParams();
+  const { _id } = useParams();
+  console.log(_id)
   const navigate = useNavigate();
   const location = useLocation();
   const { addToCart, cartItems } = useCart();
@@ -17,7 +18,7 @@ const ItemDescription = () => {
     const loadProduct = async () => {
       try {
         setLoading(true);
-        const data = await fetchProductById(parseInt(id));
+        const data = await fetchProductById(parseInt(_id));
         setProduct(data);
       } catch (err) {
         setError(err.message);
@@ -26,7 +27,7 @@ const ItemDescription = () => {
       }
     };
     loadProduct();
-  }, [id, location.pathname]);
+  }, [_id, location.pathname]);
 
   if (loading) {
     return (
