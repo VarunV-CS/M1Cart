@@ -5,8 +5,8 @@ import { useCart } from '../context/CartContext';
 import './ItemDescription.css';
 
 const ItemDescription = () => {
-  const { _id } = useParams();
-  console.log(_id)
+  const { pid } = useParams();
+  console.log(pid)
   const navigate = useNavigate();
   const location = useLocation();
   const { addToCart, cartItems } = useCart();
@@ -18,7 +18,7 @@ const ItemDescription = () => {
     const loadProduct = async () => {
       try {
         setLoading(true);
-        const data = await fetchProductById(parseInt(_id));
+        const data = await fetchProductById(Number(pid));
         setProduct(data);
       } catch (err) {
         setError(err.message);
@@ -27,7 +27,7 @@ const ItemDescription = () => {
       }
     };
     loadProduct();
-  }, [_id, location.pathname]);
+  }, [pid, location.pathname]);
 
   if (loading) {
     return (
@@ -55,7 +55,7 @@ const ItemDescription = () => {
     );
   }
 
-  const cartItem = cartItems.find(item => item.id === product.id);
+  const cartItem = cartItems.find(item => item.pid === product.pid);
   const inCart = !!cartItem;
 
   const handleAddToCart = () => {

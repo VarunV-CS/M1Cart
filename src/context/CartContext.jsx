@@ -19,10 +19,10 @@ export const CartProvider = ({ children }) => {
     let addedItem = null;
     
     setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === product.id);
+      const existingItem = prevItems.find(item => item.pid === product.pid);
       if (existingItem) {
         const updated = prevItems.map(item =>
-          item.id === product.id
+          item.pid === product.pid
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
@@ -43,9 +43,9 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = (productId) => {
-    const removedItem = cartItems.find(item => item.id === productId);
+    const removedItem = cartItems.find(item => item.pid === productId);
     
-    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+    setCartItems(prevItems => prevItems.filter(item => item.pid !== productId));
 
     // Publish event via EventBus (Pub-Sub pattern)
     if (removedItem) {
@@ -65,7 +65,7 @@ export const CartProvider = ({ children }) => {
     
     setCartItems(prevItems =>
       prevItems.map(item => {
-        if (item.id === productId) {
+        if (item.pid === productId) {
           updatedItem = { ...item, quantity };
           return { ...item, quantity };
         }

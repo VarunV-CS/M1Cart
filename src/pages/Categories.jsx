@@ -177,7 +177,7 @@ const Categories = () => {
         </div>
         <div className="products-grid">
           {filteredAndSortedProducts.map(product => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.pid} product={product} />
           ))}
         </div>
         {filteredAndSortedProducts.length === 0 && (

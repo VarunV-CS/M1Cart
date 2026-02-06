@@ -9,7 +9,8 @@ export const fetchProducts = async () => {
     const data = await response.json();
     
     return data.map(product => ({
-      id: product.id,
+      pid: product.pid,
+      id: product.pid, // Keep id for backward compatibility
       name: product.name,
       category: product.category,
       price: product.price,
@@ -40,15 +41,16 @@ export const fetchCategories = async () => {
   }
 };
 
-export const fetchProductById = async (id) => {
+export const fetchProductById = async (pid) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/products/${id}`);
+    const response = await fetch(`${API_BASE_URL}/products/${pid}`);
     if (!response.ok) {
       throw new Error('Failed to fetch product');
     }
     const product = await response.json();
     return {
-      id: product.id,
+      pid: product.pid,
+      id: product.pid, // Keep id for backward compatibility
       name: product.name,
       category: product.category,
       price: product.price,
@@ -82,9 +84,9 @@ export const createProduct = async (productData) => {
   }
 };
 
-export const updateProduct = async (id, productData) => {
+export const updateProduct = async (pid, productData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/products/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/products/${pid}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -101,9 +103,9 @@ export const updateProduct = async (id, productData) => {
   }
 };
 
-export const deleteProduct = async (id) => {
+export const deleteProduct = async (pid) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/products/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/products/${pid}`, {
       method: 'DELETE',
     });
     if (!response.ok) {

@@ -63,7 +63,7 @@ const Home = () => {
           <h2>Featured Products</h2>
           <div className="products-grid">
             {featuredProducts.map(product => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.pid} product={product} />
             ))}
           </div>
           <div className="view-all">

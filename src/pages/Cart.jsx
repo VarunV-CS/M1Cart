@@ -38,7 +38,7 @@ const Cart = () => {
         <div className="cart-content">
           <div className="cart-items">
             {cartItems.map(item => (
-              <CartItem key={item.id} item={item} />
+              <CartItem key={item.pid} item={item} />
             ))}
           </div>
           <CartSummary />

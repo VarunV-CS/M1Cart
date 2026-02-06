@@ -8,7 +8,7 @@ const CartItemImage = ({ item, className = '' }) => {
       <img
         src={item.image}
         alt={item.name}
-        onClick={() => navigate(`/product/${item.id}`)}
+        onClick={() => navigate(`/product/${item.pid}`)}
       />
     </div>
   );

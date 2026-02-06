@@ -6,7 +6,7 @@ const CartItemName = ({ item, className = '' }) => {
   return (
     <h3
       className={`cart-item-name ${className}`}
-      onClick={() => navigate(`/product/${item.id}`)}
+      onClick={() => navigate(`/product/${item.pid}`)}
     >
       {item.name}
     </h3>

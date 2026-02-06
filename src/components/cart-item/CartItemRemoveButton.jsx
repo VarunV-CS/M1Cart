@@ -6,9 +6,9 @@ const CartItemRemoveButton = ({ item, onRemove, className = '' }) => {
 
   const handleRemove = () => {
     if (onRemove) {
-      onRemove(item.id);
+      onRemove(item.pid);
     } else {
-      removeFromCart(item.id);
+      removeFromCart(item.pid);
     }
   };
 

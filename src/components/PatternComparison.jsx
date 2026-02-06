@@ -50,13 +50,13 @@ const ObserverPatternDemo = () => {
                 <Text variant="muted">Cart is empty</Text>
               ) : (
                 cartItems.map(item => (
-                  <Flex key={item.id} justify="space-between" align="center" className="cart-item-row">
+                  <Flex key={item.pid} justify="space-between" align="center" className="cart-item-row">
                     <Text>{item.name} x {item.quantity}</Text>
                     <Badge variant="primary">{item.price * item.quantity}</Badge>
                     <Button 
                       size="small" 
                       variant="secondary"
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() => removeFromCart(item.pid)}
                     >
                       Remove
                     </Button>

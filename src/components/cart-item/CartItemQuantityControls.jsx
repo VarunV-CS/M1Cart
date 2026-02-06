@@ -1,4 +1,5 @@
 import { useCart } from '../../context/CartContext';
+import { Button } from '../patterns';
 
 const CartItemQuantityControls = ({ item, className = '' }) => {
   const { updateQuantity } = useCart();
@@ -6,14 +7,14 @@ const CartItemQuantityControls = ({ item, className = '' }) => {
   return (
     <div className={`quantity-controls ${className}`}>
       <Button
-        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+        onClick={() => updateQuantity(item.pid, item.quantity - 1)}
         className="quantity-button"
       >
         −
       </Button>
       <span className="quantity-value">{item.quantity}</span>
       <Button
-        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+        onClick={() => updateQuantity(item.pid, item.quantity + 1)}
         className="quantity-button"
       >
         +

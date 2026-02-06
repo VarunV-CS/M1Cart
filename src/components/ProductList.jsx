@@ -12,7 +12,7 @@ const ProductListContent = ({ products, error, ...props }) => {
     <div className="product-list">
       <div className="products-grid">
         {products.map(product => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard key={product.pid} product={product} />
         ))}
       </div>
     </div>

@@ -8,7 +8,7 @@ const ProductCard = ({ product, children, className = '', ...props }) => {
   if (children) {
     return (
       <Link 
-        to={`/product/${product.id}`} 
+        to={`/product/${product.pid}`} 
         className={`product-card ${className}`}
         {...props}
       >
@@ -18,7 +18,7 @@ const ProductCard = ({ product, children, className = '', ...props }) => {
   }
 
   return (
-    <Link to={`/product/${product.id}`} className="product-card">
+    <Link to={`/product/${product.pid}`} className="product-card">
       <ProductCard.Image product={product} />
       <ProductCard.Info product={product} />
     </Link>
