@@ -5,6 +5,13 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Routes container for proper centering */
+.routes-container {
+  min-height: calc(100vh - 70px); /* Subtract nav height */
+  display: flex;
+  flex-direction: column;
+}
+
 /* Dark Theme */
 .app.theme-dark {
   background: #1a1a1a;

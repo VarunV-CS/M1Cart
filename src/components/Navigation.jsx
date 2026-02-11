@@ -1,19 +1,66 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useWindowSize } from '../hooks/useWindowSize';
 import ThemeToggle from './ThemeToggle';
 import withLogger from '../hocs/withLogger';
+import { isAuthenticated, getUser } from '../services/api';
+import { Spinner } from '../components/patterns';
 import './Navigation.css';
 
 const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { getCartItemsCount } = useCart();
+  const { getCartItemsCount, handleLogout } = useCart();
   const windowSize = useWindowSize();
   const isMobile = windowSize.width < 768;
   const cartCount = getCartItemsCount();
   const [searchQuery, setSearchQuery] = useState('');
+  const [user, setUser] = useState(null);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
+
+  // Check auth state - use callback to avoid dependency issues
+  const checkAuth = useCallback(() => {
+    if (isAuthenticated()) {
+      const userData = getUser();
+      setUser(userData);
+    } else {
+      setUser(null);
+    }
+    setIsAuthLoading(false);
+  }, []);
+
+  useEffect(() => {
+    // Check auth state on mount
+    checkAuth();
+
+    // Listen for custom auth change events (from same tab - login/logout)
+    const handleAuthChange = (e) => {
+      if (e.detail?.type === 'login' || e.detail?.type === 'register') {
+        const userData = e.detail.user || getUser();
+        setUser(userData);
+        setIsAuthLoading(false);
+      } else if (e.detail?.type === 'logout') {
+        setUser(null);
+        setIsAuthLoading(false);
+      }
+    };
+    
+    // Listen for storage changes (when user logs in/out in another tab)
+    const handleStorageChange = (e) => {
+      if (e.key === 'token' || e.key === 'user' || e.key === 'isAuthenticated') {
+        checkAuth();
+      }
+    };
+
+    window.addEventListener('m1cart-auth-change', handleAuthChange);
+    window.addEventListener('storage', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('m1cart-auth-change', handleAuthChange);
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [checkAuth]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -23,6 +70,8 @@ const Navigation = () => {
     }
   };
 
+  // Render navigation immediately - show spinner only for auth-dependent links
+  // Navigation shell always renders, auth links show loading state
   return (
     <nav className="navigation">
       <div className="nav-container">
@@ -40,8 +89,8 @@ const Navigation = () => {
           <button type="submit" className="search-button">Search</button>
         </form>
         <div className="nav-links">
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className={location.pathname === '/' ? 'active' : ''}
           >
             Home
@@ -59,6 +108,34 @@ const Navigation = () => {
             Cart
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </Link>
+          {isAuthLoading ? (
+            // Show loading state while checking auth
+            <span className="auth-loading">
+              <Spinner size="small" text="" />
+            </span>
+          ) : isAuthenticated() ? (
+            <>
+              <Link 
+                to="/dashboard" 
+                className={`dashboard-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
+              >
+                Dashboard
+              </Link>
+              <button 
+                className="logout-button"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link 
+              to="/login" 
+              className={`login-button ${location.pathname === '/login' ? 'active' : ''}`}
+            >
+              Login / Signup
+            </Link>
+          )}
           <ThemeToggle />
         </div>
       </div>

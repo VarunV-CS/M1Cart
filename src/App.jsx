@@ -4,6 +4,8 @@ import AppProvider from './context/AppProvider';
 import Navigation from './components/Navigation';
 import NotificationDisplay from './components/NotificationDisplay';
 import { useTheme } from './context/ThemeContext';
+import withErrorBoundary from './hocs/withErrorBoundary';
+import { Spinner } from './components/patterns';
 import './App.css';
 
 const Home = lazy(() => import('./pages/Home'));
@@ -13,6 +15,29 @@ const ItemDescription = lazy(() => import('./components/ItemDescription'));
 const Cart = lazy(() => import('./pages/Cart'));
 const ProductList = lazy(() => import('./components/ProductList'));
 const PatternShowcase = lazy(() => import('./components/PatternShowcase'));
+const Login = lazy(() => import('./pages/Login'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+
+// Wrap pages with error boundaries
+const SafeHome = withErrorBoundary(Home);
+const SafeCategories = withErrorBoundary(Categories);
+const SafeSearch = withErrorBoundary(Search);
+const SafeItemDescription = withErrorBoundary(ItemDescription);
+const SafeCart = withErrorBoundary(Cart);
+const SafeProductList = withErrorBoundary(ProductList);
+const SafePatternShowcase = withErrorBoundary(PatternShowcase);
+const SafeLogin = withErrorBoundary(Login);
+const SafeDashboard = withErrorBoundary(Dashboard);
+
+// Improved Suspense fallback with Spinner
+const LoadingFallback = () => (
+  <Spinner 
+    size="large" 
+    text="Loading page..." 
+    variant="spinner"
+    fullHeight={true}
+  />
+);
 
 function AppContent() {
   const { theme } = useTheme();
@@ -22,16 +47,20 @@ function AppContent() {
       <div className={`app theme-${theme}`}>
         <Navigation />
         <NotificationDisplay />
-        <Suspense fallback={<div>Loading...</div>}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/categories" element={<Categories />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/product/:pid" element={<ItemDescription />} />
-            <Route path="/cart" element={<Cart />} />
-            {/* <Route path="/products" element={<ProductList />} /> */}
-            <Route path="/patterns" element={<PatternShowcase />} />
-          </Routes>
+        <Suspense fallback={<LoadingFallback />}>
+          <div className="routes-container">
+            <Routes>
+              <Route path="/" element={<SafeHome />} />
+              <Route path="/categories" element={<SafeCategories />} />
+              <Route path="/search" element={<SafeSearch />} />
+              <Route path="/product/:pid" element={<SafeItemDescription />} />
+              <Route path="/cart" element={<SafeCart />} />
+              {/* <Route path="/products" element={<SafeProductList />} /> */}
+              <Route path="/patterns" element={<SafePatternShowcase />} />
+              <Route path="/login" element={<SafeLogin />} />
+              <Route path="/dashboard" element={<SafeDashboard />} />
+            </Routes>
+          </div>
         </Suspense>
       </div>
     </Router>

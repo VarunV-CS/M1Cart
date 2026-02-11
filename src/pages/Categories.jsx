@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { fetchProducts, fetchCategories } from '../services/api';
 import ProductCard from '../components/ProductCard';
+import { Spinner } from '../components/patterns';
 import './Categories.css';
 
 const Categories = () => {
@@ -10,29 +11,71 @@ const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('All');
-
   const [searchQuery, setSearchQuery] = useState('');
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [sortBy, setSortBy] = useState('name-asc');
 
+  // Exponential backoff for retries
+  const getRetryDelay = (count) => Math.min(1000 * Math.pow(2, count), 8000);
+
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const [productsData, categoriesData] = await Promise.all([
+        fetchProducts(),
+        fetchCategories()
+      ]);
+      setProducts(productsData);
+      setCategories(categoriesData);
+      setError(null);
+      setRetryCount(0);
+    } catch (err) {
+      setError(err.message);
+      setProducts([]);
+      setCategories([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const [productsData, categoriesData] = await Promise.all([
-          fetchProducts(),
-          fetchCategories()
-        ]);
-        setProducts(productsData);
-        setCategories(categoriesData);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
     loadData();
   }, [location.pathname]);
+
+  // Auto-retry with exponential backoff
+  useEffect(() => {
+    if (error && retryCount > 0 && retryCount <= 4) {
+      const timer = setTimeout(() => {
+        console.log(`Retrying fetch (attempt ${retryCount}/${4})...`);
+        loadData();
+      }, getRetryDelay(retryCount - 1));
+
+      return () => clearTimeout(timer);
+    }
+  }, [error, retryCount]);
+
+  const handleRetry = () => {
+    setRetryCount(prev => prev + 1);
+    if (retryCount === 0) {
+      loadData();
+    }
+  };
+
+  const handlePriceChange = (type, value) => {
+    setPriceRange(prev => ({
+      ...prev,
+      [type]: value
+    }));
+  };
+
+  const clearFilters = () => {
+    setSearchQuery('');
+    setPriceRange({ min: '', max: '' });
+    setSortBy('name-asc');
+  };
 
   const filteredAndSortedProducts = products
     .filter(product => {
@@ -62,32 +105,31 @@ const Categories = () => {
       }
     });
 
-  const handlePriceChange = (type, value) => {
-    setPriceRange(prev => ({
-      ...prev,
-      [type]: value
-    }));
-  };
-
-  const clearFilters = () => {
-    setSearchQuery('');
-    setPriceRange({ min: '', max: '' });
-    setSortBy('name-asc');
-  };
-
   if (loading) {
     return (
       <div className="loading-container">
-        <div className="loading-spinner">
-          <div className="spinner"></div>
-          <p>Loading products...</p>
-        </div>
+        <Spinner size="large" text="Loading products..." />
       </div>
     );
   }
 
   if (error) {
-    return <div className="error">Error: {error}</div>;
+    return (
+      <div className="error-container">
+        <div className="error-content">
+          <h2>Unable to Load Products</h2>
+          <p className="error-message">{error}</p>
+          <p className="error-hint">
+            {retryCount > 0 
+              ? `Retrying... (attempt ${retryCount}/4)`
+              : 'Please check your connection and try again.'}
+          </p>
+          <button onClick={handleRetry} className="retry-button">
+            {retryCount > 0 ? 'Retry Again' : 'Try Again'}
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
