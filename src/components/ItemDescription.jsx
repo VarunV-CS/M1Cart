@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { fetchProductById } from '../services/api';
 import { useCart } from '../context/CartContext';
+import Comments from './Comments';
 import './ItemDescription.css';
 
 const ItemDescription = () => {
@@ -113,6 +114,11 @@ const ItemDescription = () => {
               </div>
             </div>
           </div>
+        </div>
+        
+        {/* Comments Section */}
+        <div className="product-comments-section">
+          <Comments productId={product.pid} />
         </div>
       </div>
     </div>
