@@ -185,9 +185,9 @@ export const loadCart = async () => {
 };
 
 // API functions for products
-export const fetchProducts = async () => {
+export const fetchProducts = async (page = 1, limit = 10) => {
   try {
-    const response = await fetchWithTimeout(`${API_BASE_URL}/products/`);
+    const response = await fetchWithTimeout(`${API_BASE_URL}/products/?page=${page}&limit=${limit}`);
     
     if (!response.ok) {
       throw new Error(`Failed to fetch products: ${response.status}`);
@@ -195,17 +195,21 @@ export const fetchProducts = async () => {
     
     const data = await handleResponse(response);
     
-    return data.map(product => ({
-      pid: product.pid,
-      id: product.pid, // Keep id for backward compatibility
-      name: product.name,
-      category: product.category,
-      price: product.price,
-      image: product.image,
-      description: product.description,
-      rating: product.rating || 4.5,
-      inStock: product.inStock !== undefined ? product.inStock : true
-    }));
+    // Return both products and pagination metadata
+    return {
+      products: data.products.map(product => ({
+        pid: product.pid,
+        id: product.pid, // Keep id for backward compatibility
+        name: product.name,
+        category: product.category,
+        price: product.price,
+        image: product.image,
+        description: product.description,
+        rating: product.rating || 4.5,
+        inStock: product.inStock !== undefined ? product.inStock : true
+      })),
+      pagination: data.pagination
+    };
   } catch (error) {
     if (error.name === 'AbortError') {
       throw new Error('Products request timed out. Please try again.');

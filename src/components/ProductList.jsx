@@ -8,10 +8,13 @@ const ProductListContent = ({ products, error, ...props }) => {
     throw new Error(error);
   }
 
+  // Ensure products is always an array
+  const productsArray = Array.isArray(products) ? products : [];
+
   return (
     <div className="product-list">
       <div className="products-grid">
-        {products.map(product => (
+        {productsArray.map(product => (
           <ProductCard key={product.pid} product={product} />
         ))}
       </div>

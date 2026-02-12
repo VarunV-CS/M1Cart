@@ -1,9 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { fetchProducts, fetchCategories } from '../services/api';
 import ProductCard from '../components/ProductCard';
+import Pagination from '../components/Pagination';
 import { Spinner } from '../components/patterns';
 import './Categories.css';
+
+// Page size options for user selection
+const PAGE_SIZE_OPTIONS = [6, 12, 24, 48];
 
 const Categories = () => {
   const location = useLocation();
@@ -16,20 +20,40 @@ const Categories = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [sortBy, setSortBy] = useState('name-asc');
+  
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(12);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
 
   // Exponential backoff for retries
   const getRetryDelay = (count) => Math.min(1000 * Math.pow(2, count), 8000);
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
-      const [productsData, categoriesData] = await Promise.all([
-        fetchProducts(),
-        fetchCategories()
-      ]);
-      setProducts(productsData);
+      
+      // Load categories first
+      const categoriesData = await fetchCategories();
       setCategories(categoriesData);
+      
+      // Fetch products with pagination
+      const productsData = await fetchProducts(page, limit);
+      
+      // Handle the response format
+      if (productsData.products) {
+        setProducts(productsData.products);
+        setTotal(productsData.pagination?.total || productsData.products.length);
+        setTotalPages(productsData.pagination?.totalPages || 1);
+      } else {
+        // Fallback for non-paginated response
+        setProducts(productsData);
+        setTotal(productsData.length);
+        setTotalPages(1);
+      }
+      
       setError(null);
       setRetryCount(0);
     } catch (err) {
@@ -39,11 +63,12 @@ const Categories = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, limit]);
 
+  // Load data on mount and when page/limit changes
   useEffect(() => {
     loadData();
-  }, [location.pathname]);
+  }, [loadData]);
 
   // Auto-retry with exponential backoff
   useEffect(() => {
@@ -55,13 +80,25 @@ const Categories = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [error, retryCount]);
+  }, [error, retryCount, loadData]);
 
   const handleRetry = () => {
     setRetryCount(prev => prev + 1);
     if (retryCount === 0) {
       loadData();
     }
+  };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+    // Scroll to top of products
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleLimitChange = (newLimit) => {
+    setLimit(newLimit);
+    setPage(1); // Reset to first page when changing page size
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handlePriceChange = (type, value) => {
@@ -75,8 +112,10 @@ const Categories = () => {
     setSearchQuery('');
     setPriceRange({ min: '', max: '' });
     setSortBy('name-asc');
+    setPage(1);
   };
 
+  // Filter and sort products (client-side filtering for the current page)
   const filteredAndSortedProducts = products
     .filter(product => {
       const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
@@ -105,7 +144,7 @@ const Categories = () => {
       }
     });
 
-  if (loading) {
+  if (loading && products.length === 0) {
     return (
       <div className="loading-container">
         <Spinner size="large" text="Loading products..." />
@@ -113,7 +152,7 @@ const Categories = () => {
     );
   }
 
-  if (error) {
+  if (error && products.length === 0) {
     return (
       <div className="error-container">
         <div className="error-content">
@@ -143,7 +182,10 @@ const Categories = () => {
             <button
               key={category}
               className={`category-button ${selectedCategory === category ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(category)}
+              onClick={() => {
+                setSelectedCategory(category);
+                setPage(1);
+              }}
             >
               {category}
             </button>
@@ -160,7 +202,10 @@ const Categories = () => {
                 type="text"
                 placeholder="Search by name or category..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setPage(1);
+                }}
                 className="filter-input"
               />
             </div>
@@ -214,18 +259,47 @@ const Categories = () => {
           </button>
         </div>
         
-        <div className="products-count">
-          {filteredAndSortedProducts.length} product{filteredAndSortedProducts.length !== 1 ? 's' : ''} found
+        {/* Results Info and Page Size Selector */}
+        <div className="results-header">
+          <div className="results-count">
+            {filteredAndSortedProducts.length} product{filteredAndSortedProducts.length !== 1 ? 's' : ''} found
+            {total > 0 && <span className="total-count"> (showing {products.length} of {total})</span>}
+          </div>
+          
+          <div className="page-size-selector">
+            <label htmlFor="page-size">Show:</label>
+            <select
+              id="page-size"
+              value={limit}
+              onChange={(e) => handleLimitChange(Number(e.target.value))}
+              className="filter-select"
+            >
+              {PAGE_SIZE_OPTIONS.map(size => (
+                <option key={size} value={size}>{size}</option>
+              ))}
+            </select>
+          </div>
         </div>
+        
         <div className="products-grid">
           {filteredAndSortedProducts.map(product => (
             <ProductCard key={product.pid} product={product} />
           ))}
         </div>
+        
         {filteredAndSortedProducts.length === 0 && (
           <div className="no-products">
             <p>No products found matching your criteria.</p>
           </div>
+        )}
+        
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
         )}
       </div>
     </div>

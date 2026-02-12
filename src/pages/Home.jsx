@@ -21,7 +21,11 @@ const Home = () => {
       setLoading(true);
       setError(null);
       const data = await fetchProducts();
-      setProducts(data);
+      
+      // Handle the new response format with pagination
+      const productsArray = Array.isArray(data) ? data : (data.products || []);
+      setProducts(productsArray);
+      
       setError(null);
       setRetryCount(0);
     } catch (err) {

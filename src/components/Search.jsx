@@ -1,45 +1,104 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import { fetchProducts, fetchCategories } from '../services/api';
-import { useWindowSize } from '../hooks/useWindowSize';
 import ProductCard from './ProductCard';
+import Pagination from './Pagination';
 import './Search.css';
+
+// Page size options for user selection
+const PAGE_SIZE_OPTIONS = [6, 12, 24, 48];
 
 const Search = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const query = searchParams.get('q') || '';
-  const windowSize = useWindowSize();
-  const isMobile = windowSize.width < 768;
+  
+  // Data state
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  
+  // Filter state
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [sortBy, setSortBy] = useState('name-asc');
+  
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(12);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        setLoading(true);
-        const [productsData, categoriesData] = await Promise.all([
-          fetchProducts(),
-          fetchCategories()
-        ]);
+  // Load data function
+  const loadData = useCallback(async (pageNum, limitNum) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Load categories
+      const categoriesData = await fetchCategories();
+      setCategories(categoriesData);
+      
+      // Fetch products with pagination
+      const productsData = await fetchProducts(pageNum, limitNum);
+      
+      // Handle the response format
+      if (productsData.products) {
+        setProducts(productsData.products);
+        setTotal(productsData.pagination?.total || productsData.products.length);
+        setTotalPages(productsData.pagination?.totalPages || 1);
+      } else {
+        // Fallback for non-paginated response
         setProducts(productsData);
-        setCategories(categoriesData);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+        setTotal(productsData.length);
+        setTotalPages(1);
       }
-    };
-    loadData();
+    } catch (err) {
+      setError(err.message);
+      setProducts([]);
+      setCategories([]);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // Load data on mount and when page/limit changes
+  useEffect(() => {
+    loadData(page, limit);
+  }, [page, limit, loadData]);
+
+  // Reset to page 1 when search query changes
+  useEffect(() => {
+    setPage(1);
   }, [location.search]);
 
-  // Filter and sort products
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleLimitChange = (newLimit) => {
+    setLimit(newLimit);
+    setPage(1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handlePriceChange = (type, value) => {
+    setPriceRange(prev => ({
+      ...prev,
+      [type]: value
+    }));
+  };
+
+  const clearFilters = () => {
+    setSelectedCategory('All');
+    setPriceRange({ min: '', max: '' });
+    setSortBy('name-asc');
+    setPage(1);
+  };
+
+  // Filter and sort products (client-side filtering for the current page)
   const filteredAndSortedProducts = products
     .filter(product => {
       // Text search filter
@@ -71,20 +130,7 @@ const Search = () => {
       }
     });
 
-  const handlePriceChange = (type, value) => {
-    setPriceRange(prev => ({
-      ...prev,
-      [type]: value
-    }));
-  };
-
-  const clearFilters = () => {
-    setSelectedCategory('All');
-    setPriceRange({ min: '', max: '' });
-    setSortBy('name-asc');
-  };
-
-  if (loading) {
+  if (loading && products.length === 0) {
     return (
       <div className="loading-container">
         <div className="loading-spinner">
@@ -95,7 +141,7 @@ const Search = () => {
     );
   }
 
-  if (error) {
+  if (error && products.length === 0) {
     return <div className="error">Error: {error}</div>;
   }
 
@@ -115,7 +161,10 @@ const Search = () => {
               <select
                 id="category-filter"
                 value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
+                onChange={(e) => {
+                  setSelectedCategory(e.target.value);
+                  setPage(1);
+                }}
                 className="filter-select"
               >
                 {categories.map(category => (
@@ -175,18 +224,47 @@ const Search = () => {
           </button>
         </div>
         
-        <div className="products-count">
-          {filteredAndSortedProducts.length} product{filteredAndSortedProducts.length !== 1 ? 's' : ''} found
+        {/* Results Info and Page Size Selector */}
+        <div className="results-header">
+          <div className="results-count">
+            {filteredAndSortedProducts.length} product{filteredAndSortedProducts.length !== 1 ? 's' : ''} found
+            {total > 0 && <span className="total-count"> (showing {products.length} of {total})</span>}
+          </div>
+          
+          <div className="page-size-selector">
+            <label htmlFor="page-size">Show:</label>
+            <select
+              id="page-size"
+              value={limit}
+              onChange={(e) => handleLimitChange(Number(e.target.value))}
+              className="filter-select"
+            >
+              {PAGE_SIZE_OPTIONS.map(size => (
+                <option key={size} value={size}>{size}</option>
+              ))}
+            </select>
+          </div>
         </div>
+        
         <div className="products-grid">
           {filteredAndSortedProducts.map(product => (
             <ProductCard key={product.pid} product={product} />
           ))}
         </div>
+        
         {filteredAndSortedProducts.length === 0 && (
           <div className="no-products">
             <p>No products found matching your criteria.</p>
           </div>
+        )}
+        
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
         )}
       </div>
     </div>
