@@ -30,6 +30,30 @@ const Search = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
 
+  // Build filter object
+  const buildFilters = () => {
+    const filters = {};
+    
+    // Always include the search query
+    if (query) {
+      filters.search = query;
+    }
+    if (selectedCategory && selectedCategory !== 'All') {
+      filters.category = selectedCategory;
+    }
+    if (priceRange.min) {
+      filters.minPrice = parseFloat(priceRange.min);
+    }
+    if (priceRange.max) {
+      filters.maxPrice = parseFloat(priceRange.max);
+    }
+    if (sortBy) {
+      filters.sortBy = sortBy;
+    }
+    
+    return filters;
+  };
+
   // Load data function
   const loadData = useCallback(async (pageNum, limitNum) => {
     try {
@@ -40,8 +64,11 @@ const Search = () => {
       const categoriesData = await fetchCategories();
       setCategories(categoriesData);
       
-      // Fetch products with pagination
-      const productsData = await fetchProducts(pageNum, limitNum);
+      // Build filters
+      const filters = buildFilters();
+      
+      // Fetch products with pagination and filters
+      const productsData = await fetchProducts(pageNum, limitNum, filters);
       
       // Handle the response format
       if (productsData.products) {
@@ -61,17 +88,18 @@ const Search = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [query, selectedCategory, priceRange, sortBy]);
 
-  // Load data on mount and when page/limit changes
+  // Load data on mount and when page/limit/filters change
   useEffect(() => {
     loadData(page, limit);
   }, [page, limit, loadData]);
 
-  // Reset to page 1 when search query changes
+  // Reload when filters change (except page)
   useEffect(() => {
+    loadData(1, limit);
     setPage(1);
-  }, [location.search]);
+  }, [query, selectedCategory, priceRange.min, priceRange.max, sortBy]);
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
@@ -97,38 +125,6 @@ const Search = () => {
     setSortBy('name-asc');
     setPage(1);
   };
-
-  // Filter and sort products (client-side filtering for the current page)
-  const filteredAndSortedProducts = products
-    .filter(product => {
-      // Text search filter
-      const matchesSearch = !query || 
-        product.name.toLowerCase().includes(query.toLowerCase()) ||
-        product.category.toLowerCase().includes(query.toLowerCase());
-      
-      // Category filter
-      const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
-      
-      // Price filter
-      const matchesPrice = 
-        (priceRange.min === '' || product.price >= parseFloat(priceRange.min)) &&
-        (priceRange.max === '' || product.price <= parseFloat(priceRange.max));
-      
-      return matchesSearch && matchesCategory && matchesPrice;
-    })
-    .sort((a, b) => {
-      switch (sortBy) {
-        case 'price-asc':
-          return a.price - b.price;
-        case 'price-desc':
-          return b.price - a.price;
-        case 'name-desc':
-          return b.name.localeCompare(a.name);
-        case 'name-asc':
-        default:
-          return a.name.localeCompare(b.name);
-      }
-    });
 
   if (loading && products.length === 0) {
     return (
@@ -227,7 +223,7 @@ const Search = () => {
         {/* Results Info and Page Size Selector */}
         <div className="results-header">
           <div className="results-count">
-            {filteredAndSortedProducts.length} product{filteredAndSortedProducts.length !== 1 ? 's' : ''} found
+            {total} product{total !== 1 ? 's' : ''} found
             {total > 0 && <span className="total-count"> (showing {products.length} of {total})</span>}
           </div>
           
@@ -247,12 +243,12 @@ const Search = () => {
         </div>
         
         <div className="products-grid">
-          {filteredAndSortedProducts.map(product => (
+          {products.map(product => (
             <ProductCard key={product.pid} product={product} />
           ))}
         </div>
         
-        {filteredAndSortedProducts.length === 0 && (
+        {products.length === 0 && (
           <div className="no-products">
             <p>No products found matching your criteria.</p>
           </div>

@@ -185,9 +185,32 @@ export const loadCart = async () => {
 };
 
 // API functions for products
-export const fetchProducts = async (page = 1, limit = 10) => {
+export const fetchProducts = async (page = 1, limit = 10, filters = {}) => {
   try {
-    const response = await fetchWithTimeout(`${API_BASE_URL}/products/?page=${page}&limit=${limit}`);
+    // Build query string with pagination and filter parameters
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString()
+    });
+    
+    // Add filter parameters if provided
+    if (filters.category && filters.category !== 'All') {
+      params.append('category', filters.category);
+    }
+    if (filters.search) {
+      params.append('search', filters.search);
+    }
+    if (filters.minPrice) {
+      params.append('minPrice', filters.minPrice.toString());
+    }
+    if (filters.maxPrice) {
+      params.append('maxPrice', filters.maxPrice.toString());
+    }
+    if (filters.sortBy) {
+      params.append('sortBy', filters.sortBy);
+    }
+    
+    const response = await fetchWithTimeout(`${API_BASE_URL}/products/?${params.toString()}`);
     
     if (!response.ok) {
       throw new Error(`Failed to fetch products: ${response.status}`);

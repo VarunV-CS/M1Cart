@@ -30,7 +30,30 @@ const Categories = () => {
   // Exponential backoff for retries
   const getRetryDelay = (count) => Math.min(1000 * Math.pow(2, count), 8000);
 
-  const loadData = useCallback(async () => {
+  // Build filter object
+  const buildFilters = () => {
+    const filters = {};
+    
+    if (selectedCategory && selectedCategory !== 'All') {
+      filters.category = selectedCategory;
+    }
+    if (searchQuery) {
+      filters.search = searchQuery;
+    }
+    if (priceRange.min) {
+      filters.minPrice = parseFloat(priceRange.min);
+    }
+    if (priceRange.max) {
+      filters.maxPrice = parseFloat(priceRange.max);
+    }
+    if (sortBy) {
+      filters.sortBy = sortBy;
+    }
+    
+    return filters;
+  };
+
+  const loadData = useCallback(async (pageNum, limitNum) => {
     try {
       setLoading(true);
       setError(null);
@@ -39,8 +62,11 @@ const Categories = () => {
       const categoriesData = await fetchCategories();
       setCategories(categoriesData);
       
-      // Fetch products with pagination
-      const productsData = await fetchProducts(page, limit);
+      // Build filters
+      const filters = buildFilters();
+      
+      // Fetch products with pagination and filters
+      const productsData = await fetchProducts(pageNum, limitNum, filters);
       
       // Handle the response format
       if (productsData.products) {
@@ -63,29 +89,29 @@ const Categories = () => {
     } finally {
       setLoading(false);
     }
-  }, [page, limit]);
+  }, [selectedCategory, searchQuery, priceRange, sortBy]);
 
-  // Load data on mount and when page/limit changes
+  // Load data on mount and when page/limit/filters change
   useEffect(() => {
-    loadData();
-  }, [loadData]);
+    loadData(page, limit);
+  }, [page, limit, loadData]);
 
   // Auto-retry with exponential backoff
   useEffect(() => {
     if (error && retryCount > 0 && retryCount <= 4) {
       const timer = setTimeout(() => {
         console.log(`Retrying fetch (attempt ${retryCount}/${4})...`);
-        loadData();
+        loadData(page, limit);
       }, getRetryDelay(retryCount - 1));
 
       return () => clearTimeout(timer);
     }
-  }, [error, retryCount, loadData]);
+  }, [error, retryCount, loadData, page, limit]);
 
   const handleRetry = () => {
     setRetryCount(prev => prev + 1);
     if (retryCount === 0) {
-      loadData();
+      loadData(page, limit);
     }
   };
 
@@ -114,35 +140,6 @@ const Categories = () => {
     setSortBy('name-asc');
     setPage(1);
   };
-
-  // Filter and sort products (client-side filtering for the current page)
-  const filteredAndSortedProducts = products
-    .filter(product => {
-      const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
-      
-      const matchesSearch = !searchQuery || 
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      const matchesPrice = 
-        (priceRange.min === '' || product.price >= parseFloat(priceRange.min)) &&
-        (priceRange.max === '' || product.price <= parseFloat(priceRange.max));
-      
-      return matchesCategory && matchesSearch && matchesPrice;
-    })
-    .sort((a, b) => {
-      switch (sortBy) {
-        case 'price-asc':
-          return a.price - b.price;
-        case 'price-desc':
-          return b.price - a.price;
-        case 'name-desc':
-          return b.name.localeCompare(a.name);
-        case 'name-asc':
-        default:
-          return a.name.localeCompare(b.name);
-      }
-    });
 
   if (loading && products.length === 0) {
     return (
@@ -262,7 +259,7 @@ const Categories = () => {
         {/* Results Info and Page Size Selector */}
         <div className="results-header">
           <div className="results-count">
-            {filteredAndSortedProducts.length} product{filteredAndSortedProducts.length !== 1 ? 's' : ''} found
+            {total} product{total !== 1 ? 's' : ''} found
             {total > 0 && <span className="total-count"> (showing {products.length} of {total})</span>}
           </div>
           
@@ -282,12 +279,12 @@ const Categories = () => {
         </div>
         
         <div className="products-grid">
-          {filteredAndSortedProducts.map(product => (
+          {products.map(product => (
             <ProductCard key={product.pid} product={product} />
           ))}
         </div>
         
-        {filteredAndSortedProducts.length === 0 && (
+        {products.length === 0 && (
           <div className="no-products">
             <p>No products found matching your criteria.</p>
           </div>
