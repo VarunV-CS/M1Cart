@@ -134,8 +134,9 @@ function Login() {
             // Ensure user data has the correct structure
             const userToStore = {
               id: userData.id || response.user?._id,
-              name: userData.Username || userData.name || formData.email.split('@')[0],
-              email: userData.Email || userData.email || formData.email
+              name: userData.username || userData.name || formData.email.split('@')[0],
+              email: userData.email || formData.email,
+              role: userData.role || 'buyer'
             };
             
             // Store token and user data using api service
@@ -154,10 +155,15 @@ function Login() {
             
             console.log('Login successful:', userToStore);
             
-            // Navigate to dashboard with cart sync
-            // We'll use a timeout to allow context to update
+            // Navigate based on user role
             setTimeout(() => {
-              navigate('/dashboard', { state: { justLoggedIn: true } });
+              if (userToStore.role === 'admin') {
+                navigate('/admin-dashboard', { state: { justLoggedIn: true } });
+              } else if (userToStore.role === 'seller') {
+                navigate('/seller-dashboard', { state: { justLoggedIn: true } });
+              } else {
+                navigate('/dashboard', { state: { justLoggedIn: true } });
+              }
             }, 100);
           } else {
             throw new Error(response.message || 'Login failed');

@@ -17,6 +17,8 @@ const ProductList = lazy(() => import('./components/ProductList'));
 const PatternShowcase = lazy(() => import('./components/PatternShowcase'));
 const Login = lazy(() => import('./pages/Login'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+const SellerDashboard = lazy(() => import('./pages/SellerDashboard'));
 
 // Wrap pages with error boundaries
 const SafeHome = withErrorBoundary(Home);
@@ -28,6 +30,8 @@ const SafeProductList = withErrorBoundary(ProductList);
 const SafePatternShowcase = withErrorBoundary(PatternShowcase);
 const SafeLogin = withErrorBoundary(Login);
 const SafeDashboard = withErrorBoundary(Dashboard);
+const SafeAdminDashboard = withErrorBoundary(AdminDashboard);
+const SafeSellerDashboard = withErrorBoundary(SellerDashboard);
 
 // Improved Suspense fallback with Spinner
 const LoadingFallback = () => (
@@ -59,6 +63,8 @@ function AppContent() {
               <Route path="/patterns" element={<SafePatternShowcase />} />
               <Route path="/login" element={<SafeLogin />} />
               <Route path="/dashboard" element={<SafeDashboard />} />
+              <Route path="/admin-dashboard" element={<SafeAdminDashboard />} />
+              <Route path="/seller-dashboard" element={<SafeSellerDashboard />} />
             </Routes>
           </div>
         </Suspense>

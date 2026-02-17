@@ -116,14 +116,17 @@ const Navigation = () => {
           ) : isAuthenticated() ? (
             <>
               <Link 
-                to="/dashboard" 
-                className={`dashboard-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
+                to={user?.role === 'admin' ? '/admin-dashboard' : user?.role === 'seller' ? '/seller-dashboard' : '/dashboard'} 
+                className={`dashboard-link ${location.pathname === '/dashboard' || location.pathname === '/admin-dashboard' || location.pathname === '/seller-dashboard' ? 'active' : ''}`}
               >
                 Dashboard
               </Link>
               <button 
                 className="logout-button"
-                onClick={handleLogout}
+                onClick={() => {
+                  handleLogout();
+                  navigate('/login');
+                }}
               >
                 Logout
               </button>
