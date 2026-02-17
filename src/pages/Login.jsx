@@ -41,12 +41,15 @@ function Login() {
       }));
     }
 
-    // Real-time email validation
+    // Real-time email/username validation
     if (name === 'email') {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isEmail = value.includes('@');
+      // Allow both email format and plain name (name must be at least 3 chars)
+      const isValid = isEmail ? emailRegex.test(value) : value.trim().length >= 3;
       setEmailValidation(prev => ({
         ...prev,
-        isValid: emailRegex.test(value),
+        isValid: isValid,
         isTouched: value.length > 0
       }));
     }
@@ -75,15 +78,24 @@ function Login() {
     // Name validation
     if (!isLogin && !formData.name.trim()) {
       newErrors.name = 'Name is required';
-    } else if (!isLogin && formData.name.trim().length < 2) {
-      newErrors.name = 'Name must be at least 2 characters';
+    } else if (!isLogin && formData.name.trim().length < 3) {
+      newErrors.name = 'Name must be at least 3 characters';
     }
     
-    // Email validation
+    // Email or Username validation
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = 'Email or username is required';
+    } else {
+      const isEmail = formData.email.includes('@');
+      if (isEmail) {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+          newErrors.email = 'Please enter a valid email address';
+        }
+      } else {
+        if (formData.email.trim().length < 3) {
+          newErrors.email = 'Username must be at least 3 characters';
+        }
+      }
     }
     
     // Password validation
@@ -269,9 +281,9 @@ function Login() {
           )}
 
           <div className="form-group">
-            <label htmlFor="email">Email Address</label>
+            <label htmlFor="email">Email Address or Username</label>
             <input
-              type="email"
+              type="text"
               id="email"
               name="email"
               value={formData.email}
@@ -279,20 +291,23 @@ function Login() {
               onBlur={() => {
                 setEmailValidation(prev => ({ ...prev, isTouched: true }));
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(formData.email)) {
+                const isEmail = formData.email.includes('@');
+                // Allow both email format and plain name (name must be at least 3 chars)
+                const isValid = isEmail ? emailRegex.test(formData.email) : formData.email.trim().length >= 3;
+                if (!isValid && formData.email.length > 0) {
                   setErrors(prev => ({
                     ...prev,
-                    email: 'Please enter a valid email address'
+                    email: isEmail ? 'Please enter a valid email address' : 'Username must be at least 3 characters'
                   }));
                 }
               }}
-              placeholder="Enter your email"
-              className={`${errors.email ? 'error' : ''} ${emailValidation.isTouched && !errors.email ? (emailValidation.isValid ? 'valid' : 'invalid') : ''}`}
+              placeholder="Enter your email or username"
+              className={`${errors.email ? 'error' : ''} ${emailValidation.isTouched && !errors.email ? (emailValidation.isValid ? 'valid' : '') : ''}`}
               disabled={isLoading}
             />
             {emailValidation.isTouched && !errors.email && (
               <span className={`validation-indicator ${emailValidation.isValid ? 'valid' : 'invalid'}`}>
-                {emailValidation.isValid ? '✓' : '✗ Invalid email format'}
+                {emailValidation.isValid ? '✓' : (formData.email.includes('@') ? '✗ Invalid email format' : '✗ Username must be at least 3 characters')}
               </span>
             )}
             {errors.email && <span className="error-message">{errors.email}</span>}
