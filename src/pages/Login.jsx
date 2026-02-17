@@ -168,7 +168,7 @@ function Login() {
             console.log('Login successful:', userToStore);
             
             // Navigate based on user role
-            setTimeout(() => {
+            // setTimeout(() => {
               if (userToStore.role === 'admin') {
                 navigate('/admin-dashboard', { state: { justLoggedIn: true } });
               } else if (userToStore.role === 'seller') {
@@ -176,10 +176,11 @@ function Login() {
               } else {
                 navigate('/dashboard', { state: { justLoggedIn: true } });
               }
-            }, 100);
-          } else {
-            throw new Error(response.message || 'Login failed');
-          }
+            // }, 100);
+          // } else {
+          //   throw new Error(response.message || 'Login failed');
+          // }
+}
         } else {
           // Registration logic - call the register API
           response = await register({
