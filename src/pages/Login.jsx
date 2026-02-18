@@ -177,10 +177,10 @@ function Login() {
                 navigate('/dashboard', { state: { justLoggedIn: true } });
               }
             // }, 100);
-          // } else {
-          //   throw new Error(response.message || 'Login failed');
-          // }
-}
+            // } else {
+            //   throw new Error(response.message || 'Login failed');
+            // }
+          }
         } else {
           // Registration logic - call the register API
           response = await register({

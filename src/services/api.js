@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Request timeout in milliseconds
 const REQUEST_TIMEOUT = 10000; // 10 seconds
