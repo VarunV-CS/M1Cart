@@ -76,7 +76,7 @@ const Navigation = () => {
     <nav className="navigation">
       <div className="nav-container">
         <Link to="/" className="logo">
-          M1Cart
+          <img src="/logo.png" alt="M1Cart Logo" className='logo-nav'/>
         </Link>
         <form className="search-form" onSubmit={handleSearch}>
           <input
@@ -136,7 +136,7 @@ const Navigation = () => {
               to="/login" 
               className={`login-button ${location.pathname === '/login' ? 'active' : ''}`}
             >
-              Login / Signup
+              Login
             </Link>
           )}
           <ThemeToggle />

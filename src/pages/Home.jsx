@@ -97,7 +97,11 @@ const Home = () => {
     <div className="home-page">
       <section className="hero">
         <div className="hero-content">
-          <h1>Welcome to M1Cart</h1>
+          <h1>
+            Welcome to 
+            <img src="/logo.png" alt="M1Cart Logo" className="hero-logo" />
+            !
+          </h1>
           <p>Discover amazing products at great prices</p>
           <p>See you at the Billing line!</p>
           <Link to="/categories" className="cta-button">

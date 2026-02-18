@@ -214,3 +214,26 @@
 .app.theme-dark .retry-button {
   background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
 }
+
+/* Logo - white parts become light grey */
+.logo-transparent {
+  width: 150px;
+  height: auto;
+  filter: brightness(0) invert(1) brightness(0.7);
+}
+
+/* Hero inline logo */
+.hero-logo {
+  width: 175px;
+  height: auto;
+  margin: 0 5px;
+  vertical-align: middle;
+  /* filter: brightness(0) invert(1) brightness(0.7); */
+}
+
+.hero-content h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
