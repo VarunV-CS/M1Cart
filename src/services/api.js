@@ -354,6 +354,83 @@ export const deleteProduct = async (pid) => {
   }
 };
 
+// ============ PAYMENT API FUNCTIONS ============
+
+// Create a payment intent
+export const createPaymentIntent = async (amount, items) => {
+  try {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/payment/create-payment-intent`, {
+      method: 'POST',
+      body: JSON.stringify({ amount, items }),
+      headers: getAuthHeaders(),
+    });
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Payment request timed out. Please try again.');
+    }
+    console.error('Error creating payment intent:', error);
+    throw error;
+  }
+};
+
+// Handle payment success
+export const handlePaymentSuccess = async (paymentIntentId, orderId) => {
+  try {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/payment/payment-success`, {
+      method: 'POST',
+      body: JSON.stringify({ paymentIntentId, orderId }),
+      headers: getAuthHeaders(),
+    });
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Payment success notification timed out.');
+    }
+    console.error('Error handling payment success:', error);
+    throw error;
+  }
+};
+
+// Get order status
+export const getOrderStatus = async (orderId) => {
+  try {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/payment/order/${orderId}`, {
+      method: 'GET',
+      headers: getAuthHeaders(),
+    });
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Order status request timed out.');
+    }
+    console.error('Error getting order status:', error);
+    throw error;
+  }
+};
+
+// Verify payment status
+export const verifyPayment = async (paymentIntentId) => {
+  try {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/payment/verify-payment`, {
+      method: 'POST',
+      body: JSON.stringify({ paymentIntentId }),
+      headers: getAuthHeaders(),
+    });
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Payment verification timed out.');
+    }
+    console.error('Error verifying payment:', error);
+    throw error;
+  }
+};
+
 // ============ COMMENT API FUNCTIONS ============
 
 // Add a comment to a product

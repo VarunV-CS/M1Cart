@@ -13,6 +13,7 @@ const Categories = lazy(() => import('./pages/Categories'));
 const Search = lazy(() => import('./components/Search'));
 const ItemDescription = lazy(() => import('./components/ItemDescription'));
 const Cart = lazy(() => import('./pages/Cart'));
+const Checkout = lazy(() => import('./pages/Checkout'));
 const ProductList = lazy(() => import('./components/ProductList'));
 const PatternShowcase = lazy(() => import('./components/PatternShowcase'));
 const Login = lazy(() => import('./pages/Login'));
@@ -26,6 +27,7 @@ const SafeCategories = withErrorBoundary(Categories);
 const SafeSearch = withErrorBoundary(Search);
 const SafeItemDescription = withErrorBoundary(ItemDescription);
 const SafeCart = withErrorBoundary(Cart);
+const SafeCheckout = withErrorBoundary(Checkout);
 const SafeProductList = withErrorBoundary(ProductList);
 const SafePatternShowcase = withErrorBoundary(PatternShowcase);
 const SafeLogin = withErrorBoundary(Login);
@@ -59,6 +61,7 @@ function AppContent() {
               <Route path="/search" element={<SafeSearch />} />
               <Route path="/product/:pid" element={<SafeItemDescription />} />
               <Route path="/cart" element={<SafeCart />} />
+              <Route path="/checkout" element={<SafeCheckout />} />
               {/* <Route path="/products" element={<SafeProductList />} /> */}
               <Route path="/patterns" element={<SafePatternShowcase />} />
               <Route path="/login" element={<SafeLogin />} />

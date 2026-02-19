@@ -1,4 +1,5 @@
 import { Button, Card } from './patterns';
+import { useNavigate } from 'react-router-dom';
 import withCartActions from '../hocs/withCartActions';
 import './CartSummary.css';
 
@@ -9,8 +10,13 @@ const CartSummary = ({
   clearCart,
   className = '' 
 }) => {
+  const navigate = useNavigate();
   const total = getCartTotal();
   const itemCount = getCartItemsCount();
+
+  const handleCheckout = () => {
+    navigate('/checkout');
+  };
 
   return (
     <Card className={`cart-summary ${className}`}>
@@ -38,6 +44,7 @@ const CartSummary = ({
         </div>
         <Button 
           className="checkout-button"
+          onClick={handleCheckout}
           disabled={itemCount === 0}
           variant="primary"
         >

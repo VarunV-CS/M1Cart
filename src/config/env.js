@@ -12,8 +12,13 @@ export const imageConfig = {
   cdnBaseURL: import.meta.env.VITE_IMAGE_CDN_BASE_URL || 'https://images.unsplash.com',
 };
 
+export const stripeConfig = {
+  publicKey: import.meta.env.VITE_STRIPE_PUBLIC_KEY || 'pk_test_your_stripe_public_key',
+};
+
 export default {
   app: appConfig,
   api: apiConfig,
   image: imageConfig,
+  stripe: stripeConfig,
 };
