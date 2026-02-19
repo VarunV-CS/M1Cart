@@ -287,24 +287,18 @@ th {
   text-align: center;
 }
 
+/* CSS Spinner replaced with GIF */
 .spinner {
-  width: 60px;
-  height: 60px;
-  border: 5px solid var(--gray-200);
-  border-top: 5px solid var(--primary);
-  border-right: 5px solid var(--primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+  width: 90px;
+  height: 90px;
+  background-image: url('/sprite-anim.gif');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  border-radius: 0;
+  animation: none;
   flex-shrink: 0;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .loading-spinner p {
@@ -317,12 +311,6 @@ th {
 /* Theme-aware Loading Styles */
 .app.theme-dark .loading-container {
   background-color: rgba(26, 26, 26, 0.9);
-}
-
-.app.theme-dark .spinner {
-  border-color: var(--gray-700);
-  border-top-color: var(--primary);
-  border-right-color: var(--primary);
 }
 
 .app.theme-dark .loading-spinner p {

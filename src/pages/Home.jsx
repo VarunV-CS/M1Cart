@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react';
 import { fetchProducts } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import { Spinner } from '../components/patterns';
+import { useTheme } from '../context/ThemeContext';
 import './Home.css';
 
 const Home = () => {
   const location = useLocation();
+  const { isDark } = useTheme();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -99,7 +101,7 @@ const Home = () => {
         <div className="hero-content">
           <h1>
             Welcome to 
-            <img src="/logo.png" alt="M1Cart Logo" className="hero-logo" />
+            <img src={isDark ? "/White_Name.png" : "/logo.png"} alt="M1Cart Logo" className="hero-logo" />
             !
           </h1>
           <p>Discover amazing products at great prices</p>

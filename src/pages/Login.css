@@ -313,14 +313,17 @@
   color: #dc3545;
 }
 
-/* Button Spinner */
+/* Button Spinner - Using GIF */
 .button-spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: white;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+  width: 24px;
+  height: 24px;
+  background-image: url('/sprite-anim.gif');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  border-radius: 0;
+  animation: none;
   display: inline-block;
   margin-right: 8px;
   vertical-align: middle;
