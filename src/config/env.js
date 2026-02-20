@@ -4,7 +4,7 @@ export const appConfig = {
 };
 
 export const apiConfig = {
-  baseURL: import.meta.env.VITE_API_BASE_URL || '',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://productsapi-5rzc.onrender.com',
   timeout: parseInt(import.meta.env.VITE_API_TIMEOUT || '10000', 10),
 };
 
