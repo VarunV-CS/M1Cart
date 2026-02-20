@@ -89,12 +89,6 @@ const Navigation = () => {
           <button type="submit" className="search-button">Search</button>
         </form>
         <div className="nav-links">
-          <Link
-            to="/"
-            className={location.pathname === '/' ? 'active' : ''}
-          >
-            Home
-          </Link>
           <Link 
             to="/categories" 
             className={location.pathname === '/categories' ? 'active' : ''}

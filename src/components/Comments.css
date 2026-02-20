@@ -458,3 +458,176 @@
   }
 }
 
+/* Dark Theme Styles */
+.app.theme-dark .comments-container {
+  color: #e0e0e0;
+}
+
+.app.theme-dark .comments-loading {
+  color: #b0b0b0;
+}
+
+.app.theme-dark .comments-error {
+  background: #2d1a1a;
+  border-color: #4a1a1a;
+}
+
+.app.theme-dark .comments-error p {
+  color: #ff6b6b;
+}
+
+.app.theme-dark .retry-button {
+  background: #d32f2f;
+}
+
+.app.theme-dark .retry-button:hover {
+  background: #b71c1c;
+}
+
+.app.theme-dark .rating-summary {
+  background: #2d2d2d;
+}
+
+.app.theme-dark .rating-number {
+  color: #e0e0e0;
+}
+
+.app.theme-dark .rating-count {
+  color: #b0b0b0;
+}
+
+.app.theme-dark .star.empty {
+  color: #555;
+}
+
+.app.theme-dark .comment-form-section {
+  background: #2d2d2d;
+  border-color: #444;
+}
+
+.app.theme-dark .comment-form-section h3 {
+  color: #e0e0e0;
+}
+
+.app.theme-dark .form-group label {
+  color: #b0b0b0;
+}
+
+.app.theme-dark .comment-form textarea,
+.app.theme-dark .comment-edit-form textarea {
+  background: #1a1a1a;
+  color: #e0e0e0;
+  border-color: #444;
+}
+
+.app.theme-dark .comment-form textarea:focus,
+.app.theme-dark .comment-edit-form textarea:focus {
+  border-color: #90caf9;
+}
+
+.app.theme-dark .char-count {
+  color: #888;
+}
+
+.app.theme-dark .form-error {
+  background: #2d1a1a;
+  color: #ff6b6b;
+}
+
+.app.theme-dark .submit-comment-btn,
+.app.theme-dark .save-edit-btn {
+  background: #388e3c;
+}
+
+.app.theme-dark .submit-comment-btn:hover:not(:disabled),
+.app.theme-dark .save-edit-btn:hover:not(:disabled) {
+  background: #2e7d32;
+}
+
+.app.theme-dark .cancel-edit-btn {
+  color: #b0b0b0;
+  border-color: #444;
+}
+
+.app.theme-dark .cancel-edit-btn:hover {
+  background: #3d3d3d;
+}
+
+.app.theme-dark .login-prompt {
+  background: #2d2d1a;
+  color: #e0e0e0;
+}
+
+.app.theme-dark .comments-list-section h3 {
+  color: #e0e0e0;
+}
+
+.app.theme-dark .no-comments {
+  background: #2d2d2d;
+  color: #b0b0b0;
+}
+
+.app.theme-dark .comment-item {
+  background: #2d2d2d;
+  border-color: #444;
+}
+
+.app.theme-dark .comment-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.app.theme-dark .user-name {
+  color: #e0e0e0;
+}
+
+.app.theme-dark .comment-date {
+  color: #888;
+}
+
+.app.theme-dark .comment-body {
+  color: #b0b0b0;
+}
+
+.app.theme-dark .comment-actions {
+  border-top-color: #444;
+}
+
+.app.theme-dark .edit-comment-btn {
+  color: #90caf9;
+  border-color: #90caf9;
+}
+
+.app.theme-dark .edit-comment-btn:hover {
+  background: #90caf9;
+  color: #1a1a1a;
+}
+
+.app.theme-dark .delete-comment-btn {
+  color: #ef5350;
+  border-color: #ef5350;
+}
+
+.app.theme-dark .delete-comment-btn:hover {
+  background: #ef5350;
+  color: white;
+}
+
+.app.theme-dark .comments-pagination {
+  border-top-color: #444;
+}
+
+.app.theme-dark .pagination-btn {
+  background: #2d2d2d;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+.app.theme-dark .pagination-btn:hover:not(:disabled) {
+  background: #3d3d3d;
+  border-color: #666;
+}
+
+.app.theme-dark .pagination-info {
+  color: #b0b0b0;
+}
+

@@ -22,7 +22,8 @@ const CheckoutForm = ({ total, items, onSuccess, onCancel }) => {
   const [orderId, setOrderId] = useState('');
 
   useEffect(() => {
-    // Create payment intent when component mounts
+    // Create payment intent only when cart total or items change
+    // and when there's a valid checkout session
     const initPayment = async () => {
       try {
         const response = await createPaymentIntent(total, items);
@@ -37,7 +38,9 @@ const CheckoutForm = ({ total, items, onSuccess, onCancel }) => {
       }
     };
 
-    if (total > 0 && isAuthenticated()) {
+    // Only call if total > 0, user is authenticated, and we don't already have a clientSecret
+    // (or if total/items changed from a previous session)
+    if (total > 0 && isAuthenticated() && !clientSecret) {
       initPayment();
     }
   }, [total, items]);
@@ -274,6 +277,10 @@ const Checkout = () => {
               </div>
               
               <div className="order-totals">
+                <div className="total-row">
+                  <span>Items:</span>
+                  <span>{cartItems.reduce((total, item) => total + item.quantity, 0)}</span>
+                </div>
                 <div className="total-row">
                   <span>Subtotal:</span>
                   <span>${total.toFixed(2)}</span>

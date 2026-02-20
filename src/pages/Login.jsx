@@ -180,6 +180,9 @@ function Login() {
             // } else {
             //   throw new Error(response.message || 'Login failed');
             // }
+          } else {
+            // Handle login failure - user doesn't exist or wrong password
+            throw new Error(response.message || 'Invalid email/username or password');
           }
         } else {
           // Registration logic - call the register API

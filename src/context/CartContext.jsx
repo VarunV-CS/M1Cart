@@ -218,7 +218,9 @@ export const CartProvider = ({ children }) => {
 
   // Get cart total
   const getCartTotal = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    const total = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    // Round to 2 decimal places to avoid floating-point precision issues
+    return Math.round(total * 100) / 100;
   };
 
   // Get cart items count

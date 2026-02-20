@@ -18,6 +18,7 @@ const ProductList = lazy(() => import('./components/ProductList'));
 const PatternShowcase = lazy(() => import('./components/PatternShowcase'));
 const Login = lazy(() => import('./pages/Login'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Orders = lazy(() => import('./pages/Orders'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 const SellerDashboard = lazy(() => import('./pages/SellerDashboard'));
 
@@ -32,6 +33,7 @@ const SafeProductList = withErrorBoundary(ProductList);
 const SafePatternShowcase = withErrorBoundary(PatternShowcase);
 const SafeLogin = withErrorBoundary(Login);
 const SafeDashboard = withErrorBoundary(Dashboard);
+const SafeOrders = withErrorBoundary(Orders);
 const SafeAdminDashboard = withErrorBoundary(AdminDashboard);
 const SafeSellerDashboard = withErrorBoundary(SellerDashboard);
 
@@ -55,7 +57,7 @@ function AppContent() {
         <NotificationDisplay />
         <Suspense fallback={<LoadingFallback />}>
           <div className="routes-container">
-            <Routes>
+<Routes>
               <Route path="/" element={<SafeHome />} />
               <Route path="/categories" element={<SafeCategories />} />
               <Route path="/search" element={<SafeSearch />} />
@@ -66,6 +68,7 @@ function AppContent() {
               <Route path="/patterns" element={<SafePatternShowcase />} />
               <Route path="/login" element={<SafeLogin />} />
               <Route path="/dashboard" element={<SafeDashboard />} />
+              <Route path="/orders" element={<SafeOrders />} />
               <Route path="/admin-dashboard" element={<SafeAdminDashboard />} />
               <Route path="/seller-dashboard" element={<SafeSellerDashboard />} />
             </Routes>

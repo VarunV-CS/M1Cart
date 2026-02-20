@@ -431,6 +431,35 @@ export const verifyPayment = async (paymentIntentId) => {
   }
 };
 
+// Get all orders for the authenticated user
+export const getOrders = async (page = 1, limit = 10, status = null) => {
+  try {
+    // Build query string with pagination and filter parameters
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString()
+    });
+    
+    // Add status filter if provided
+    if (status && status !== 'all') {
+      params.append('status', status);
+    }
+    
+    const response = await fetchWithTimeout(`${API_BASE_URL}/payment/orders?${params.toString()}`, {
+      method: 'GET',
+      headers: getAuthHeaders(),
+    });
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Failed to fetch orders. Please try again.');
+    }
+    console.error('Error fetching orders:', error);
+    throw error;
+  }
+};
+
 // ============ COMMENT API FUNCTIONS ============
 
 // Add a comment to a product

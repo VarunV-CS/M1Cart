@@ -45,7 +45,9 @@ function Dashboard() {
   }
 
   const getCartTotal = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    const total = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    // Round to 2 decimal places to avoid floating-point precision issues
+    return Math.round(total * 100) / 100;
   };
 
   return (
@@ -85,9 +87,9 @@ function Dashboard() {
                       <h3>{item.name}</h3>
                       <p className="cart-item-category">{item.category}</p>
                       <div className="cart-item-info">
-                        <span className="cart-item-price">₹{item.price}</span>
+                        <span className="cart-item-price">${item.price}</span>
                         <span className="cart-item-quantity">Qty: {item.quantity}</span>
-                        <span className="cart-item-total">Total: ₹{item.price * item.quantity}</span>
+                        <span className="cart-item-total">Total: ${(item.price * item.quantity).toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
@@ -97,7 +99,7 @@ function Dashboard() {
               <div className="cart-summary">
                 <div className="cart-total">
                   <span>Total Amount:</span>
-                  <span className="total-price">₹{getCartTotal()}</span>
+                  <span className="total-price">${getCartTotal()}</span>
                 </div>
                 <button 
                   className="checkout-btn"
@@ -125,6 +127,15 @@ function Dashboard() {
               <label>Role:</label>
               <span className="role-badge">{user?.role || 'buyer'}</span>
             </div>
+          </div>
+          
+          <div className="account-actions">
+            <button 
+              className="orders-btn"
+              onClick={() => navigate('/orders')}
+            >
+              Your Orders
+            </button>
           </div>
         </div>
       </div>
