@@ -101,7 +101,7 @@ const Home = () => {
         <div className="hero-content">
           <h1>
             Welcome to 
-            <img src={isDark ? "/White_Name.png" : "/logo.png"} alt="M1Cart Logo" className="hero-logo" />
+            <img src={isDark ? "/White_Name.png" : "/logo_small.png"} alt="M1Cart Logo" className="hero-logo" />
             !
           </h1>
           <p>Discover amazing products at great prices</p>

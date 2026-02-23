@@ -57,7 +57,7 @@ function AppContent() {
         <NotificationDisplay />
         <Suspense fallback={<LoadingFallback />}>
           <div className="routes-container">
-<Routes>
+            <Routes>
               <Route path="/" element={<SafeHome />} />
               <Route path="/categories" element={<SafeCategories />} />
               <Route path="/search" element={<SafeSearch />} />

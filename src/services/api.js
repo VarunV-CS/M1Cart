@@ -294,9 +294,10 @@ export const fetchProductById = async (pid) => {
 
 export const createProduct = async (productData) => {
   try {
-    const response = await fetchWithTimeout(`${API_BASE_URL}/products`, {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/products/createProduct`, {
       method: 'POST',
       body: JSON.stringify(productData),
+      headers: getAuthHeaders(),
     });
     
     if (!response.ok) {
@@ -309,6 +310,28 @@ export const createProduct = async (productData) => {
       throw new Error('Create product request timed out. Please try again.');
     }
     console.error('Error creating product:', error);
+    throw error;
+  }
+};
+
+// Get seller's products (authenticated)
+export const getMyProducts = async () => {
+  try {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/products/my-products`, {
+      method: 'GET',
+      headers: getAuthHeaders(),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch my products: ${response.status}`);
+    }
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('My products request timed out. Please try again.');
+    }
+    console.error('Error fetching my products:', error);
     throw error;
   }
 };
@@ -350,6 +373,25 @@ export const deleteProduct = async (pid) => {
       throw new Error('Delete product request timed out. Please try again.');
     }
     console.error('Error deleting product:', error);
+    throw error;
+  }
+};
+
+// Get latest product ID
+export const getLatestProductId = async () => {
+  try {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/products/latest-pid`);
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch latest product ID: ${response.status}`);
+    }
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Latest product ID request timed out. Please try again.');
+    }
+    console.error('Error fetching latest product ID:', error);
     throw error;
   }
 };

@@ -12,7 +12,8 @@ function Login() {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'buyer'
+    role: 'buyer',
+    businessName: ''
   });
   const [errors, setErrors] = useState({});
   const [emailValidation, setEmailValidation] = useState({
@@ -119,6 +120,15 @@ function Login() {
       }
     }
     
+    // Business Name validation (required for sellers)
+    if (!isLogin && formData.role === 'seller') {
+      if (!formData.businessName || !formData.businessName.trim()) {
+        newErrors.businessName = 'Business name is required';
+      } else if (formData.businessName.trim().length < 3) {
+        newErrors.businessName = 'Business name must be at least 3 characters';
+      }
+    }
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -148,7 +158,8 @@ function Login() {
               id: userData.id || response.user?._id,
               name: userData.username || userData.name || formData.email.split('@')[0],
               email: userData.email || formData.email,
-              role: userData.role || 'buyer'
+              role: userData.role || 'buyer',
+              businessName: userData.businessName
             };
             
             // Store token and user data using api service
@@ -190,7 +201,8 @@ function Login() {
             name: formData.name.trim(),
             email: formData.email.trim().toLowerCase(),
             password: formData.password,
-            role: formData.role
+            role: formData.role,
+            businessName: formData.role === 'seller' ? formData.businessName.trim() : undefined
           });
           
           // Check if registration was successful
@@ -205,7 +217,8 @@ function Login() {
               id: userData.id || response.user?._id,
               name: userData.Username || userData.name || formData.name,
               email: userData.Email || userData.email || formData.email,
-              role: userData.role || formData.role
+              role: userData.role || formData.role,
+              businessName: userData.businessName || (formData.role === 'seller' ? formData.businessName : undefined)
             };
             
             // Store token and user data using api service
@@ -249,7 +262,8 @@ function Login() {
       email: '',
       password: '',
       confirmPassword: '',
-      role: 'buyer'
+      role: 'buyer',
+      businessName: ''
     });
     setEmailValidation({ isTouched: false, isValid: false });
     setConfirmPasswordValidation({ isTouched: false, isValid: false });
@@ -392,6 +406,23 @@ function Login() {
                   <span className="role-text">Seller</span>
                 </label>
               </div>
+            </div>
+          )}
+
+          {!isLogin && formData.role === 'seller' && (
+            <div className="form-group">
+              <label htmlFor="businessName">Business Name</label>
+              <input
+                type="text"
+                id="businessName"
+                name="businessName"
+                value={formData.businessName}
+                onChange={handleChange}
+                placeholder="Enter your business name"
+                className={errors.businessName ? 'error' : ''}
+                disabled={isLoading}
+              />
+              {errors.businessName && <span className="error-message">{errors.businessName}</span>}
             </div>
           )}
 

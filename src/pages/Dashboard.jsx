@@ -22,6 +22,19 @@ function Dashboard() {
 
     // Get user data
     const userData = getUser();
+    
+    // Check if user is a seller - redirect to seller dashboard
+    if (userData?.role === 'seller') {
+      navigate('/seller-dashboard');
+      return;
+    }
+    
+    // Check if user is an admin - redirect to admin dashboard
+    if (userData?.role === 'admin') {
+      navigate('/admin-dashboard');
+      return;
+    }
+    
     setUser(userData);
     setIsLoading(false);
 
