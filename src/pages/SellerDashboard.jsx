@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { isAuthenticated, getUser, getMyProducts, createProduct, getLatestProductId } from '../services/api';
+import ProductModal from '../components/ProductModal';
 import './SellerDashboard.css';
 
 function SellerDashboard() {
@@ -24,6 +25,7 @@ function SellerDashboard() {
     inStock: true
   });
   const [error, setError] = useState('');
+  const [expandedProduct, setExpandedProduct] = useState(null);
 
   useEffect(() => {
     // Check authentication and authorization
@@ -148,7 +150,7 @@ function SellerDashboard() {
         </div>
         <div className="dashboard-header-right">
           <div className="account-info">
-            <span className="account-name">{user?.name || user?.email || 'Seller'}</span>
+            <span className="account-name">{user?.name || user?.businessName}</span>
             <span className="account-email">{user?.email}</span>
             <span className="business-name">{user?.businessName}</span>
             <span className="role-badge">{user?.role || 'seller'}</span>
@@ -289,7 +291,18 @@ function SellerDashboard() {
           ) : (
             <div className="products-grid">
               {products.map((product) => (
-                <div key={product.pid} className="product-card">
+                <div 
+                  key={product.pid} 
+                  className="product-card"
+                  onClick={() => setExpandedProduct(product)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      setExpandedProduct(product);
+                    }
+                  }}
+                >
                   <div className="product-image">
                     {product.image ? (
                       <img src={product.image} alt={product.name} />
@@ -314,6 +327,14 @@ function SellerDashboard() {
           )}
         </div>
       </div>
+
+      {/* Product Modal for expanded view */}
+      {expandedProduct && (
+        <ProductModal 
+          product={expandedProduct} 
+          onClose={() => setExpandedProduct(null)} 
+        />
+      )}
     </div>
   );
 }
