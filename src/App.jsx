@@ -1,13 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import AppProvider from './context/AppProvider';
-import Navigation from './components/Navigation';
 import NotificationDisplay from './components/NotificationDisplay';
 import { useTheme } from './context/ThemeContext';
 import withErrorBoundary from './hocs/withErrorBoundary';
 import { Spinner } from './components/patterns';
 import './App.css';
 
+// Lazy load heavy components
+// const WhatsAppWidget = lazy(() => import('./components/WhatsAppWidget'));
+const Navigation = lazy(() => import('./components/Navigation'));
+
+// Lazy load pages
 const Home = lazy(() => import('./pages/Home'));
 const Categories = lazy(() => import('./pages/Categories'));
 const Search = lazy(() => import('./components/Search'));
@@ -38,24 +42,38 @@ const SafeAdminDashboard = withErrorBoundary(AdminDashboard);
 const SafeSellerDashboard = withErrorBoundary(SellerDashboard);
 
 // Improved Suspense fallback with Spinner
-const LoadingFallback = () => (
+const LoadingFallback = ({ text = "Loading..." }) => (
   <Spinner 
     size="large" 
-    text="Loading page..." 
+    text={text} 
     variant="spinner"
     fullHeight={true}
   />
+);
+
+// Minimal fallback for Navigation (shows faster)
+const NavigationFallback = () => (
+  <nav className="navigation navigation-skeleton">
+    <div className="nav-container">
+      <div className="skeleton-logo"></div>
+      <div className="skeleton-search"></div>
+      <div className="skeleton-links"></div>
+    </div>
+  </nav>
 );
 
 function AppContent() {
   const { theme } = useTheme();
 
   return (
+    <>
     <Router>
       <div className={`app theme-${theme}`}>
-        <Navigation />
+        <Suspense fallback={<NavigationFallback />}>
+          <Navigation />
+        </Suspense>
         <NotificationDisplay />
-        <Suspense fallback={<LoadingFallback />}>
+        <Suspense fallback={<LoadingFallback text="Loading page..." />}>
           <div className="routes-container">
             <Routes>
               <Route path="/" element={<SafeHome />} />
@@ -76,6 +94,7 @@ function AppContent() {
         </Suspense>
       </div>
     </Router>
+    </>
   );
 }
 
@@ -83,6 +102,9 @@ function App() {
   return (
     <AppProvider>
       <AppContent />
+      {/* <Suspense fallback={null}>
+        <WhatsAppWidget />
+      </Suspense> */}
     </AppProvider>
   );
 }

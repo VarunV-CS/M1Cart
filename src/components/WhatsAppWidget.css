@@ -1,0 +1,24 @@
+.whatsapp-widget-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+/* Override some default styles of react-floating-whatsapp */
+.whatsapp-widget-container .react-floating-whatsapp {
+  font-family: inherit;
+}
+
+.whatsapp-widget-container-floating-whats .reactapp-header {
+  background-color: #25d366;
+}
+
+.whatsapp-widget-container .react-floating-whatsapp-chat-header {
+  background-color: #075e54;
+}
+
+.whatsapp-widget-container .react-floating-whatsapp-message-text {
+  background-color: #dcf8c6;
+}
+

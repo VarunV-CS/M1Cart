@@ -16,9 +16,19 @@ export const stripeConfig = {
   publicKey: import.meta.env.VITE_STRIPE_PUBLIC_KEY || 'pk_test_your_stripe_public_key',
 };
 
+export const whatsappConfig = {
+  phoneNumber: import.meta.env.VITE_WHATSAPP_NUMBER || '1234567890',
+  accountName: import.meta.env.VITE_WHATSAPP_ACCOUNT_NAME || 'M1Cart Support',
+  avatar: import.meta.env.VITE_WHATSAPP_AVATAR || '/logo_small.png',
+  statusMessage: import.meta.env.VITE_WHATSAPP_STATUS || 'Available 24/7!',
+  chatMessage: import.meta.env.VITE_WHATSAPP_MESSAGE || 'Hello! How can we assist you today?',
+  placeholder: import.meta.env.VITE_WHATSAPP_PLACEHOLDER || 'Type a message...',
+};
+
 export default {
   app: appConfig,
   api: apiConfig,
   image: imageConfig,
   stripe: stripeConfig,
+  whatsapp: whatsappConfig,
 };
