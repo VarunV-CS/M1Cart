@@ -15,6 +15,7 @@ function SellerDashboard() {
   const [products, setProducts] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [activeTab, setActiveTab] = useState('products'); // 'products' or 'orders'
   const [formData, setFormData] = useState({
     pid: '',
     name: '',
@@ -146,18 +147,36 @@ function SellerDashboard() {
       <div className="dashboard-header">
         <div className="dashboard-header-left">
           <h1>Seller Dashboard</h1>
-          <p>Manage your products</p>
         </div>
         <div className="dashboard-header-right">
           <div className="account-info">
-            <span className="account-name">{user?.name || user?.businessName}</span>
+            <div className="name-badge-container">
+              <span className="account-name">{user?.name || user?.businessName}</span>
+              <span className="role-badge">{user?.role || 'seller'}</span>
+            </div>
             <span className="account-email">{user?.email}</span>
             <span className="business-name">{user?.businessName}</span>
-            <span className="role-badge">{user?.role || 'seller'}</span>
           </div>
         </div>
       </div>
 
+      {/* Category Filters */}
+      <div className="category-filters">
+        <button
+          className={`category-filter-btn ${activeTab === 'products' ? 'active' : ''}`}
+          onClick={() => setActiveTab('products')}
+        >
+          Your Products
+        </button>
+        <button
+          className={`category-filter-btn ${activeTab === 'orders' ? 'active' : ''}`}
+          onClick={() => setActiveTab('orders')}
+        >
+          Your Orders
+        </button>
+      </div>
+
+      {activeTab === 'products' && (
       <div className="products-section">
         <div className="products-header">
           <h2>Your Products</h2>
@@ -327,6 +346,18 @@ function SellerDashboard() {
           )}
         </div>
       </div>
+      )}
+
+      {/* Orders Section - Placeholder */}
+      {activeTab === 'orders' && (
+        <div className="orders-section">
+          <div className="empty-orders">
+            <div className="empty-icon">📦</div>
+            <h2>No orders found</h2>
+            <p>You haven't received any orders yet.</p>
+          </div>
+        </div>
+      )}
 
       {/* Product Modal for expanded view */}
       {expandedProduct && (
