@@ -1,0 +1,324 @@
+/* AdminDashboard.css - Enhanced Styling */
+
+/* ========================================
+   Base Container & Layout
+   ======================================== */
+.admin-dashboard-container {
+  padding: 1rem 2rem 2rem 2rem;
+  width: 90%;
+  max-width: 1400px;
+  min-height: 80vh;
+  margin: 0 5% 2rem 5%;
+  background-color: #f5f5f5;
+  transition: background-color 0.3s ease;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ========================================
+   Dark Theme Base
+   ======================================== */
+.admin-dashboard-container.dark {
+  background-color: #1a1a2e;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   Dashboard Header
+   ======================================== */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  transition: border-color 0.3s ease;
+  min-height: 120px;
+}
+
+.dashboard-header-left h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.admin-dashboard-container.dark .dashboard-header-left h1 {
+  color: #e0e0e0;
+}
+
+.dashboard-header-left p {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.admin-dashboard-container.dark .dashboard-header-left p {
+  color: #a0a0a0;
+}
+
+/* ========================================
+   Dashboard Header Right - Account Info
+   ======================================== */
+.dashboard-header-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.account-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.admin-dashboard-container.dark .account-name {
+  color: #e0e0e0;
+}
+
+.name-badge-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.account-email {
+  font-size: 0.875rem;
+  color: #666;
+  transition: color 0.3s ease;
+}
+
+.admin-dashboard-container.dark .account-email {
+  color: #a0a0a0;
+}
+
+.business-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #667eea;
+  margin-top: 0.3rem;
+  padding: 0.35rem 0.9rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.admin-dashboard-container.dark .business-name {
+  color: #a5b4fc;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%);
+}
+
+.role-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  margin-top: 0.35rem;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 640px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .dashboard-header-right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .account-info {
+    align-items: flex-start;
+  }
+}
+
+/* ========================================
+   Content Section
+   ======================================== */
+.content-section {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-dashboard-container.dark .content-section {
+  background: #252542;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   Section Card
+   ======================================== */
+.section-card {
+  text-align: center;
+  padding: 3rem;
+}
+
+.section-card h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.admin-dashboard-container.dark .section-card h2 {
+  color: #e0e0e0;
+}
+
+.section-card p {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.admin-dashboard-container.dark .section-card p {
+  color: #a0a0a0;
+}
+
+/* ========================================
+   Loading Container
+   ======================================== */
+.admin-dashboard-container .loading-spinner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  width: 100%;
+}
+
+.admin-dashboard-container .loading-spinner .spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.admin-dashboard-container.dark .loading-spinner .spinner {
+  border-color: #3d3d5c;
+  border-top-color: #667eea;
+}
+
+.admin-dashboard-container .loading-spinner p {
+  color: #666;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.admin-dashboard-container.dark .loading-spinner p {
+  color: #a0a0a0;
+}
+
+/* ========================================
+   Responsive Adjustments
+   ======================================== */
+@media (max-width: 768px) {
+  .admin-dashboard-container {
+    padding: 1rem;
+    width: 95%;
+    margin: 1rem 2.5%;
+  }
+
+  .dashboard-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .section-card {
+    padding: 2rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-section {
+    padding: 1rem;
+  }
+
+  .section-card {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* ========================================
+   Category Filters
+   ======================================== */
+.category-filters {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.category-filter-btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #e0e0e0;
+  background: transparent;
+  color: #666;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.category-filter-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.category-filter-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 2px 5px rgba(102, 126, 234, 0.3);
+}
+
+.admin-dashboard-container.dark .category-filter-btn {
+  border-color: #3d3d5c;
+  color: #e0e0e0;
+}
+
+.admin-dashboard-container.dark .category-filter-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+}
+
+@media (max-width: 640px) {
+  .category-filters {
+    gap: 0.5rem;
+  }
+
+  .category-filter-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+

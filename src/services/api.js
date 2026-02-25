@@ -1,7 +1,7 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Request timeout in milliseconds
-const REQUEST_TIMEOUT = 10000; // 10 seconds
+const REQUEST_TIMEOUT = 30000; // 30 seconds
 
 // Helper function to create a timeout promise
 const createTimeout = (ms) => {
