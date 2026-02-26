@@ -264,6 +264,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   margin-left: 0.25rem;
+  /* transform: rotate(1080deg); */
 }
 
 .product-modal-refresh:hover {
@@ -374,6 +375,41 @@
 }
 
 /* ========================================
+   Submitted By Section
+   ======================================== */
+.product-modal-submitted-by {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.app.theme-dark .product-modal-submitted-by {
+  background: rgba(102, 126, 234, 0.15);
+}
+
+.submitted-by-label {
+  color: #666;
+  font-weight: 500;
+}
+
+.app.theme-dark .submitted-by-label {
+  color: #a0a0a0;
+}
+
+.submitted-by-value {
+  color: #667eea;
+  font-weight: 600;
+}
+
+.app.theme-dark .submitted-by-value {
+  color: #a5b4fc;
+}
+
+/* ========================================
    Product ID
    ======================================== */
 .product-modal-id {
@@ -449,5 +485,258 @@
   .product-modal-price {
     font-size: 1.75rem;
   }
+}
+
+/* ========================================
+   Rejection Form Styles
+   ======================================== */
+.product-modal-rejection-form {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.app.theme-dark .product-modal-rejection-form {
+  border-top-color: #3d3d5c;
+}
+
+.product-modal-rejection-form h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #dc3545;
+}
+
+.app.theme-dark .product-modal-rejection-form h4 {
+  color: #ff6b6b;
+}
+
+.rejection-form-description {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0 0 1rem 0;
+  line-height: 1.5;
+}
+
+.app.theme-dark .rejection-form-description {
+  color: #a0a0a0;
+}
+
+.rejection-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #dc3545;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: white;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.app.theme-dark .rejection-textarea {
+  background: #0f0f23;
+  border-color: #dc3545;
+  color: #e0e0e0;
+}
+
+.rejection-textarea:focus {
+  outline: none;
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
+}
+
+.rejection-textarea::placeholder {
+  color: #999;
+}
+
+.app.theme-dark .rejection-textarea::placeholder {
+  color: #666;
+}
+
+.rejection-textarea:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.app.theme-dark .rejection-textarea:disabled {
+  background-color: #2a2a4a;
+}
+
+.rejection-error {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.app.theme-dark .rejection-error {
+  color: #ff6b6b;
+}
+
+.rejection-form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: flex-end;
+}
+
+.rejection-cancel-btn {
+  padding: 0.625rem 1.25rem;
+  border: 1px solid #ddd;
+  background: white;
+  color: #666;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.app.theme-dark .rejection-cancel-btn {
+  background: #3d3d5c;
+  border-color: #4d4d6a;
+  color: #e0e0e0;
+}
+
+.rejection-cancel-btn:hover:not(:disabled) {
+  background: #f5f5f5;
+}
+
+.app.theme-dark .rejection-cancel-btn:hover:not(:disabled) {
+  background: #4d4d6a;
+}
+
+.rejection-cancel-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.rejection-submit-btn {
+  padding: 0.625rem 1.25rem;
+  border: none;
+  background: #dc3545;
+  color: white;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rejection-submit-btn:hover:not(:disabled) {
+  background: #c82333;
+}
+
+.rejection-submit-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.app.theme-dark .rejection-submit-btn {
+  background: #dc3545;
+}
+
+.app.theme-dark .rejection-submit-btn:hover:not(:disabled) {
+  background: #c82333;
+}
+
+/* ========================================
+   Modal Action Buttons (Expanded Mode)
+   ======================================== */
+.product-modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+  flex-wrap: wrap;
+}
+
+.app.theme-dark .product-modal-actions {
+  border-top-color: #3d3d5c;
+}
+
+.modal-action-btn {
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 100px;
+  text-align: center;
+}
+
+.modal-action-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.modal-action-btn.approve-btn {
+  background: #16a34a;
+  color: white;
+}
+
+.modal-action-btn.approve-btn:hover:not(:disabled) {
+  background: #15803d;
+  transform: translateY(-1px);
+}
+
+.app.theme-dark .modal-action-btn.approve-btn {
+  background: transparent;
+  border: 1px solid #22c55e;
+  color: #22c55e;
+}
+
+.app.theme-dark .modal-action-btn.approve-btn:hover:not(:disabled) {
+  background: #22c55e;
+  color: white;
+}
+
+.modal-action-btn.reject-btn {
+  background: #f97316;
+  color: white;
+}
+
+.modal-action-btn.reject-btn:hover:not(:disabled) {
+  background: #ea580c;
+  transform: translateY(-1px);
+}
+
+.app.theme-dark .modal-action-btn.reject-btn {
+  background: transparent;
+  border: 1px solid #f97316;
+  color: #f97316;
+}
+
+.app.theme-dark .modal-action-btn.reject-btn:hover:not(:disabled) {
+  background: #f97316;
+  color: white;
+}
+
+.modal-action-btn.delete-btn {
+  background: #dc2626;
+  color: white;
+}
+
+.modal-action-btn.delete-btn:hover:not(:disabled) {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+.app.theme-dark .modal-action-btn.delete-btn {
+  background: transparent;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+}
+
+.app.theme-dark .modal-action-btn.delete-btn:hover:not(:disabled) {
+  background: #ef4444;
+  color: white;
 }
 

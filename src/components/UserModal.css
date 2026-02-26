@@ -1,0 +1,725 @@
+/* UserModal.css - Styles for User Details Modal */
+
+.user-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.user-modal-overlay.dark {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.user-modal-content {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.3s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dark .user-modal-content {
+  background: #1e1e3f;
+}
+
+.user-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  line-height: 1;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.user-modal-close:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.dark .user-modal-close {
+  color: #a0a0a0;
+}
+
+.dark .user-modal-close:hover {
+  background: #3d3d5c;
+  color: #e0e0e0;
+}
+
+.user-modal-body {
+  padding: 2rem;
+}
+
+/* Action Buttons Header */
+.user-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dark .user-modal-actions {
+  border-bottom-color: #3d3d5c;
+}
+
+.user-action-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.user-action-btn.edit-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.user-action-btn.edit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.user-action-btn.password-btn {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+}
+
+.user-action-btn.password-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.user-action-btn.deactivate-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.user-action-btn.deactivate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Success/Error Messages */
+.user-modal-success {
+  background: #dcfce7;
+  color: #16a34a;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.dark .user-modal-success {
+  background: #14532d;
+  color: #86efac;
+}
+
+.user-modal-error {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.dark .user-modal-error {
+  background: #7f1d1d;
+  color: #fca5a5;
+}
+
+/* Header Section */
+.user-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dark .user-modal-header {
+  border-bottom-color: #3d3d5c;
+}
+
+.user-modal-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.user-modal-header-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-modal-name {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  word-break: break-word;
+}
+
+.dark .user-modal-name {
+  color: #e5e7eb;
+}
+
+.user-modal-business {
+  margin: 0.25rem 0 0 0;
+  font-size: 1rem;
+  color: #667eea;
+  font-weight: 500;
+}
+
+.dark .user-modal-business {
+  color: #a5b4fc;
+}
+
+/* Edit Form */
+.edit-form-group {
+  width: 100%;
+}
+
+.edit-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #111827;
+  background: white;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.edit-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+.dark .edit-input {
+  background: #0f0f23;
+  border-color: #3a3a5a;
+  color: #e5e7eb;
+}
+
+.edit-select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #111827;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.edit-select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.dark .edit-select {
+  background: #0f0f23;
+  border-color: #3a3a5a;
+  color: #e5e7eb;
+}
+
+/* Edit Mode Buttons */
+.edit-mode-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.dark .edit-mode-buttons {
+  border-top-color: #3d3d5c;
+}
+
+.edit-mode-buttons .save-btn {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-mode-buttons .save-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.edit-mode-buttons .save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.edit-mode-buttons .cancel-btn {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: #666;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-mode-buttons .cancel-btn:hover:not(:disabled) {
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.dark .edit-mode-buttons .cancel-btn {
+  border-color: #3d3d5c;
+  color: #a0a0a0;
+}
+
+.dark .edit-mode-buttons .cancel-btn:hover:not(:disabled) {
+  border-color: #667eea;
+  color: #667eea;
+}
+
+/* Details Section */
+.user-modal-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.user-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.dark .user-detail-row {
+  border-bottom-color: #2a2a4a;
+}
+
+.user-detail-row:last-child {
+  border-bottom: none;
+}
+
+.user-detail-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.dark .user-detail-label {
+  color: #9ca3af;
+}
+
+.user-detail-value {
+  font-size: 0.95rem;
+  color: #111827;
+  font-weight: 500;
+  text-align: right;
+  word-break: break-word;
+}
+
+.dark .user-detail-value {
+  color: #e5e7eb;
+}
+
+.user-detail-value.user-id {
+  font-size: 0.75rem;
+  font-family: monospace;
+  color: #6b7280;
+}
+
+.dark .user-detail-value.user-id {
+  color: #9ca3af;
+}
+
+/* Role Badge */
+.user-detail-value.role-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.user-detail-value.role-badge.role-admin {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.user-detail-value.role-badge.role-seller {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.dark .user-detail-value.role-badge.role-seller {
+  background: #14532d;
+  color: #86efac;
+}
+
+.user-detail-value.role-badge.role-buyer {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.dark .user-detail-value.role-badge.role-buyer {
+  background: #1f2937;
+  color: #9ca3af;
+}
+
+/* ========================================
+   Password Change Modal
+   ======================================== */
+.password-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+.password-modal-overlay.dark {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.password-modal-content {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+  padding: 2rem;
+  position: relative;
+  animation: slideUp 0.3s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.dark .password-modal-content {
+  background: #1e1e3f;
+}
+
+.password-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.password-modal-close:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.dark .password-modal-close {
+  color: #a0a0a0;
+}
+
+.dark .password-modal-close:hover {
+  background: #3d3d5c;
+  color: #e0e0e0;
+}
+
+.password-modal-content h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.35rem;
+  color: #111827;
+  font-weight: 700;
+}
+
+.dark .password-modal-content h3 {
+  color: #e5e7eb;
+}
+
+.password-modal-subtitle {
+  margin: 0 0 1.5rem 0;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.dark .password-modal-subtitle {
+  color: #a0a0a0;
+}
+
+.password-modal-subtitle strong {
+  color: #667eea;
+}
+
+.dark .password-modal-subtitle strong {
+  color: #a5b4fc;
+}
+
+.password-modal-error {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.dark .password-modal-error {
+  background: #7f1d1d;
+  color: #fca5a5;
+}
+
+.password-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.password-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.password-form .form-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.dark .password-form .form-group label {
+  color: #b0b0b0;
+}
+
+.password-form .form-group input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #333;
+  background: white;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.password-form .form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+.password-form .form-group input:disabled {
+  background: #f5f5f5;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.dark .password-form .form-group input {
+  background: #0f0f23;
+  border-color: #3a3a5a;
+  color: #e5e7eb;
+}
+
+.dark .password-form .form-group input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.dark .password-form .form-group input:disabled {
+  background: #2a2a4a;
+  color: #888;
+}
+
+.admin-password-group {
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px dashed #e5e7eb;
+}
+
+.dark .admin-password-group {
+  border-top-color: #3d3d5c;
+}
+
+.password-modal-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.change-password-btn {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.change-password-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.change-password-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancel-password-btn {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  background: transparent;
+  color: #666;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-password-btn:hover:not(:disabled) {
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.dark .cancel-password-btn {
+  border-color: #3d3d5c;
+  color: #a0a0a0;
+}
+
+.dark .cancel-password-btn:hover:not(:disabled) {
+  border-color: #667eea;
+  color: #667eea;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .user-modal-content {
+    max-width: 100%;
+    margin: 0.5rem;
+  }
+  
+  .user-modal-body {
+    padding: 1.5rem;
+  }
+  
+  .user-modal-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .user-detail-row {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .user-detail-value {
+    text-align: left;
+  }
+  
+  .edit-mode-buttons {
+    flex-direction: column;
+  }
+  
+  .password-modal-content {
+    padding: 1.5rem;
+  }
+  
+  .password-modal-buttons {
+    flex-direction: column;
+  }
+}
+

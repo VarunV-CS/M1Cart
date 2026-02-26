@@ -1,7 +1,24 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
+import { useTheme } from '../context/ThemeContext';
 import './ProductModal.css';
 
-const ProductModal = ({ product, onClose }) => {
+const ProductModal = ({ 
+  product, 
+  onClose, 
+  isRejectionMode = false, 
+  onReject, 
+  onCancel, 
+  isSubmitting = false,
+  onStatusChange,
+  updatingProduct
+}) => {
+  const { isDark } = useTheme();
+  const [rejectionReason, setRejectionReason] = useState('');
+  const [error, setError] = useState('');
+
+  // Check if this is expanded mode (not rejection mode)
+  const isExpandedMode = !isRejectionMode && onStatusChange;
+
   // Handle escape key press
   const handleEscape = useCallback((e) => {
     if (e.key === 'Escape') {
@@ -13,6 +30,41 @@ const ProductModal = ({ product, onClose }) => {
   const handleOverlayClick = (e) => {
     if (e.target.classList.contains('product-modal-overlay')) {
       onClose();
+    }
+  };
+
+  // Handle rejection reason submission
+  const handleRejectSubmit = (e) => {
+    e.preventDefault();
+    
+    // Validate rejection reason
+    if (!rejectionReason.trim()) {
+      setError('Please provide a reason for rejection');
+      return;
+    }
+    
+    if (rejectionReason.trim().length < 10) {
+      setError('Rejection reason must be at least 10 characters long');
+      return;
+    }
+    
+    setError('');
+    onReject(rejectionReason.trim());
+  };
+
+  // Handle cancel in rejection mode
+  const handleCancel = () => {
+    if (onCancel) {
+      onCancel();
+    } else {
+      onClose();
+    }
+  };
+
+  // Handle status change button click
+  const handleStatusButtonClick = (newStatus) => {
+    if (onStatusChange) {
+      onStatusChange(product.pid, newStatus);
     }
   };
 
@@ -31,7 +83,7 @@ const ProductModal = ({ product, onClose }) => {
 
   return (
     <div 
-      className="product-modal-overlay" 
+      className={`product-modal-overlay ${isDark ? 'dark' : ''}`}
       onClick={handleOverlayClick}
     >
       <div className="product-modal-content">
@@ -88,11 +140,97 @@ const ProductModal = ({ product, onClose }) => {
               <h4>Description</h4>
               <p>{product.description || 'No description available.'}</p>
             </div>
+
+            {/* Submitted By Section - Shown in Expanded Mode */}
+            {isExpandedMode && (product.user || product.username) && (
+              <div className="product-modal-submitted-by">
+                <span className="submitted-by-label">Submitted by :</span>
+                <span className="submitted-by-value">
+                  {product.user?.name || ''}
+                  {(product.user?.name && product.user?.businessName) && ' - '}
+                  {product.user?.businessName || product.username || ''}
+                </span>
+              </div>
+            )}
+
+            {/* Action Buttons - Shown in Expanded Mode */}
+            {isExpandedMode && (
+              <div className="product-modal-actions">
+                {product.status !== 'Approved' && (
+                  <button
+                    className="modal-action-btn approve-btn"
+                    onClick={() => handleStatusButtonClick('Approved')}
+                    disabled={updatingProduct === product.pid}
+                  >
+                    {updatingProduct === product.pid ? '...' : '✓ Approve'}
+                  </button>
+                )}
+                {product.status !== 'Rejected' && (
+                  <button
+                    className="modal-action-btn reject-btn"
+                    onClick={() => handleStatusButtonClick('Rejected')}
+                    disabled={updatingProduct === product.pid}
+                  >
+                    {updatingProduct === product.pid ? '...' : '⚠ Reject'}
+                  </button>
+                )}
+                {product.status !== 'Deleted' && (
+                  <button
+                    className="modal-action-btn delete-btn"
+                    onClick={() => handleStatusButtonClick('Deleted')}
+                    disabled={updatingProduct === product.pid}
+                  >
+                    {updatingProduct === product.pid ? '...' : '✗ Delete'}
+                  </button>
+                )}
+              </div>
+            )}
             
             <div className="product-modal-id">
               <span>Product ID: </span>
               <strong>{product.pid}</strong>
             </div>
+
+            {/* Rejection Form */}
+            {isRejectionMode && (
+              <div className="product-modal-rejection-form">
+                <h4>Reason for Rejection</h4>
+                <p className="rejection-form-description">
+                  Please provide a reason for rejecting this product. This will be visible to the seller.
+                </p>
+                <form onSubmit={handleRejectSubmit}>
+                  <textarea
+                    value={rejectionReason}
+                    onChange={(e) => {
+                      setRejectionReason(e.target.value);
+                      setError('');
+                    }}
+                    placeholder="Enter reason for rejection (minimum 10 characters)..."
+                    rows={4}
+                    className="rejection-textarea"
+                    disabled={isSubmitting}
+                  />
+                  {error && <div className="rejection-error">{error}</div>}
+                  <div className="rejection-form-actions">
+                    <button 
+                      type="button" 
+                      className="rejection-cancel-btn"
+                      onClick={handleCancel}
+                      disabled={isSubmitting}
+                    >
+                      Cancel
+                    </button>
+                    <button 
+                      type="submit" 
+                      className="rejection-submit-btn"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? 'Submitting...' : 'Submit Rejection'}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
           </div>
         </div>
       </div>

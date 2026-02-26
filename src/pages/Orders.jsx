@@ -2,7 +2,8 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { getOrders, isAuthenticated } from '../services/api';
-import { Spinner, Card } from '../components/patterns';
+import { Spinner } from '../components/patterns';
+import OrderModal from '../components/OrderModal';
 import Pagination from '../components/Pagination';
 import './Orders.css';
 
@@ -27,6 +28,9 @@ function Orders() {
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
+
+  // Expanded order modal state
+  const [expandedOrder, setExpandedOrder] = useState(null);
 
   // Fetch orders with filter and pagination
   const fetchOrders = useCallback(async (pageNum, limitNum, status) => {
@@ -90,9 +94,7 @@ function Orders() {
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+      day: 'numeric'
     });
   };
 
@@ -104,9 +106,20 @@ function Orders() {
         return 'status-pending';
       case 'failed':
         return 'status-failed';
+      case 'cancelled':
+        return 'status-cancelled';
+      case 'dispatched':
+        return 'status-dispatched';
+      case 'delivered':
+        return 'status-delivered';
       default:
         return 'status-default';
     }
+  };
+
+  const getTotalItems = (order) => {
+    if (!order.items) return 0;
+    return order.items.reduce((total, item) => total + item.quantity, 0);
   };
 
   if (isLoading) {
@@ -156,26 +169,28 @@ function Orders() {
         </div>
 
         {/* Results Info and Page Size Selector */}
-        <div className="results-header">
-          <div className="results-count">
-            {total} order{total !== 1 ? 's' : ''} found
-            {total > 0 && <span className="total-count"> (showing {orders.length} of {total})</span>}
+        {orders.length > 0 && (
+          <div className="results-header">
+            <div className="results-count">
+              {total} order{total !== 1 ? 's' : ''} found
+              <span className="total-count"> (showing {orders.length} of {total})</span>
+            </div>
+            
+            <div className="page-size-selector">
+              <label htmlFor="page-size">Show:</label>
+              <select
+                id="page-size"
+                value={limit}
+                onChange={(e) => handleLimitChange(Number(e.target.value))}
+                className="filter-select"
+              >
+                {PAGE_SIZE_OPTIONS.map(size => (
+                  <option key={size} value={size}>{size}</option>
+                ))}
+              </select>
+            </div>
           </div>
-          
-          <div className="page-size-selector">
-            <label htmlFor="page-size">Show:</label>
-            <select
-              id="page-size"
-              value={limit}
-              onChange={(e) => handleLimitChange(Number(e.target.value))}
-              className="filter-select"
-            >
-              {PAGE_SIZE_OPTIONS.map(size => (
-                <option key={size} value={size}>{size}</option>
-              ))}
-            </select>
-          </div>
-        </div>
+        )}
 
         {orders.length === 0 ? (
           <div className="empty-orders">
@@ -191,55 +206,50 @@ function Orders() {
           </div>
         ) : (
           <>
-            <div className="orders-list">
-              {orders.map((order) => (
-                <Card key={order.id} className="order-card">
-                  <Card.Header>
-                    <div className="order-header-content">
-                      <div className="order-info">
-                        <span className="order-id">Order #{order.id.slice(0, 8).toUpperCase()}</span>
-                        <span className={`order-status ${getStatusBadgeClass(order.status)}`}>
-                          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+            {/* Orders Table */}
+            <div className="orders-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orders.map((order) => (
+                    <tr 
+                      key={order.id} 
+                      className="order-row"
+                      onClick={() => setExpandedOrder(order)}
+                    >
+                      <td>
+                        <span className="order-id">#{order.id?.slice(0, 8).toUpperCase() || 'N/A'}</span>
+                      </td>
+                      <td>
+                        <span className="items-count">
+                          {getTotalItems(order)} item{getTotalItems(order) !== 1 ? 's' : ''}
                         </span>
-                      </div>
-                      <div className="order-date">
-                        {formatDate(order.createdAt)}
-                      </div>
-                    </div>
-                  </Card.Header>
-                  <Card.Body>
-                    <div className="order-items">
-                      {order.items && order.items.map((item, index) => (
-                        <div key={index} className="order-item-row">
-                          <div className="item-image">
-                            {item.image ? (
-                              <img src={item.image} alt={item.name} />
-                            ) : (
-                              <div className="no-image">No Image</div>
-                            )}
-                          </div>
-                          <div className="item-details">
-                            <h4>{item.name}</h4>
-                            <p className="item-category">{item.category}</p>
-                          </div>
-                          <div className="item-quantity">x{item.quantity}</div>
-                          <div className="item-price">${(item.price * item.quantity).toFixed(2)}</div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="order-summary">
-                      <div className="summary-row items">
-                        <span>Items:</span>
-                        <span>{order.items?.reduce((total, item) => total + item.quantity, 0) || 0}</span>
-                      </div>
-                      <div className="summary-row total">
-                        <span>Total:</span>
-                        <span className="total-amount">${order.amount?.toFixed(2)}</span>
-                      </div>
-                    </div>
-                  </Card.Body>
-                </Card>
-              ))}
+                      </td>
+                      <td>
+                        <span className="order-amount">${order.amount?.toFixed(2) || '0.00'}</span>
+                      </td>
+                      <td>
+                        <span className={`order-status ${getStatusBadgeClass(order.status)}`}>
+                          {order.status?.charAt(0).toUpperCase() + order.status?.slice(1) || 'Unknown'}
+                        </span>
+                      </td>
+                      <td>
+                        <span className="order-date">
+                          {order.createdAt ? formatDate(order.createdAt) : 'N/A'}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
             
             {/* Pagination Controls */}
@@ -253,6 +263,15 @@ function Orders() {
           </>
         )}
       </div>
+
+      {/* Expanded Order Modal */}
+      {expandedOrder && (
+        <OrderModal
+          order={expandedOrder}
+          onClose={() => setExpandedOrder(null)}
+          userRole="buyer"
+        />
+      )}
     </div>
   );
 }

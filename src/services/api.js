@@ -314,10 +314,18 @@ export const createProduct = async (productData) => {
   }
 };
 
-// Get seller's products (authenticated)
-export const getMyProducts = async () => {
+// Get seller's products (authenticated) - with optional status filter
+export const getMyProducts = async (status = null) => {
   try {
-    const response = await fetchWithTimeout(`${API_BASE_URL}/products/my-products`, {
+    let url = `${API_BASE_URL}/products/my-products`;
+    
+    // Add status filter if provided
+    if (status && status !== 'all') {
+      const params = new URLSearchParams({ status });
+      url += `?${params.toString()}`;
+    }
+    
+    const response = await fetchWithTimeout(url, {
       method: 'GET',
       headers: getAuthHeaders(),
     });
@@ -392,6 +400,73 @@ export const getLatestProductId = async () => {
       throw new Error('Latest product ID request timed out. Please try again.');
     }
     console.error('Error fetching latest product ID:', error);
+    throw error;
+  }
+};
+
+// Get all products for admin (including Submitted, Approved, Rejected)
+export const getAllProducts = async (page = 1, limit = 20, filters = {}) => {
+  try {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString()
+    });
+    
+    // Add filter parameters if provided
+    if (filters.status && filters.status !== 'all') {
+      params.append('status', filters.status);
+    }
+    if (filters.category && filters.category !== 'All') {
+      params.append('category', filters.category);
+    }
+    if (filters.search) {
+      params.append('search', filters.search);
+    }
+    
+    const response = await fetchWithTimeout(`${API_BASE_URL}/products/all?${params.toString()}`, {
+      headers: getAuthHeaders(),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch all products: ${response.status}`);
+    }
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('All products request timed out. Please try again.');
+    }
+    console.error('Error fetching all products:', error);
+    throw error;
+  }
+};
+
+// Update product status (approve/reject) - now accepts optional rejectionReason
+export const updateProductStatus = async (pid, status, rejectionReason = null) => {
+  try {
+    const body = { status };
+    
+    // Add rejection reason if status is Rejected
+    if (status === 'Rejected' && rejectionReason) {
+      body.rejectionReason = rejectionReason;
+    }
+    
+    const response = await fetchWithTimeout(`${API_BASE_URL}/products/updateStatus/${pid}`, {
+      method: 'PUT',
+      body: JSON.stringify(body),
+      headers: getAuthHeaders(),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to update product status: ${response.status}`);
+    }
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Update product status request timed out. Please try again.');
+    }
+    console.error('Error updating product status:', error);
     throw error;
   }
 };
@@ -498,6 +573,98 @@ export const getOrders = async (page = 1, limit = 10, status = null) => {
       throw new Error('Failed to fetch orders. Please try again.');
     }
     console.error('Error fetching orders:', error);
+    throw error;
+  }
+};
+
+// Get all orders for admin
+export const getAllOrders = async (page = 1, limit = 20, status = null) => {
+  try {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString()
+    });
+    
+    if (status && status !== 'all') {
+      params.append('status', status);
+    }
+    
+    const response = await fetchWithTimeout(`${API_BASE_URL}/payment/admin/orders?${params.toString()}`, {
+      method: 'GET',
+      headers: getAuthHeaders(),
+    });
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Failed to fetch all orders. Please try again.');
+    }
+    console.error('Error fetching all orders:', error);
+    throw error;
+  }
+};
+
+// Get orders for seller (orders containing their products)
+export const getSellerOrders = async (page = 1, limit = 20, status = null) => {
+  try {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString()
+    });
+    
+    if (status && status !== 'all') {
+      params.append('status', status);
+    }
+    
+    const response = await fetchWithTimeout(`${API_BASE_URL}/payment/seller/orders?${params.toString()}`, {
+      method: 'GET',
+      headers: getAuthHeaders(),
+    });
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Failed to fetch seller orders. Please try again.');
+    }
+    console.error('Error fetching seller orders:', error);
+    throw error;
+  }
+};
+
+// Update order status for seller (dispatched, returned, unfilled)
+export const updateSellerOrderStatus = async (orderId, status) => {
+  try {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/payment/seller/orders/${orderId}/status`, {
+      method: 'PUT',
+      body: JSON.stringify({ status }),
+      headers: getAuthHeaders(),
+    });
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Failed to update order status. Please try again.');
+    }
+    console.error('Error updating seller order status:', error);
+    throw error;
+  }
+};
+
+// Update order status for admin (delivered, cancelled, refunded)
+export const updateAdminOrderStatus = async (orderId, status) => {
+  try {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/payment/admin/orders/${orderId}/status`, {
+      method: 'PUT',
+      body: JSON.stringify({ status }),
+      headers: getAuthHeaders(),
+    });
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Failed to update order status. Please try again.');
+    }
+    console.error('Error updating admin order status:', error);
     throw error;
   }
 };
@@ -611,6 +778,108 @@ export const fetchRatingStats = async (pid) => {
       throw new Error('Fetch rating stats request timed out. Please try again.');
     }
     console.error('Error fetching rating stats:', error);
+    throw error;
+  }
+};
+
+// ============ USER API FUNCTIONS ============
+
+// Get all users (admin only) - with pagination and optional role filter
+export const getAllUsers = async (page = 1, limit = 10, roleFilter = 'all') => {
+  try {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString()
+    });
+    
+    // Add role filter if provided and not 'all'
+    if (roleFilter && roleFilter !== 'all') {
+      params.append('role', roleFilter);
+    }
+    
+    const response = await fetchWithTimeout(`${API_BASE_URL}/auth/all-users?${params.toString()}`, {
+      method: 'GET',
+      headers: getAuthHeaders(),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch users: ${response.status}`);
+    }
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Get users request timed out. Please try again.');
+    }
+    console.error('Error fetching users:', error);
+    throw error;
+  }
+};
+
+// Update user (admin can update name, businessName, role)
+export const updateUser = async (userId, userData) => {
+  try {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/auth/update-user/${userId}`, {
+      method: 'PUT',
+      body: JSON.stringify(userData),
+      headers: getAuthHeaders(),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to update user: ${response.status}`);
+    }
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Update user request timed out. Please try again.');
+    }
+    console.error('Error updating user:', error);
+    throw error;
+  }
+};
+
+// Change user password (admin verified)
+export const changeUserPassword = async (userId, newPassword, adminPassword) => {
+  try {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/auth/change-user-password/${userId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ newPassword, adminPassword }),
+      headers: getAuthHeaders(),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to change password: ${response.status}`);
+    }
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Change password request timed out. Please try again.');
+    }
+    console.error('Error changing password:', error);
+    throw error;
+  }
+};
+
+// Deactivate user account
+export const deactivateUser = async (userId) => {
+  try {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/auth/deactivate-user/${userId}`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to deactivate user: ${response.status}`);
+    }
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Deactivate user request timed out. Please try again.');
+    }
+    console.error('Error deactivating user:', error);
     throw error;
   }
 };
