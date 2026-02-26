@@ -1,0 +1,133 @@
+/* Analysis.css - Styles for the Analysis component */
+
+.analysis-container {
+  width: 100%;
+}
+
+.analysis-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.analysis-header h2 {
+  font-size: 1.75rem;
+  color: #333;
+  margin: 0;
+  font-weight: 700;
+}
+
+.analysis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.analysis-card {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.analysis-card .piechart-container {
+  width: 100%;
+  max-width: 350px;
+}
+
+/* Loading state */
+.analysis-loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  width: 100%;
+}
+
+.analysis-loading .spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.analysis-loading p {
+  color: #666;
+  font-size: 1rem;
+}
+
+/* Error state */
+.analysis-error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  width: 100%;
+  gap: 1rem;
+}
+
+.analysis-error p {
+  color: #dc2626;
+  font-size: 1rem;
+}
+
+.retry-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.retry-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Dark theme */
+.admin-dashboard-container.dark .analysis-header h2 {
+  color: #e0e0e0;
+}
+
+.admin-dashboard-container.dark .analysis-loading .spinner {
+  border-color: #3d3d5c;
+  border-top-color: #667eea;
+}
+
+.admin-dashboard-container.dark .analysis-loading p {
+  color: #a0a0a0;
+}
+
+.admin-dashboard-container.dark .analysis-error p {
+  color: #fca5a5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .analysis-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .analysis-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .analysis-card .piechart-container {
+    max-width: 100%;
+  }
+}
+

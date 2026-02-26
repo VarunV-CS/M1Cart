@@ -6,6 +6,7 @@ import ProductModal from '../components/ProductModal';
 import UserModal from '../components/UserModal';
 import OrderModal from '../components/OrderModal';
 import Pagination from '../components/Pagination';
+import Analysis from '../components/Analysis';
 import './AdminDashboard.css';
 
 // Page size options
@@ -549,12 +550,7 @@ function AdminDashboard() {
       </div>
 
       {activeTab === 'analysis' && (
-        <div className="content-section">
-          <div className="section-card">
-            <h2>Analysis</h2>
-            <p>Analysis dashboard content will be displayed here.</p>
-          </div>
-        </div>
+        <Analysis />
       )}
 
       {activeTab === 'users' && (
