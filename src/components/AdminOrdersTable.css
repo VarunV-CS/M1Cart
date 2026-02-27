@@ -1,0 +1,182 @@
+.admin-orders-section .orders-table th.expand-col,
+.admin-orders-section .orders-table td.expand-toggle-cell {
+  width: 44px;
+  padding-left: 0.6rem;
+  padding-right: 0.35rem;
+  text-align: center;
+}
+
+.admin-orders-section .expand-toggle-btn {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #4b5563;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.admin-orders-section .expand-toggle-btn:hover {
+  background: #959697;
+  color: #111827;
+}
+
+.admin-orders-section.dark .expand-toggle-btn {
+  color: #9ca3af;
+}
+
+.admin-orders-section.dark .expand-toggle-btn:hover {
+  background: #3d3d5c;
+  color: #e5e7eb;
+}
+
+.admin-orders-section .expand-toggle-icon {
+  font-size: 0.8rem;
+  line-height: 1;
+  transform: rotate(0deg);
+  transition: transform 0.25s ease;
+}
+
+.admin-orders-section .expand-toggle-btn.expanded .expand-toggle-icon {
+  transform: rotate(90deg);
+}
+
+.admin-orders-section .order-expanded-row:hover,
+.admin-orders-section.dark .order-expanded-row:hover {
+  background: transparent !important;
+}
+
+.admin-orders-section .order-expanded-row .expanded-content-cell {
+  padding: 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-orders-section.dark .order-expanded-row .expanded-content-cell {
+  border-bottom-color: #3d3d5c;
+}
+
+.admin-orders-section .expanded-row-inner {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.25s ease;
+}
+
+.admin-orders-section .order-expanded-row.open .expanded-row-inner {
+  max-height: 520px;
+  opacity: 1;
+}
+
+.admin-orders-section .expanded-row-nested {
+  margin-left: 2rem;
+  margin-right: 0.75rem;
+  margin-bottom: 0.8rem;
+  padding: 0.8rem 0.95rem 0.95rem;
+  background: #959697;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+.admin-orders-section.dark .expanded-row-nested {
+  background: #252542;
+  border-color: #3d3d5c;
+}
+
+.admin-orders-section .expanded-subtable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-orders-section .expanded-subtable thead,
+.admin-orders-section .expanded-subtable tbody {
+  background: #959697;
+}
+
+.admin-orders-section.dark .expanded-subtable thead,
+.admin-orders-section.dark .expanded-subtable tbody {
+  background: #252542;
+}
+
+.admin-orders-section .expanded-subtable th,
+.admin-orders-section .expanded-subtable td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid #dbe3ee;
+  background: inherit;
+  text-align: left;
+}
+
+.admin-orders-section:not(.dark) .expanded-subtable thead th {
+  background: #959697;
+}
+
+.admin-orders-section.dark .expanded-subtable thead th {
+  background: #252542;
+}
+
+.admin-orders-section.dark .expanded-subtable th,
+.admin-orders-section.dark .expanded-subtable td {
+  border-bottom-color: #42426a;
+}
+
+.admin-orders-section .expanded-subtable th {
+  font-size: 0.74rem;
+  color: #4b5563;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.admin-orders-section.dark .expanded-subtable th {
+  color: #9ca3af;
+}
+
+.admin-orders-section .expanded-subtable tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-orders-section .seller-name {
+  font-weight: 600;
+  color: #111827;
+}
+
+.admin-orders-section .seller-name.group-repeat {
+  opacity: 0.6;
+}
+
+.admin-orders-section.dark .seller-name {
+  color: #e5e7eb;
+}
+
+.admin-orders-section .expanded-empty-cell {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.admin-orders-section.dark .expanded-empty-cell {
+  color: #9ca3af;
+}
+
+@media (max-width: 768px) {
+  .admin-orders-section .orders-table th.expand-col,
+  .admin-orders-section .orders-table td.expand-toggle-cell {
+    width: 34px;
+    padding-left: 0.3rem;
+    padding-right: 0.2rem;
+  }
+
+  .admin-orders-section .expanded-row-nested {
+    margin-left: 1rem;
+    margin-right: 0.4rem;
+    padding: 0.6rem;
+  }
+
+  .admin-orders-section .expanded-subtable th,
+  .admin-orders-section .expanded-subtable td {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+}

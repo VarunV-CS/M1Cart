@@ -159,7 +159,8 @@ function Login() {
               name: userData.username || userData.name || formData.email.split('@')[0],
               email: userData.email || formData.email,
               role: userData.role || 'buyer',
-              businessName: userData.businessName
+              businessName: userData.businessName,
+              isVerified: userData.isVerified || false
             };
             
             // Store token and user data using api service
@@ -218,7 +219,8 @@ function Login() {
               name: userData.Username || userData.name || formData.name,
               email: userData.Email || userData.email || formData.email,
               role: userData.role || formData.role,
-              businessName: userData.businessName || (formData.role === 'seller' ? formData.businessName : undefined)
+              businessName: userData.businessName || (formData.role === 'seller' ? formData.businessName : undefined),
+              isVerified: userData.isVerified || false
             };
             
             // Store token and user data using api service
@@ -456,4 +458,3 @@ function Login() {
 }
 
 export default Login;
-

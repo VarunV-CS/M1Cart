@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
-import { isAuthenticated, getUser, sendVerificationOTP } from '../services/api';
+import { isAuthenticated, getUser, getProfile, setUser as setStoredUser, sendVerificationOTP } from '../services/api';
 import VerificationModal from '../components/VerificationModal';
 import SellerProducts from '../components/SellerProducts';
 import SellerOrders from '../components/SellerOrders';
@@ -20,28 +20,53 @@ function SellerDashboard() {
   const [showVerificationModal, setShowVerificationModal] = useState(false);
 
   useEffect(() => {
-    // Check authentication and authorization
-    if (!isAuthenticated()) {
-      navigate('/login');
-      return;
-    }
+    let isMounted = true;
 
-    const userData = getUser();
-    setUser(userData);
-    
-    // Only allow seller users
-    if (userData?.role !== 'seller') {
-      // Redirect to appropriate dashboard based on role
-      if (userData?.role === 'admin') {
-        navigate('/admin-dashboard');
-      } else {
-        navigate('/dashboard');
+    const loadUser = async () => {
+      // Check authentication and authorization
+      if (!isAuthenticated()) {
+        navigate('/login');
+        return;
       }
-      return;
-    }
 
-    setIsAuthorized(true);
-    setIsLoading(false);
+      const userData = getUser();
+      setUser(userData);
+      
+      // Only allow seller users
+      if (userData?.role !== 'seller') {
+        // Redirect to appropriate dashboard based on role
+        if (userData?.role === 'admin') {
+          navigate('/admin-dashboard');
+        } else {
+          navigate('/dashboard');
+        }
+        return;
+      }
+
+      try {
+        const profileResponse = await getProfile();
+        const profileUser = profileResponse?.user;
+
+        if (isMounted && profileUser) {
+          const mergedUser = { ...userData, ...profileUser };
+          setUser(mergedUser);
+          setStoredUser(mergedUser);
+        }
+      } catch (error) {
+        console.error('Error loading latest profile:', error);
+      } finally {
+        if (isMounted) {
+          setIsAuthorized(true);
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadUser();
+
+    return () => {
+      isMounted = false;
+    };
   }, [navigate, location]);
 
   // Handle Verify Account button click
@@ -57,7 +82,12 @@ function SellerDashboard() {
 
   const handleVerificationComplete = () => {
     // Update local user state to reflect verification status
-    setUser(prev => prev ? { ...prev, isVerified: true } : null);
+    setUser(prev => {
+      if (!prev) return null;
+      const updatedUser = { ...prev, isVerified: true };
+      setStoredUser(updatedUser);
+      return updatedUser;
+    });
   };
   
   if (isLoading) {
@@ -90,7 +120,7 @@ function SellerDashboard() {
             <span className="account-email">{user?.email}</span>
             <span className="business-name">{user?.businessName}</span>
           </div>
-          {!user?.isVerified && (
+          {user?.isVerified === false && (
               <div className="info-item verify-btn-item">
                 <button 
                   className="verify-account-btn"

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
-import { isAuthenticated, getUser, sendVerificationOTP } from '../services/api';
+import { isAuthenticated, getUser, getProfile, setUser as setStoredUser, sendVerificationOTP } from '../services/api';
 import VerificationModal from '../components/VerificationModal';
 import './Dashboard.css';
 
@@ -16,34 +16,60 @@ function Dashboard() {
   const [showVerificationModal, setShowVerificationModal] = useState(false);
 
   useEffect(() => {
-    // Check authentication
-    if (!isAuthenticated()) {
-      navigate('/login');
-      return;
-    }
+    let isMounted = true;
 
-    // Get user data
-    const userData = getUser();
-    
-    // Check if user is a seller - redirect to seller dashboard
-    if (userData?.role === 'seller') {
-      navigate('/seller-dashboard');
-      return;
-    }
-    
-    // Check if user is an admin - redirect to admin dashboard
-    if (userData?.role === 'admin') {
-      navigate('/admin-dashboard');
-      return;
-    }
-    
-    setUser(userData);
-    setIsLoading(false);
+    const loadUser = async () => {
+      // Check authentication
+      if (!isAuthenticated()) {
+        navigate('/login');
+        return;
+      }
 
-    // If just logged in, sync cart from backend
-    if (location.state?.justLoggedIn && cartItems.length === 0) {
-      // The cart context will handle loading cart from backend
-    }
+      // Get user data
+      const userData = getUser();
+      
+      // Check if user is a seller - redirect to seller dashboard
+      if (userData?.role === 'seller') {
+        navigate('/seller-dashboard');
+        return;
+      }
+      
+      // Check if user is an admin - redirect to admin dashboard
+      if (userData?.role === 'admin') {
+        navigate('/admin-dashboard');
+        return;
+      }
+
+      setUser(userData);
+
+      try {
+        const profileResponse = await getProfile();
+        const profileUser = profileResponse?.user;
+
+        if (isMounted && profileUser) {
+          const mergedUser = { ...userData, ...profileUser };
+          setUser(mergedUser);
+          setStoredUser(mergedUser);
+        }
+      } catch (error) {
+        console.error('Error loading latest profile:', error);
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+
+      // If just logged in, sync cart from backend
+      if (location.state?.justLoggedIn && cartItems.length === 0) {
+        // The cart context will handle loading cart from backend
+      }
+    };
+
+    loadUser();
+
+    return () => {
+      isMounted = false;
+    };
   }, [navigate, location.state, cartItems.length]);
 
   if (isLoading) {
@@ -77,7 +103,12 @@ function Dashboard() {
 
   const handleVerificationComplete = () => {
     // Update local user state to reflect verification status
-    setUser(prev => prev ? { ...prev, isVerified: true } : null);
+    setUser(prev => {
+      if (!prev) return null;
+      const updatedUser = { ...prev, isVerified: true };
+      setStoredUser(updatedUser);
+      return updatedUser;
+    });
   };
 
   return (
@@ -157,7 +188,7 @@ function Dashboard() {
               <label>Role:</label>
               <span className="role-badge">{user?.role || 'buyer'}</span>
             </div>
-            {!user?.isVerified && (
+            {user?.isVerified === false && (
               <div className="info-item verify-btn-item">
                 <button 
                   className="verify-account-btn"
@@ -190,4 +221,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-

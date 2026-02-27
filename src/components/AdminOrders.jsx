@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { getAllOrders, updateAdminOrderStatus } from '../services/api';
+import AdminOrdersTable from './AdminOrdersTable';
 import OrderModal from './OrderModal';
 import Pagination from './Pagination';
 import './AdminOrders.css';
 
 const PAGE_SIZE_OPTIONS = [5, 10, 20];
 const ORDER_STATUS_FILTERS = ['all', 'completed', 'pending', 'failed', 'cancelled', 'dispatched', 'delivered'];
+const formatFilterLabel = (status) => status.charAt(0).toUpperCase() + status.slice(1);
 
 function AdminOrders() {
   const { isDark } = useTheme();
@@ -95,7 +97,7 @@ function AdminOrders() {
                 className={`status-filter-btn ${orderStatusFilter === status ? 'active' : ''}`}
                 onClick={() => handleOrderStatusFilterChange(status)}
               >
-                {status.charAt(0).toUpperCase() + status.slice(1)}
+                {formatFilterLabel(status)}
               </button>
             ))}
           </div>
@@ -141,61 +143,7 @@ function AdminOrders() {
           </div>
 
           <div className="orders-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>Customer</th>
-                  <th>Items</th>
-                  <th>Total</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders.map((order) => (
-                  <tr
-                    key={order.id || order._id}
-                    className="order-row"
-                    onClick={() => setExpandedOrder(order)}
-                  >
-                    <td>
-                      <span className="order-id">#{order.id?.slice(0, 8).toUpperCase() || 'N/A'}</span>
-                    </td>
-                    <td>
-                      <div className="customer-cell">
-                        <span className="customer-name">{order.user?.name || 'Unknown'}</span>
-                        {order.user?.email && <span className="customer-email">{order.user.email}</span>}
-                      </div>
-                    </td>
-                    <td>
-                      <span className="items-count">
-                        {order.items?.reduce((total, item) => total + item.quantity, 0) || 0} items
-                      </span>
-                    </td>
-                    <td>
-                      <span className="order-amount">${order.amount?.toFixed(2) || '0.00'}</span>
-                    </td>
-                    <td>
-                      <span className={`order-status status-${order.status || 'unknown'}`}>
-                        {order.status?.charAt(0).toUpperCase() + order.status?.slice(1) || 'Unknown'}
-                      </span>
-                    </td>
-                    <td>
-                      <span className="order-date">
-                        {order.createdAt
-                          ? new Date(order.createdAt).toLocaleDateString('en-US', {
-                              year: 'numeric',
-                              month: 'short',
-                              day: 'numeric',
-                            })
-                          : 'N/A'}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <AdminOrdersTable orders={orders} onOrderClick={setExpandedOrder} />
           </div>
 
           {ordersTotalPages > 1 && (

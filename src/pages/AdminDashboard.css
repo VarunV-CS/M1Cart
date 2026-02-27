@@ -57,8 +57,10 @@
 
 .dashboard-header-right {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
   justify-content: center;
+  gap: 0.35rem;
 }
 
 .account-info {
@@ -134,10 +136,15 @@
   .dashboard-header-right {
     width: 100%;
     justify-content: flex-start;
+    align-items: flex-start;
   }
 
   .account-info {
     align-items: flex-start;
+  }
+
+  .verify-btn-item {
+    align-self: flex-start;
   }
 }
 
@@ -287,20 +294,22 @@
    Verify Account Button
    ======================================== */
 .verify-btn-item {
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
+  align-self: flex-end;
 }
 
 .verify-account-btn {
   background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
   color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 7px;
+  font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
   width: fit-content;
+  white-space: nowrap;
 }
 
 .verify-account-btn:hover {

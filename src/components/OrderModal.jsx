@@ -111,6 +111,11 @@ const OrderModal = ({ order, onClose, userRole, onStatusChange }) => {
     }
   };
 
+  const formatStatusText = (status) => {
+    if (!status) return 'Unknown';
+    return status.charAt(0).toUpperCase() + status.slice(1);
+  };
+
   const getTotalItems = () => {
     if (!order.items) return 0;
     return order.items.reduce((total, item) => total + item.quantity, 0);
@@ -151,7 +156,7 @@ const OrderModal = ({ order, onClose, userRole, onStatusChange }) => {
             <div className="section-header">
               <h3>Status</h3>
               <span className={`status-badge ${getStatusBadgeClass(order.status)}`}>
-                {order.status?.charAt(0).toUpperCase() + order.status?.slice(1) || 'Unknown'}
+                {formatStatusText(order.status)}
               </span>
             </div>
             
@@ -299,4 +304,3 @@ const OrderModal = ({ order, onClose, userRole, onStatusChange }) => {
 };
 
 export default OrderModal;
-

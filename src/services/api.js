@@ -136,6 +136,7 @@ export const getProfile = async () => {
   try {
     const response = await fetchWithTimeout(`${API_BASE_URL}/auth/profile`, {
       method: 'GET',
+      headers: getAuthHeaders(),
     });
     
     return await handleResponse(response);
@@ -587,7 +588,7 @@ export const getAllOrders = async (page = 1, limit = 20, status = null) => {
       limit: limit.toString()
     });
     
-    if (status && status !== 'all') {
+    if (status) {
       params.append('status', status);
     }
     
@@ -614,7 +615,7 @@ export const getSellerOrders = async (page = 1, limit = 20, status = null) => {
       limit: limit.toString()
     });
     
-    if (status && status !== 'all') {
+    if (status) {
       params.append('status', status);
     }
     
@@ -920,8 +921,17 @@ export const verifyOTP = async (otp) => {
     if (!response.ok) {
       throw new Error(`Failed to verify OTP: ${response.status}`);
     }
-    
-    return await handleResponse(response);
+
+    const data = await handleResponse(response);
+
+    if (data?.success) {
+      const currentUser = getUser();
+      if (currentUser) {
+        setUser({ ...currentUser, isVerified: true });
+      }
+    }
+
+    return data;
   } catch (error) {
     if (error.name === 'AbortError') {
       throw new Error('Verify OTP request timed out. Please try again.');
