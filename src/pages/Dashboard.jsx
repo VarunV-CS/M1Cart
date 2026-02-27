@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
-import { isAuthenticated, getUser } from '../services/api';
+import { isAuthenticated, getUser, sendVerificationOTP } from '../services/api';
+import VerificationModal from '../components/VerificationModal';
 import './Dashboard.css';
 
 function Dashboard() {
@@ -12,6 +13,7 @@ function Dashboard() {
   const { isDark } = useTheme();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
 
   useEffect(() => {
     // Check authentication
@@ -61,6 +63,21 @@ function Dashboard() {
     const total = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
     // Round to 2 decimal places to avoid floating-point precision issues
     return Math.round(total * 100) / 100;
+  };
+
+  const handleVerifyClick = async () => {
+    try {
+      await sendVerificationOTP();
+      setShowVerificationModal(true);
+    } catch (error) {
+      console.error('Error sending verification OTP:', error);
+      alert(error.message || 'Failed to send verification code. Please try again.');
+    }
+  };
+
+  const handleVerificationComplete = () => {
+    // Update local user state to reflect verification status
+    setUser(prev => prev ? { ...prev, isVerified: true } : null);
   };
 
   return (
@@ -140,6 +157,16 @@ function Dashboard() {
               <label>Role:</label>
               <span className="role-badge">{user?.role || 'buyer'}</span>
             </div>
+            {!user?.isVerified && (
+              <div className="info-item verify-btn-item">
+                <button 
+                  className="verify-account-btn"
+                  onClick={handleVerifyClick}
+                >
+                  Verify Account
+                </button>
+              </div>
+            )}
           </div>
           
           <div className="account-actions">
@@ -152,6 +179,12 @@ function Dashboard() {
           </div>
         </div>
       </div>
+
+      <VerificationModal 
+        isOpen={showVerificationModal} 
+        onClose={() => setShowVerificationModal(false)}
+        onVerificationComplete={handleVerificationComplete}
+      />
     </div>
   );
 }

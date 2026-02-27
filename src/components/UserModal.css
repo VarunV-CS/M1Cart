@@ -443,6 +443,62 @@
   color: #9ca3af;
 }
 
+/* Verified Badge */
+.user-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.user-verified-badge.verified {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
+}
+
+.user-verified-badge.unverified {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+}
+
+.dark .user-verified-badge.unverified {
+  background: #2a2a4a;
+  border-color: #3d3d5c;
+  color: #9ca3af;
+}
+
+.verified-checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.user-verified-badge.verified .verified-checkbox {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+}
+
+.user-verified-badge.unverified .verified-checkbox {
+  background: #e5e7eb;
+  border: 1px solid #d1d5db;
+}
+
+.dark .user-verified-badge.unverified .verified-checkbox {
+  background: #1f2937;
+  border-color: #3d3d5c;
+}
+
 /* ========================================
    Password Change Modal
    ======================================== */

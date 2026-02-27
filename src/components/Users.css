@@ -1,0 +1,247 @@
+/* Users.css - Users Management Component Styles */
+
+/* ========================================
+   Users Management Section
+   ======================================== */
+.users-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.users-header h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0;
+  font-weight: 600;
+}
+
+.admin-dashboard-container.dark .users-header h2 {
+  color: #e0e0e0;
+}
+
+.users-header .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.users-header .role-filters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Users Table */
+.admin-users-table {
+  overflow-x: auto;
+}
+
+.admin-users-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.admin-dashboard-container.dark .admin-users-table table {
+  background: #1e1e3f;
+}
+
+.admin-users-table th,
+.admin-users-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-dashboard-container.dark .admin-users-table th,
+.admin-dashboard-container.dark .admin-users-table td {
+  border-bottom-color: #3d3d5c;
+}
+
+.admin-users-table th {
+  background: #f9fafb;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.admin-dashboard-container.dark .admin-users-table th {
+  background: #252542;
+  color: #9ca3af;
+}
+
+.admin-users-table tr:hover {
+  background: #f9fafb;
+}
+
+.admin-dashboard-container.dark .admin-users-table tr:hover {
+  background: #1e1e3f;
+}
+
+/* User Name Cell */
+.user-name-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.user-name-cell .user-name {
+  font-weight: 600;
+  color: #111827;
+}
+
+.admin-dashboard-container.dark .user-name-cell .user-name {
+  color: #e5e7eb;
+}
+
+.user-name-cell .user-business {
+  font-size: 0.8rem;
+  color: #667eea;
+  font-weight: 500;
+}
+
+.admin-dashboard-container.dark .user-name-cell .user-business {
+  color: #a5b4fc;
+}
+
+/* Role Badge Cell */
+.role-badge-cell {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.role-badge-cell.role-admin {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.role-badge-cell.role-seller {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.admin-dashboard-container.dark .role-badge-cell.role-seller {
+  background: #14532d;
+  color: #86efac;
+}
+
+.role-badge-cell.role-buyer {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.admin-dashboard-container.dark .role-badge-cell.role-buyer {
+  background: #1f2937;
+  color: #9ca3af;
+}
+
+/* Clickable User Row */
+.user-row-clickable {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.user-row-clickable:hover {
+  background: #f0f4ff;
+}
+
+.admin-dashboard-container.dark .user-row-clickable:hover {
+  background: #2a2a5a;
+}
+
+/* No Users */
+.no-users {
+  text-align: center;
+  padding: 3rem;
+  color: #6b7280;
+}
+
+.admin-dashboard-container.dark .no-users {
+  color: #9ca3af;
+}
+
+/* Users Loading in table */
+.admin-users-table .loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+}
+
+/* User Action Buttons in Table */
+.user-action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.user-edit-btn,
+.user-password-btn,
+.user-deactivate-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.user-edit-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.user-edit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+}
+
+.user-password-btn {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+}
+
+.user-password-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.4);
+}
+
+.user-deactivate-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.user-deactivate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.4);
+}
+
+/* User Row */
+.user-row {
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.admin-users-table tbody .user-row:hover {
+  background: #f0f4ff !important;
+}
+
+.admin-dashboard-container.dark .admin-users-table tbody .user-row:hover {
+  background: #363678 !important;
+}
+

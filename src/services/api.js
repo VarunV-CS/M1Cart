@@ -112,7 +112,8 @@ export const register = async (userData) => {
       name: userData.Username || userData.name || userData.Name,
       email: userData.Email || userData.email || userData.EmailAddress,
       password: userData.password || userData.Password,
-      role: userData.role || 'buyer'
+      role: userData.role || 'buyer',
+      businessName: userData.businessName
     };
     
     const response = await fetchWithTimeout(`${API_BASE_URL}/auth/register`, {
@@ -281,7 +282,8 @@ export const fetchProductById = async (pid) => {
       image: product.image,
       description: product.description,
       rating: product.rating || 4.5,
-      inStock: product.inStock !== undefined ? product.inStock : true
+      inStock: product.inStock !== undefined ? product.inStock : true,
+      sellerBusinessName: product.user?.businessName || product.user?.name || ''
     };
   } catch (error) {
     if (error.name === 'AbortError') {
@@ -884,3 +886,47 @@ export const deactivateUser = async (userId) => {
   }
 };
 
+// Send verification OTP to user's email
+export const sendVerificationOTP = async () => {
+  try {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/auth/send-verification-otp`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to send verification OTP: ${response.status}`);
+    }
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Send verification OTP request timed out. Please try again.');
+    }
+    console.error('Error sending verification OTP:', error);
+    throw error;
+  }
+};
+
+// Verify OTP and mark account as verified
+export const verifyOTP = async (otp) => {
+  try {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/auth/verify-otp`, {
+      method: 'POST',
+      body: JSON.stringify({ otp }),
+      headers: getAuthHeaders(),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to verify OTP: ${response.status}`);
+    }
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Verify OTP request timed out. Please try again.');
+    }
+    console.error('Error verifying OTP:', error);
+    throw error;
+  }
+};

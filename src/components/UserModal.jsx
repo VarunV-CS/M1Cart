@@ -288,16 +288,18 @@ const UserModal = ({ user, onClose, onUserUpdated, isAdminView = true }) => {
                 <h2 className="user-modal-name">{user.name}</h2>
               )}
               {isEditMode ? (
-                <div className="edit-form-group">
-                  <input
-                    type="text"
-                    name="businessName"
-                    value={editForm.businessName}
-                    onChange={handleEditFormChange}
-                    placeholder="Business Name"
-                    className="edit-input"
-                  />
-                </div>
+                (editForm.role === 'seller' || editForm.businessName) && (
+                  <div className="edit-form-group">
+                    <input
+                      type="text"
+                      name="businessName"
+                      value={editForm.businessName}
+                      onChange={handleEditFormChange}
+                      placeholder="Business Name"
+                      className="edit-input"
+                    />
+                  </div>
+                )
               ) : (
                 user.businessName && (
                   <p className="user-modal-business">{user.businessName}</p>
@@ -357,6 +359,16 @@ const UserModal = ({ user, onClose, onUserUpdated, isAdminView = true }) => {
                 <span className="user-detail-value">{formatDate(user.lastLogin)}</span>
               </div>
             )}
+
+            <div className="user-detail-row">
+              <span className="user-detail-label">Verified</span>
+              <span className={`user-verified-badge ${user.isVerified ? 'verified' : 'unverified'}`}>
+                <span className="verified-checkbox">
+                  {user.isVerified ? '✓' : ''}
+                </span>
+                {user.isVerified ? 'Verified' : 'Not Verified'}
+              </span>
+            </div>
 
             <div className="user-detail-row">
               <span className="user-detail-label">User ID</span>

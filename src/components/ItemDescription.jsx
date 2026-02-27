@@ -86,6 +86,12 @@ const ItemDescription = () => {
               </div>
             </div>
             <div className="product-price-large">${product.price.toFixed(2)}</div>
+            {product.sellerBusinessName && (
+              <div className="provided-by">
+                <span className="provided-by-label">Provided by:</span>
+                <span className="provided-by-business-name">{product.sellerBusinessName}</span>
+              </div>
+            )}
             <p className="product-description">{product.description}</p>
             <div className="product-actions">
               <button
