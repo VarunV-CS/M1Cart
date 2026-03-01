@@ -93,8 +93,10 @@ export const CartProvider = ({ children }) => {
       try {
         setIsLoading(true);
         const response = await loadCart();
-        if (response.success && response.cart && response.cart.length > 0) {
-          setCartItems(response.cart);
+        if (response.success) {
+          setCartItems(response.cart || []);
+        } else {
+          setCartItems([]);
         }
         // Mark that cart was loaded from backend
         setIsBackendCartLoaded(true);
@@ -263,4 +265,3 @@ export const CartProvider = ({ children }) => {
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
-

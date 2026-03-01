@@ -162,6 +162,7 @@ const Checkout = () => {
   const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
   const [orderId, setOrderId] = useState('');
   const [paymentIntentId, setPaymentIntentId] = useState('');
+  const [paidAmount, setPaidAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -177,6 +178,7 @@ const Checkout = () => {
   const total = getCartTotal();
 
   const handlePaymentSuccess = (paymentId, orderId) => {
+    setPaidAmount(total);
     setPaymentIntentId(paymentId);
     setOrderId(orderId);
     setIsPaymentSuccess(true);
@@ -229,7 +231,7 @@ const Checkout = () => {
                 <div className="order-details">
                   <p><strong>Order ID:</strong> {orderId}</p>
                   <p><strong>Payment ID:</strong> {paymentIntentId}</p>
-                  <p><strong>Amount Paid:</strong> ${total.toFixed(2)}</p>
+                  <p><strong>Amount Paid:</strong> ${paidAmount.toFixed(2)}</p>
                 </div>
                 <div className="success-actions">
                   <Button 
@@ -319,4 +321,3 @@ const Checkout = () => {
 };
 
 export default Checkout;
-
