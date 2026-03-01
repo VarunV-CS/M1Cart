@@ -5,6 +5,20 @@
   z-index: 9999;
 }
 
+.whatsapp-widget-container.in-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 78px;
+  z-index: 1260;
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .whatsapp-widget-container.in-overlay {
+    right: 70px;
+  }
+}
+
 /* Override some default styles of react-floating-whatsapp */
 .whatsapp-widget-container .react-floating-whatsapp {
   font-family: inherit;
@@ -21,4 +35,3 @@
 .whatsapp-widget-container .react-floating-whatsapp-message-text {
   background-color: #dcf8c6;
 }
-
