@@ -163,7 +163,7 @@ function AdminDashboard() {
       </div>
 
       {activeTab === 'analysis' && (
-        <Analysis />
+        <Analysis onNavigateTab={setActiveTab} />
       )}
 
       {activeTab === 'users' && (

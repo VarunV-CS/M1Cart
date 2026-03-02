@@ -14,7 +14,7 @@ function SellerOrders() {
   const [orders, setOrders] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [ordersError, setOrdersError] = useState('');
-  const [orderStatusFilter, setOrderStatusFilter] = useState('completed');
+  const [orderStatusFilter, setOrderStatusFilter] = useState('all');
   const [expandedOrder, setExpandedOrder] = useState(null);
 
   const [ordersPage, setOrdersPage] = useState(1);

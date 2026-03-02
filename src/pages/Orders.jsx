@@ -8,7 +8,7 @@ import Pagination from '../components/Pagination';
 import './Orders.css';
 
 // Order status options
-const ORDER_STATUSES = ['All', 'pending', 'completed', 'failed', 'cancelled', 'dispatched', 'delivered', 'refunded'];
+const ORDER_STATUSES = ['All', 'completed', 'failed', 'pending', 'cancelled', 'dispatched', 'delivered', 'refunded'];
 
 // Page size options
 const PAGE_SIZE_OPTIONS = [5, 10, 20];

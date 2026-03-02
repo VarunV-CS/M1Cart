@@ -27,6 +27,19 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.analysis-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.analysis-card:focus-visible {
+  outline: 3px solid #667eea;
+  outline-offset: 2px;
 }
 
 .analysis-card .piechart-container {
@@ -130,4 +143,3 @@
     max-width: 100%;
   }
 }
-
