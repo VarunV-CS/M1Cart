@@ -592,6 +592,7 @@ function Products() {
           onClose={() => setExpandedProduct(null)}
           onStatusChange={handleStatusChange}
           updatingProduct={updatingProduct}
+          onRejectRequest={handleRejectClick}
         />
       )}
     </>

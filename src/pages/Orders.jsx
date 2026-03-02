@@ -8,7 +8,7 @@ import Pagination from '../components/Pagination';
 import './Orders.css';
 
 // Order status options
-const ORDER_STATUSES = ['All', 'pending', 'completed', 'failed'];
+const ORDER_STATUSES = ['All', 'pending', 'completed', 'failed', 'cancelled', 'dispatched', 'delivered', 'refunded'];
 
 // Page size options
 const PAGE_SIZE_OPTIONS = [5, 10, 20];
@@ -112,6 +112,8 @@ function Orders() {
         return 'status-dispatched';
       case 'delivered':
         return 'status-delivered';
+      case 'refunded':
+        return 'status-refunded';
       default:
         return 'status-default';
     }
@@ -277,4 +279,3 @@ function Orders() {
 }
 
 export default Orders;
-

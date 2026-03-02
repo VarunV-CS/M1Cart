@@ -10,7 +10,8 @@ const ProductModal = ({
   onCancel, 
   isSubmitting = false,
   onStatusChange,
-  updatingProduct
+  updatingProduct,
+  onRejectRequest
 }) => {
   const { isDark } = useTheme();
   const [rejectionReason, setRejectionReason] = useState('');
@@ -63,8 +64,21 @@ const ProductModal = ({
 
   // Handle status change button click
   const handleStatusButtonClick = (newStatus) => {
+    if (newStatus === 'Rejected' && onRejectRequest) {
+      onClose();
+      // Close expanded view first, then open rejection view.
+      setTimeout(() => {
+        onRejectRequest(product);
+      }, 0);
+      return;
+    }
+
+    onClose();
     if (onStatusChange) {
-      onStatusChange(product.pid, newStatus);
+      // Close modal first, then run action.
+      setTimeout(() => {
+        onStatusChange(product.pid, newStatus);
+      }, 0);
     }
   };
 
@@ -141,8 +155,8 @@ const ProductModal = ({
               <p>{product.description || 'No description available.'}</p>
             </div>
 
-            {/* Submitted By Section - Shown in Expanded Mode */}
-            {isExpandedMode && (product.user || product.username) && (
+            {/* Submitted By Section - Shown in Expanded/Rejection Modes */}
+            {(isExpandedMode || isRejectionMode) && (product.user || product.username) && (
               <div className="product-modal-submitted-by">
                 <span className="submitted-by-label">Submitted by :</span>
                 <span className="submitted-by-value">
@@ -239,4 +253,3 @@ const ProductModal = ({
 };
 
 export default ProductModal;
-
