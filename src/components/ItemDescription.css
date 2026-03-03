@@ -74,7 +74,7 @@
 .product-detail {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  gap: 4rem;
   background: white;
   padding: 3rem;
   border-radius: 12px;
@@ -86,13 +86,14 @@
   width: 100%;
   background: #f5f5f5;
   border-radius: 12px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .product-image-large img {
   width: 100%;
   height: auto;
   display: block;
+  border-radius: 12px;
 }
 
 .out-of-stock-overlay {
@@ -269,6 +270,14 @@
 
   .provided-by {
     flex-wrap: wrap;
+  }
+
+  .image-zoom-main .zoom-result {
+    display: none;
+  }
+  
+  .image-zoom-main .zoom-lens {
+    display: none !important;
   }
 }
 

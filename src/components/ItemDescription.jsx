@@ -3,6 +3,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { fetchProductById } from '../services/api';
 import { useCart } from '../context/CartContext';
 import Comments from './Comments';
+import ImageZoom from './ImageZoom';
 import './ItemDescription.css';
 
 const ItemDescription = () => {
@@ -71,7 +72,13 @@ const ItemDescription = () => {
         </button>
         <div className="product-detail">
           <div className="product-image-large">
-            <img src={product.image} alt={product.name} />
+            <ImageZoom 
+              src={product.image} 
+              alt={product.name}
+              zoomLevel={2.5}
+              lensSize={100}
+              resultSize={400}
+            />
             {!product.inStock && (
               <div className="out-of-stock-overlay">Out of Stock</div>
             )}
