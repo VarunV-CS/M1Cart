@@ -5,10 +5,17 @@
 
 import './PieChart.css';
 
-function PieChart({ data, title }) {
+function PieChart({ data, title, onClick, onKeyDown, ariaLabel, role = 'button', tabIndex = 0 }) {
   if (!data || data.length === 0 || data.every(item => item.value === 0)) {
     return (
-      <div className="piechart-container">
+      <div 
+        className="piechart-container"
+        onClick={onClick}
+        onKeyDown={onKeyDown}
+        aria-label={ariaLabel}
+        role={role}
+        tabIndex={tabIndex}
+      >
         <h3 className="piechart-title">{title}</h3>
         <div className="piechart-empty">No data</div>
       </div>
@@ -42,7 +49,14 @@ function PieChart({ data, title }) {
   const gradient = generateConicGradient();
 
   return (
-    <div className="piechart-container">
+    <div 
+      className="piechart-container"
+      onClick={onClick}
+      onKeyDown={onKeyDown}
+      aria-label={ariaLabel}
+      role={role}
+      tabIndex={tabIndex}
+    >
       <h3 className="piechart-title">{title}</h3>
       <div className="piechart-content">
         {/* Pie Chart */}

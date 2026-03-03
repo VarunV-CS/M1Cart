@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { fetchProducts, fetchCategories } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import Pagination from '../components/Pagination';
@@ -11,12 +11,22 @@ const PAGE_SIZE_OPTIONS = [6, 12, 24, 48];
 
 const Categories = () => {
   const location = useLocation();
+  const { category } = useParams();
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [retryCount, setRetryCount] = useState(0);
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState(() => {
+    // Read category from URL path parameter on initial render
+    return category || 'All';
+  });
+
+  // Sync selectedCategory with URL parameter when it changes
+  useEffect(() => {
+    setSelectedCategory(category || 'All');
+  }, [category]);
   const [searchQuery, setSearchQuery] = useState('');
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [sortBy, setSortBy] = useState('name-asc');
@@ -138,7 +148,9 @@ const Categories = () => {
     setSearchQuery('');
     setPriceRange({ min: '', max: '' });
     setSortBy('name-asc');
+    setSelectedCategory('All');
     setPage(1);
+    navigate('/categories');
   };
 
   if (loading && products.length === 0) {
@@ -175,16 +187,17 @@ const Categories = () => {
         
         {/* Category Filters */}
         <div className="category-filters">
-          {categories.map(category => (
+          {categories.map(cat => (
             <button
-              key={category}
-              className={`category-button ${selectedCategory === category ? 'active' : ''}`}
+              key={cat}
+              className={`category-button ${selectedCategory === cat ? 'active' : ''}`}
               onClick={() => {
-                setSelectedCategory(category);
+                setSelectedCategory(cat);
                 setPage(1);
+                navigate(cat === 'All' ? '/categories' : `/categories/${cat}`);
               }}
             >
-              {category}
+              {cat}
             </button>
           ))}
         </div>

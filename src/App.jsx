@@ -10,7 +10,6 @@ import ScrollToTop, { ScrollToTopButton } from './components/ScrollToTop';
 import './App.css';
 
 // Lazy load heavy components
-// const WhatsAppWidget = lazy(() => import('./components/WhatsAppWidget'));
 const Navigation = lazy(() => import('./components/Navigation'));
 
 // Lazy load pages
@@ -20,7 +19,6 @@ const Search = lazy(() => import('./components/Search'));
 const ItemDescription = lazy(() => import('./components/ItemDescription'));
 const Cart = lazy(() => import('./pages/Cart'));
 const Checkout = lazy(() => import('./pages/Checkout'));
-const ProductList = lazy(() => import('./components/ProductList'));
 const PatternShowcase = lazy(() => import('./components/PatternShowcase'));
 const Login = lazy(() => import('./pages/Login'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -35,7 +33,6 @@ const SafeSearch = withErrorBoundary(Search);
 const SafeItemDescription = withErrorBoundary(ItemDescription);
 const SafeCart = withErrorBoundary(Cart);
 const SafeCheckout = withErrorBoundary(Checkout);
-const SafeProductList = withErrorBoundary(ProductList);
 const SafePatternShowcase = withErrorBoundary(PatternShowcase);
 const SafeLogin = withErrorBoundary(Login);
 const SafeDashboard = withErrorBoundary(Dashboard);
@@ -81,11 +78,11 @@ function AppContent() {
             <Routes>
               <Route path="/" element={<SafeHome />} />
               <Route path="/categories" element={<SafeCategories />} />
+              <Route path="/categories/:category" element={<SafeCategories />} />
               <Route path="/search" element={<SafeSearch />} />
               <Route path="/product/:pid" element={<SafeItemDescription />} />
               <Route path="/cart" element={<SafeCart />} />
               <Route path="/checkout" element={<SafeCheckout />} />
-              {/* <Route path="/products" element={<SafeProductList />} /> */}
               <Route path="/patterns" element={<SafePatternShowcase />} />
               <Route path="/login" element={<SafeLogin />} />
               <Route path="/dashboard" element={<SafeDashboard />} />

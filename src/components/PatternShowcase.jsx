@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Button, 
   Card, 
@@ -13,13 +15,51 @@ import {
   Paragraph,
   Text,
   Caption,
-  Label
+  Label,
+  Spinner
 } from './patterns';
 import PatternComparison from './PatternComparison';
+import { isAuthenticated, getUser } from '../services/api';
 
 import './PatternShowcase.css';
 
 const PatternShowcase = () => {
+  const navigate = useNavigate();
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Check if user is authenticated and is an admin
+    if (!isAuthenticated()) {
+      navigate('/login');
+      return;
+    }
+
+    const userData = getUser();
+    
+    // Only allow admin users
+    if (userData?.role !== 'admin') {
+      navigate('/dashboard');
+      return;
+    }
+
+    setIsAuthorized(true);
+    setIsLoading(false);
+  }, [navigate]);
+
+  // Show loading state while checking authorization
+  if (isLoading) {
+    return (
+      <Container size="large" className="py-6" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+        <Spinner size="large" text="Loading..." />
+      </Container>
+    );
+  }
+
+  // Render nothing if not authorized (redirect happens in useEffect)
+  if (!isAuthorized) {
+    return null;
+  }
   return (
     <Container size="large" className="py-6">
       <Heading1 className="mb-6">UI Pattern Showcase</Heading1>

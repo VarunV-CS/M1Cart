@@ -128,43 +128,31 @@ function Analysis({ onNavigateTab = () => {} }) {
       </div>
       
       <div className="analysis-grid">
-        <div
-          className="analysis-card"
-          role="button"
-          tabIndex={0}
-          onClick={() => onNavigateTab('users')}
-          onKeyDown={(event) => handleCardKeyDown(event, 'users')}
-          aria-label="Open users tab"
-        >
+        <div className="analysis-card">
           <PieChart 
             data={analysisData.usersByRole} 
-            title="Users by Role" 
+            title="Users by Role"
+            onClick={() => onNavigateTab('users')}
+            onKeyDown={(event) => handleCardKeyDown(event, 'users')}
+            ariaLabel="Open users tab"
           />
         </div>
-        <div
-          className="analysis-card"
-          role="button"
-          tabIndex={0}
-          onClick={() => onNavigateTab('products')}
-          onKeyDown={(event) => handleCardKeyDown(event, 'products')}
-          aria-label="Open products tab"
-        >
+        <div className="analysis-card">
           <PieChart 
             data={analysisData.productsByStatus} 
-            title="Products by Status" 
+            title="Products by Status"
+            onClick={() => onNavigateTab('products')}
+            onKeyDown={(event) => handleCardKeyDown(event, 'products')}
+            ariaLabel="Open products tab"
           />
         </div>
-        <div
-          className="analysis-card"
-          role="button"
-          tabIndex={0}
-          onClick={() => onNavigateTab('orders')}
-          onKeyDown={(event) => handleCardKeyDown(event, 'orders')}
-          aria-label="Open orders tab"
-        >
+        <div className="analysis-card">
           <PieChart 
             data={analysisData.ordersByStatus} 
-            title="Orders by Status" 
+            title="Orders by Status"
+            onClick={() => onNavigateTab('orders')}
+            onKeyDown={(event) => handleCardKeyDown(event, 'orders')}
+            ariaLabel="Open orders tab"
           />
         </div>
       </div>
