@@ -1,0 +1,101 @@
+/* ScrollToTop.css */
+
+/* Scroll to Top Button Styles */
+.scroll-to-top-button {
+  position: fixed;
+  bottom: 24px;
+  right: 100px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: 
+    opacity 0.3s ease,
+    visibility 0.3s ease,
+    transform 0.3s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+  z-index: 1199;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.scroll-to-top-button.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-to-top-button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-to-top-button:active {
+  transform: translateY(-2px);
+}
+
+/* Light theme */
+.scroll-to-top-button.light {
+  background: #ffffff;
+  color: #102140;
+  border: 1px solid #dfe5ee;
+}
+
+.scroll-to-top-button.light:hover {
+  background: #f4f7fc;
+  border-color: #c8d3e3;
+}
+
+/* Dark theme */
+.scroll-to-top-button.dark {
+  background: #1a2b43;
+  color: #f2f6ff;
+  border: 1px solid #304664;
+}
+
+.scroll-to-top-button.dark:hover {
+  background: #223651;
+  border-color: #3a5375;
+}
+
+.scroll-to-top-button svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .scroll-to-top-button {
+    bottom: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .scroll-to-top-button svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .scroll-to-top-button {
+    bottom: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .scroll-to-top-button svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+

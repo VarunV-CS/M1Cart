@@ -6,6 +6,7 @@ import ChatAssistantOverlay from './components/ChatAssistantOverlay';
 import { useTheme } from './context/ThemeContext';
 import withErrorBoundary from './hocs/withErrorBoundary';
 import { Spinner } from './components/patterns';
+import ScrollToTop, { ScrollToTopButton } from './components/ScrollToTop';
 import './App.css';
 
 // Lazy load heavy components
@@ -69,6 +70,7 @@ function AppContent() {
   return (
     <>
     <Router>
+      <ScrollToTop />
       <div className={`app theme-${theme}`}>
         <Suspense fallback={<NavigationFallback />}>
           <Navigation />
@@ -94,6 +96,7 @@ function AppContent() {
           </div>
         </Suspense>
         <ChatAssistantOverlay />
+        <ScrollToTopButton />
       </div>
     </Router>
     </>

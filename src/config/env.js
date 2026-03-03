@@ -19,7 +19,7 @@ export const stripeConfig = {
 export const whatsappConfig = {
   phoneNumber: import.meta.env.VITE_WHATSAPP_NUMBER || '1234567890',
   accountName: import.meta.env.VITE_WHATSAPP_ACCOUNT_NAME || 'M1Cart Support',
-  avatar: import.meta.env.VITE_WHATSAPP_AVATAR || '/logo_small.png',
+  avatar: import.meta.env.VITE_WHATSAPP_AVATAR || '/logo_small_zoom.png',
   statusMessage: import.meta.env.VITE_WHATSAPP_STATUS || 'Available 24/7!',
   chatMessage: import.meta.env.VITE_WHATSAPP_MESSAGE || 'Hello! How can we assist you today?',
   placeholder: import.meta.env.VITE_WHATSAPP_PLACEHOLDER || 'Type a message...',
