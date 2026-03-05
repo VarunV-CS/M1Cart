@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react';
 import AppProvider from './context/AppProvider';
 import NotificationDisplay from './components/NotificationDisplay';
 import ChatAssistantOverlay from './components/ChatAssistantOverlay';
+import TidioChat from './components/TidioChat';
 import { useTheme } from './context/ThemeContext';
 import withErrorBoundary from './hocs/withErrorBoundary';
 import { Spinner } from './components/patterns';
@@ -93,6 +94,7 @@ function AppContent() {
           </div>
         </Suspense>
         <ChatAssistantOverlay />
+        <TidioChat />
         <ScrollToTopButton />
       </div>
     </Router>

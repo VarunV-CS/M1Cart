@@ -59,3 +59,13 @@ button {
   width: 100%;
   min-height: 100vh;
 }
+
+#tidio-chat,
+#tidio-chat-iframe {
+  right: 120px !important;
+  left: auto !important;
+  bottom: 24px;
+  top: auto !important;
+  width: 25rem;
+  height: 500px;
+}

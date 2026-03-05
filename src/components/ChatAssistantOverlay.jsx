@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { whatsappConfig } from '../config/env';
 import WhatsAppWidget from './WhatsAppWidget';
+import TidioChat from './TidioChat';
 import './ChatAssistantOverlay.css';
 
 function ChatAssistantOverlay() {
@@ -59,7 +60,7 @@ function ChatAssistantOverlay() {
     <div className={`chat-assistant-overlay ${isOpen ? 'is-open' : ''}`}>
       <button
         type="button"
-        className={`chat-sub-button chat-sub-button-top ${isOpen ? 'show' : ''}`}
+        className={`chat-sub-button chat-sub-button-mid ${isOpen ? 'show' : ''}`}
         onClick={handleWhatsAppToggle}
         aria-label={isWhatsAppOpen ? 'Close WhatsApp helper' : 'Open WhatsApp helper'}
         aria-expanded={isWhatsAppOpen}
@@ -71,13 +72,13 @@ function ChatAssistantOverlay() {
         />
       </button>
 
-      <button
+      {/* <button
         type="button"
         className={`chat-sub-button chat-sub-button-mid ${isOpen ? 'show' : ''}`}
         aria-label="AI helper"
       >
         AI
-      </button>
+      </button> */}
 
       <button
         type="button"
