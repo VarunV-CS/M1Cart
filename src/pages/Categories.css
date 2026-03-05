@@ -1,6 +1,6 @@
 .categories-page {
   min-height: calc(100vh - 80px);
-  padding: 3rem 2rem;
+  padding-top: 3rem;
   background: #f8f9fa;
   transition: background-color 0.3s ease;
 }
@@ -50,7 +50,8 @@
 
 .categories-page .container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0 auto 4rem;
+  padding: 0 2rem;
 }
 
 .categories-page h1 {
@@ -174,8 +175,8 @@
 }
 
 @media (max-width: 768px) {
-  .categories-page {
-    padding: 2rem 1rem;
+  .categories-page .container {
+    padding: 0 1rem;
   }
   
   .categories-page h1 {

@@ -3,6 +3,7 @@ import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { fetchProducts, fetchCategories } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import Pagination from '../components/Pagination';
+import Footer from '../components/Footer';
 import { Spinner } from '../components/patterns';
 import './Categories.css';
 
@@ -311,7 +312,8 @@ const Categories = () => {
             onPageChange={handlePageChange}
           />
         )}
-      </div>
+      </div>      
+      <Footer />
     </div>
   );
 };

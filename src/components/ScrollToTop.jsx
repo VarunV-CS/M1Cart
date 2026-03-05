@@ -35,7 +35,19 @@ export function ScrollToTopButton() {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.scrollY > 300) {
+      // Get the hero section height for threshold
+      const heroSection = document.querySelector('.home-hero');
+      let threshold = 300; // Default for desktop
+      
+      if (heroSection) {
+        const heroHeight = heroSection.offsetHeight;
+        // Use hero height + some buffer for small/medium screens
+        if (window.innerWidth <= 1024) {
+          threshold = heroHeight + 50;
+        }
+      }
+      
+      if (window.scrollY > threshold) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
@@ -43,7 +55,12 @@ export function ScrollToTopButton() {
     };
 
     window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
+    // Also check on resize to recalculate
+    window.addEventListener('resize', toggleVisibility);
+    return () => {
+      window.removeEventListener('scroll', toggleVisibility);
+      window.removeEventListener('resize', toggleVisibility);
+    };
   }, []);
 
   const scrollToTop = () => {

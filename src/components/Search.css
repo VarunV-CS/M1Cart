@@ -1,6 +1,6 @@
 .search-page {
   min-height: calc(100vh - 80px);
-  padding: 3rem 2rem;
+  padding-top: 3rem;
   background: #f8f9fa;
   transition: background-color 0.3s ease;
 }
@@ -87,8 +87,8 @@
 }
 
 @media (max-width: 768px) {
-  .search-page {
-    padding: 2rem 1rem;
+  .search-page .container {
+    padding: 0 1rem;
   }
 
   .search-page h1 {
@@ -121,7 +121,8 @@
 
 .search-page .container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0 auto 4rem;
+  padding: 0 2rem;
 }
 
 .search-page h1 {
@@ -217,8 +218,8 @@
 }
 
 @media (max-width: 768px) {
-  .search-page {
-    padding: 2rem 1rem;
+  .search-page .container {
+    padding: 0 1rem;
   }
 
   .search-page h1 {

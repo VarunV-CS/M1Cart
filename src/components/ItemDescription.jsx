@@ -4,6 +4,7 @@ import { fetchProductById } from '../services/api';
 import { useCart } from '../context/CartContext';
 import Comments from './Comments';
 import ImageZoom from './ImageZoom';
+import Footer from './Footer';
 import './ItemDescription.css';
 
 const ItemDescription = () => {
@@ -134,6 +135,8 @@ const ItemDescription = () => {
           <Comments productId={product.pid} />
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 };

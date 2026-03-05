@@ -1,6 +1,6 @@
 .item-description-page {
   min-height: calc(100vh - 80px);
-  padding: 3rem 2rem;
+  padding-top: 3rem;
   background: #f8f9fa;
   transition: background-color 0.3s ease;
 }
@@ -40,7 +40,8 @@
 
 .item-description-page .container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0 auto 4rem;
+  padding: 0 2rem;
 }
 
 .back-button {
@@ -282,8 +283,8 @@
 }
 
 @media (max-width: 768px) {
-  .item-description-page {
-    padding: 2rem 1rem;
+  .item-description-page .container {
+    padding: 0 1rem;
   }
   
   .product-detail {

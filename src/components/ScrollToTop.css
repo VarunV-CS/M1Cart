@@ -74,7 +74,7 @@
 @media (max-width: 768px) {
   .scroll-to-top-button {
     bottom: 16px;
-    right: 16px;
+    right: 88px;
     width: 44px;
     height: 44px;
   }
@@ -88,7 +88,7 @@
 @media (max-width: 480px) {
   .scroll-to-top-button {
     bottom: 12px;
-    right: 12px;
+    right: 88px;
     width: 40px;
     height: 40px;
   }

@@ -3,6 +3,7 @@ import { useSearchParams, useLocation } from 'react-router-dom';
 import { fetchProducts, fetchCategories } from '../services/api';
 import ProductCard from './ProductCard';
 import Pagination from './Pagination';
+import Footer from './Footer';
 import './Search.css';
 
 // Page size options for user selection
@@ -263,6 +264,8 @@ const Search = () => {
           />
         )}
       </div>
+      
+      <Footer />
     </div>
   );
 };
