@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getAllUsers } from '../services/api';
+import { getAllUsers } from '../services/users/api';
 import UserModal from './UserModal';
 import Pagination from './Pagination';
 import './Users.css';
@@ -200,4 +200,3 @@ function Users() {
 }
 
 export default Users;
-

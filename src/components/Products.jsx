@@ -5,7 +5,7 @@ import {
   getAllProducts,
   getLatestProductId,
   updateProductStatus,
-} from '../services/api';
+} from '../services/products/api';
 import Pagination from './Pagination';
 import ProductModal from './ProductModal';
 import './Products.css';

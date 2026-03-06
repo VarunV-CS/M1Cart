@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
-import { isAuthenticated, getUser, getProfile, setUser as setStoredUser, sendVerificationOTP, updatePassword } from '../services/api';
+import { getProfile, sendVerificationOTP, updatePassword } from '../services/auth/api';
+import {
+  getUser,
+  isAuthenticated,
+  setUser as setStoredUser,
+} from '../services/auth/storage';
 import VerificationModal from '../components/VerificationModal';
 import PasswordInput from '../components/PasswordInput';
 import './Dashboard.css';

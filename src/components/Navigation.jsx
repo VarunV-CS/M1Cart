@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import ThemeToggle from './ThemeToggle';
 import withLogger from '../hocs/withLogger';
-import { isAuthenticated, getUser } from '../services/api';
+import { getUser, isAuthenticated } from '../services/auth/storage';
 import { Spinner } from '../components/patterns';
 import './Navigation.css';
 

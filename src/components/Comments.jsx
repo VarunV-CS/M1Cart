@@ -6,9 +6,8 @@ import {
   updateComment,
   deleteComment,
   fetchRatingStats,
-  isAuthenticated,
-  getUser
-} from '../services/api';
+} from '../services/comments/api';
+import { getUser, isAuthenticated } from '../services/auth/storage';
 import './Comments.css';
 
 const StarRating = ({ rating, onRatingChange, readOnly = false, size = 'medium' }) => {

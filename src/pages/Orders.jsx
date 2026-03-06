@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
-import { getOrders, isAuthenticated } from '../services/api';
+import { isAuthenticated } from '../services/auth/storage';
+import { getOrders } from '../services/orders/api';
 import { Spinner } from '../components/patterns';
 import OrderModal from '../components/OrderModal';
 import Pagination from '../components/Pagination';

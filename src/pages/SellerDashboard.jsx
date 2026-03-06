@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
-import { isAuthenticated, getUser, getProfile, setUser as setStoredUser, sendVerificationOTP } from '../services/api';
+import { getProfile, sendVerificationOTP } from '../services/auth/api';
+import {
+  getUser,
+  isAuthenticated,
+  setUser as setStoredUser,
+} from '../services/auth/storage';
 import VerificationModal from '../components/VerificationModal';
 import PasswordUpdateModal from '../components/PasswordUpdateModal';
 import SellerProducts from '../components/SellerProducts';

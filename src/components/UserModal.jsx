@@ -1,6 +1,10 @@
 import { useEffect, useCallback, useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
-import { updateUser, changeUserPassword, deactivateUser } from '../services/api';
+import {
+  changeUserPassword,
+  deactivateUser,
+  updateUser,
+} from '../services/users/api';
 import './UserModal.css';
 
 const UserModal = ({ user, onClose, onUserUpdated, isAdminView = true }) => {
@@ -492,4 +496,3 @@ const UserModal = ({ user, onClose, onUserUpdated, isAdminView = true }) => {
 };
 
 export default UserModal;
-

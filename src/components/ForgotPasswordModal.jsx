@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTheme } from '../context/ThemeContext';
-import { checkEmailExists, requestPasswordReset } from '../services/api';
+import { checkEmailExists, requestPasswordReset } from '../services/auth/api';
 import './ForgotPasswordModal.css';
 
 const ForgotPModal = ({ isOpen, onClose }) => {

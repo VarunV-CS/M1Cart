@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login, register, setToken, setUser } from '../services/api';
+import { login, register } from '../services/auth/api';
+import { setToken, setUser } from '../services/auth/storage';
 import PasswordInput from '../components/PasswordInput';
 import ForgotPModal from '../components/ForgotPasswordModal';
 import './Login.css';

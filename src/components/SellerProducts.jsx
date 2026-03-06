@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { createProduct, getLatestProductId, getMyProducts } from '../services/api';
+import {
+  createProduct,
+  getLatestProductId,
+  getMyProducts,
+} from '../services/products/api';
 import ProductModal from './ProductModal';
 import './SellerProducts.css';
 

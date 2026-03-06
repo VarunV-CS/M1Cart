@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { fetchProducts } from '../services/api';
+import { fetchProducts } from '../services/products/api';
 import { Spinner } from '../components/patterns';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';

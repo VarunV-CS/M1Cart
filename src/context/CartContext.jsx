@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useCallback, useState } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import eventBus, { CART_EVENTS } from '../utils/eventBus';
-import { saveCart, loadCart, isAuthenticated, logout as apiLogout, getUser } from '../services/api';
+import { loadCart, saveCart } from '../services/cart/api';
+import { getUser, isAuthenticated, logout as apiLogout } from '../services/auth/storage';
 
 const CartContext = createContext();
 

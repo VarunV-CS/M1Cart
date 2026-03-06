@@ -4,7 +4,12 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
-import { createPaymentIntent, handlePaymentSuccess, verifyPayment, isAuthenticated } from '../services/api';
+import { isAuthenticated } from '../services/auth/storage';
+import {
+  createPaymentIntent,
+  handlePaymentSuccess,
+  verifyPayment,
+} from '../services/orders/api';
 import { stripeConfig } from '../config/env';
 import { Button, Card, Spinner } from '../components/patterns';
 import './Checkout.css';

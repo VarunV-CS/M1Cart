@@ -19,7 +19,7 @@ import {
   Spinner
 } from './patterns';
 import PatternComparison from './PatternComparison';
-import { isAuthenticated, getUser } from '../services/api';
+import { getUser, isAuthenticated } from '../services/auth/storage';
 
 import './PatternShowcase.css';
 

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
-import { fetchProducts, fetchCategories } from '../services/api';
+import { fetchProducts, fetchCategories } from '../services/products/api';
 import ProductCard from '../components/ProductCard';
 import Pagination from '../components/Pagination';
 import Footer from '../components/Footer';

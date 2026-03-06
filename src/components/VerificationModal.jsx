@@ -48,8 +48,7 @@ function VerificationModal({ isOpen, onClose, onVerificationComplete }) {
     setError('');
 
     try {
-      // Import the verifyOTP function from api
-      const { verifyOTP } = await import('../services/api');
+      const { verifyOTP } = await import('../services/auth/api');
       const response = await verifyOTP(otp);
       
       if (response.success) {
@@ -75,7 +74,7 @@ function VerificationModal({ isOpen, onClose, onVerificationComplete }) {
     setError('');
 
     try {
-      const { sendVerificationOTP } = await import('../services/api');
+      const { sendVerificationOTP } = await import('../services/auth/api');
       await sendVerificationOTP();
       setResendTimer(60); // 60 second cooldown
     } catch (err) {
@@ -162,4 +161,3 @@ function VerificationModal({ isOpen, onClose, onVerificationComplete }) {
 }
 
 export default VerificationModal;
-
