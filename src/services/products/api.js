@@ -75,6 +75,26 @@ export const fetchCategories = async () => {
   }
 };
 
+export const fetchSearchSuggestions = async (query) => {
+  try {
+    const params = new URLSearchParams({ q: query.trim() });
+    const response = await fetchWithTimeout(`${API_BASE_URL}/products/suggestions?${params.toString()}`);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch search suggestions: ${response.status}`);
+    }
+
+    const data = await handleResponse(response);
+    return data.suggestions || [];
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Suggestions request timed out. Please try again.');
+    }
+    console.error('Error fetching search suggestions:', error);
+    throw error;
+  }
+};
+
 export const fetchProductById = async (pid) => {
   try {
     const response = await fetchWithTimeout(`${API_BASE_URL}/products/${pid}`);
