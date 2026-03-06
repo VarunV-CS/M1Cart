@@ -22,6 +22,7 @@ const Cart = lazy(() => import('./pages/Cart'));
 const Checkout = lazy(() => import('./pages/Checkout'));
 const PatternShowcase = lazy(() => import('./components/PatternShowcase'));
 const Login = lazy(() => import('./pages/Login'));
+const Reset = lazy(() => import('./pages/Reset'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Orders = lazy(() => import('./pages/Orders'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
@@ -36,6 +37,7 @@ const SafeCart = withErrorBoundary(Cart);
 const SafeCheckout = withErrorBoundary(Checkout);
 const SafePatternShowcase = withErrorBoundary(PatternShowcase);
 const SafeLogin = withErrorBoundary(Login);
+const SafeReset = withErrorBoundary(Reset);
 const SafeDashboard = withErrorBoundary(Dashboard);
 const SafeOrders = withErrorBoundary(Orders);
 const SafeAdminDashboard = withErrorBoundary(AdminDashboard);
@@ -86,6 +88,7 @@ function AppContent() {
               <Route path="/checkout" element={<SafeCheckout />} />
               <Route path="/patterns" element={<SafePatternShowcase />} />
               <Route path="/login" element={<SafeLogin />} />
+              <Route path="/reset" element={<SafeReset />} />
               <Route path="/dashboard" element={<SafeDashboard />} />
               <Route path="/orders" element={<SafeOrders />} />
               <Route path="/admin-dashboard" element={<SafeAdminDashboard />} />

@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login, register, setToken, setUser } from '../services/api';
 import PasswordInput from '../components/PasswordInput';
+import ForgotPModal from '../components/ForgotPasswordModal';
 import './Login.css';
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -180,18 +182,13 @@ function Login() {
             console.log('Login successful:', userToStore);
             
             // Navigate based on user role
-            // setTimeout(() => {
-              if (userToStore.role === 'admin') {
-                navigate('/admin-dashboard', { state: { justLoggedIn: true } });
-              } else if (userToStore.role === 'seller') {
-                navigate('/seller-dashboard', { state: { justLoggedIn: true } });
-              } else {
-                navigate('/dashboard', { state: { justLoggedIn: true } });
-              }
-            // }, 100);
-            // } else {
-            //   throw new Error(response.message || 'Login failed');
-            // }
+            if (userToStore.role === 'admin') {
+              navigate('/admin-dashboard', { state: { justLoggedIn: true } });
+            } else if (userToStore.role === 'seller') {
+              navigate('/seller-dashboard', { state: { justLoggedIn: true } });
+            } else {
+              navigate('/dashboard', { state: { justLoggedIn: true } });
+            }
           } else {
             // Handle login failure - user doesn't exist or wrong password
             throw new Error(response.message || 'Invalid email/username or password');
@@ -346,6 +343,20 @@ function Login() {
               error={!!errors.password}
             />
             {errors.password && <span className="error-message">{errors.password}</span>}
+            
+            {/* Forgot Password Link - Only show in login mode */}
+            {isLogin && (
+              <div className="forgot-password-link">
+                <button 
+                  type="button"
+                  onClick={() => setShowForgotPassword(true)}
+                  className="forgot-password-btn"
+                  disabled={isLoading}
+                >
+                  Forgot Password?
+                </button>
+              </div>
+            )}
           </div>
 
           {!isLogin && (
@@ -453,6 +464,12 @@ function Login() {
           </p>
         </div>
       </div>
+
+      {/* Forgot Password Modal */}
+      <ForgotPModal 
+        isOpen={showForgotPassword} 
+        onClose={() => setShowForgotPassword(false)}
+      />
     </div>
   );
 }

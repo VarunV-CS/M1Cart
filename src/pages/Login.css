@@ -466,3 +466,39 @@
   color: #f3f4f6;
 }
 
+/* Forgot Password Link */
+.forgot-password-link {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.forgot-password-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.3s ease;
+}
+
+.forgot-password-btn:hover:not(:disabled) {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.forgot-password-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.app.theme-dark .forgot-password-btn {
+  color: #60a5fa;
+}
+
+.app.theme-dark .forgot-password-btn:hover:not(:disabled) {
+  color: #93c5fd;
+}
+

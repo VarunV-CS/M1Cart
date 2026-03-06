@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTheme } from '../context/ThemeContext';
-import { checkEmailExists } from '../services/api';
-import './ForgotPModal.css';
+import { checkEmailExists, requestPasswordReset } from '../services/api';
+import './ForgotPasswordModal.css';
 
-const ForgotPModal = ({ isOpen, onClose, onShowResetPassword }) => {
+const ForgotPModal = ({ isOpen, onClose }) => {
   const { isDark } = useTheme();
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -13,8 +13,6 @@ const ForgotPModal = ({ isOpen, onClose, onShowResetPassword }) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState('');
-  const [emailChecked, setEmailChecked] = useState(false);
-  const [emailFound, setEmailFound] = useState(false);
 
   // Handle escape key press
   const handleEscape = useCallback((e) => {
@@ -37,8 +35,6 @@ const ForgotPModal = ({ isOpen, onClose, onShowResetPassword }) => {
       setEmailError('');
       setEmailValidation({ isTouched: false, isValid: false });
       setMessage('');
-      setEmailChecked(false);
-      setEmailFound(false);
     }
   }, [isOpen]);
 
@@ -72,9 +68,7 @@ const ForgotPModal = ({ isOpen, onClose, onShowResetPassword }) => {
     if (emailError) {
       setEmailError('');
     }
-    if (emailChecked) {
-      setEmailChecked(false);
-      setEmailFound(false);
+    if (message) {
       setMessage('');
     }
     
@@ -121,34 +115,27 @@ const ForgotPModal = ({ isOpen, onClose, onShowResetPassword }) => {
     setMessage('');
 
     try {      
-      // Check if email exists in the database
-      const response = await checkEmailExists(email);
+      const normalizedEmail = email.trim().toLowerCase();
+      const response = await checkEmailExists(normalizedEmail);
       
       if (response.success) {
         if (response.exists) {
-          // Email found - proceed with password reset flow
-          setEmailFound(true);
-          setEmailChecked(true);
-          
-          // Close ForgotPModal and show ResetPasswordModal
-          onClose();
-          if (onShowResetPassword) {
-            onShowResetPassword();
-          }
+          await requestPasswordReset(normalizedEmail);
 
-          // Clear email after successful submission
+          setMessage('A password reset link has been sent to this email address.');
+          setEmailError('');
+
           setEmail('');
           setEmailValidation({ isTouched: false, isValid: false });
         } else {
-          // Email not found - show error in VerificationModal style
           setEmailError('No account found with this email address');
           setEmailValidation({ isTouched: true, isValid: false });
-          setEmailChecked(false);
-          setEmailFound(false);
         }
+      } else {
+        throw new Error(response.message || 'Failed to send reset link. Please try again.');
       }
     } catch (error) {
-      setEmailError(error.message || 'Failed to check email. Please try again.');
+      setEmailError(error.message || 'Failed to send reset link. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -226,7 +213,7 @@ const ForgotPModal = ({ isOpen, onClose, onShowResetPassword }) => {
               {isSubmitting ? (
                 <>
                   <span className="forgotp-button-spinner"></span>
-                  Checking...
+                  Sending...
                 </>
               ) : (
                 'Send Reset Link'
@@ -263,4 +250,3 @@ const ForgotPModal = ({ isOpen, onClose, onShowResetPassword }) => {
 };
 
 export default ForgotPModal;
-

@@ -981,3 +981,41 @@ export const checkEmailExists = async (email) => {
     throw error;
   }
 };
+
+export const requestPasswordReset = async (email) => {
+  try {
+    const resetUrl = typeof window === 'undefined'
+      ? '/reset'
+      : `${window.location.origin}/reset`;
+
+    const response = await fetchWithTimeout(`${API_BASE_URL}/auth/forgot-password`, {
+      method: 'POST',
+      body: JSON.stringify({ email, resetUrl }),
+    });
+
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Reset link request timed out. Please try again.');
+    }
+    console.error('Error requesting password reset:', error);
+    throw error;
+  }
+};
+
+export const resetPasswordWithToken = async (token, newPassword) => {
+  try {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/auth/reset-password`, {
+      method: 'POST',
+      body: JSON.stringify({ token, newPassword }),
+    });
+
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Password reset request timed out. Please try again.');
+    }
+    console.error('Error resetting password with token:', error);
+    throw error;
+  }
+};
