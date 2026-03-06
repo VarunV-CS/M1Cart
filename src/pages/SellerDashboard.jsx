@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { isAuthenticated, getUser, getProfile, setUser as setStoredUser, sendVerificationOTP } from '../services/api';
 import VerificationModal from '../components/VerificationModal';
+import PasswordUpdateModal from '../components/PasswordUpdateModal';
 import SellerProducts from '../components/SellerProducts';
 import SellerOrders from '../components/SellerOrders';
 import './SellerDashboard.css';
@@ -18,6 +19,7 @@ function SellerDashboard() {
 
   // Handle Verify Account button click
   const [showVerificationModal, setShowVerificationModal] = useState(false);
+  const [showPasswordUpdateModal, setShowPasswordUpdateModal] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -120,16 +122,28 @@ function SellerDashboard() {
             <span className="account-email">{user?.email}</span>
             <span className="business-name">{user?.businessName}</span>
           </div>
-          {user?.isVerified === false && (
-              <div className="info-item verify-btn-item">
-                <button 
-                  className="verify-account-btn"
-                  onClick={handleVerifyClick}
-                >
-                  Verify Account
-                </button>
-              </div>
-            )}
+        </div>
+      </div>
+
+      {/* Header Actions - Verify Account & Update Password */}
+      <div className="dashboard-header-actions">
+        {user?.isVerified === false && (
+          <div className="info-item verify-btn-item">
+            <button 
+              className="verify-account-btn"
+              onClick={handleVerifyClick}
+            >
+              Verify Account
+            </button>
+          </div>
+        )}
+        <div className="info-item password-btn-item">
+          <button 
+            className="update-password-header-btn"
+            onClick={() => setShowPasswordUpdateModal(true)}
+          >
+            Update Password
+          </button>
         </div>
       </div>
 
@@ -158,6 +172,12 @@ function SellerDashboard() {
         isOpen={showVerificationModal} 
         onClose={() => setShowVerificationModal(false)}
         onVerificationComplete={handleVerificationComplete}
+      />
+      
+      {/* Password Update Modal */}
+      <PasswordUpdateModal 
+        isOpen={showPasswordUpdateModal} 
+        onClose={() => setShowPasswordUpdateModal(false)}
       />
     </div>
   );

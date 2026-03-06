@@ -93,7 +93,7 @@ function AppContent() {
             </Routes>
           </div>
         </Suspense>
-        <ChatAssistantOverlay />
+        {/* <ChatAssistantOverlay /> */}
         <TidioChat />
         <ScrollToTopButton />
       </div>
@@ -106,9 +106,6 @@ function App() {
   return (
     <AppProvider>
       <AppContent />
-      {/* <Suspense fallback={null}>
-        <WhatsAppWidget />
-      </Suspense> */}
     </AppProvider>
   );
 }

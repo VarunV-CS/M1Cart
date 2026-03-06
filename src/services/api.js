@@ -940,3 +940,44 @@ export const verifyOTP = async (otp) => {
     throw error;
   }
 };
+
+// Update user password
+export const updatePassword = async (currentPassword, newPassword) => {
+  try {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/auth/update-password`, {
+      method: 'PUT',
+      body: JSON.stringify({ currentPassword, newPassword }),
+      headers: getAuthHeaders(),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to update password: ${response.status}`);
+    }
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Update password request timed out. Please try again.');
+    }
+    console.error('Error updating password:', error);
+    throw error;
+  }
+};
+
+// Check if email exists for password reset
+export const checkEmailExists = async (email) => {
+  try {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/auth/check-email`, {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    });
+    
+    return await handleResponse(response);
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Email check request timed out. Please try again.');
+    }
+    console.error('Error checking email:', error);
+    throw error;
+  }
+};

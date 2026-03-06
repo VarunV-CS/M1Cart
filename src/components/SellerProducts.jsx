@@ -23,10 +23,30 @@ function SellerProducts() {
   const [expandedProduct, setExpandedProduct] = useState(null);
 
   const isFetchingProductsRef = useRef(false);
+  const formContainerRef = useRef(null);
 
   useEffect(() => {
     fetchMyProducts();
   }, [statusFilter]);
+
+  // Handle click outside to collapse the form
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showForm && formContainerRef.current && !formContainerRef.current.contains(event.target)) {
+        // Use setTimeout to allow the button's click handler to execute first
+        // then close the form
+        setTimeout(() => {
+          setShowForm(false);
+          setFormErrors({});
+        }, 50);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [showForm]);
 
   const fetchMyProducts = async (filter = statusFilter) => {
     if (isFetchingProductsRef.current) return;
@@ -230,7 +250,7 @@ function SellerProducts() {
       </div>
 
       {showForm && (
-        <div className="seller-products-form-container">
+        <div className="seller-products-form-container" ref={formContainerRef}>
           <h3>Add New Product</h3>
           {error && <div className="seller-products-form-error">{error}</div>}
           <form onSubmit={handleSubmit} className="seller-products-form">

@@ -39,7 +39,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem;
+  padding: 2rem 2rem 0 2rem;
   transition: border-color 0.3s ease;
   min-height: 120px;
 }
@@ -192,6 +192,21 @@
 }
 
 /* ========================================
+   Header Actions - Centered between header and filters
+   ======================================== */
+.dashboard-header-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1.5rem 0;
+}
+
+.dashboard-header-actions .info-item {
+  margin-top: 0;
+}
+
+/* ========================================
    Category Filters
    ======================================== */
 .category-filters {
@@ -273,4 +288,46 @@
 
 .seller-dashboard-container.dark .verify-account-btn:hover {
   background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+}
+
+/* ========================================
+   Update Password Header Button
+   ======================================== */
+.password-btn-item {
+  margin-top: 0.25rem;
+  align-self: flex-end;
+}
+
+.update-password-header-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 7px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.update-password-header-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #5a6fd6 0%, #6a4190 100%);
+}
+
+.update-password-header-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.4);
+}
+
+/* Dark mode support for update password button */
+.seller-dashboard-container.dark .update-password-header-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.seller-dashboard-container.dark .update-password-header-btn:hover {
+  background: linear-gradient(135deg, #5a6fd6 0%, #6a4190 100%);
 }

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { whatsappConfig } from '../config/env';
 import WhatsAppWidget from './WhatsAppWidget';
-import TidioChat from './TidioChat';
 import './ChatAssistantOverlay.css';
 
 function ChatAssistantOverlay() {

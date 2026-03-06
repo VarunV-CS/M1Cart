@@ -180,7 +180,7 @@ const Navigation = () => {
                 to={user?.role === 'admin' ? '/admin-dashboard' : user?.role === 'seller' ? '/seller-dashboard' : '/dashboard'} 
                 className={`nav-dashboard-link ${location.pathname === '/dashboard' || location.pathname === '/admin-dashboard' || location.pathname === '/seller-dashboard' ? 'active' : ''}`}
               >
-                Dashboard
+                Profile
               </Link>
               <button 
                 className="nav-logout-button"
