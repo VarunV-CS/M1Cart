@@ -4,7 +4,7 @@ import { useTheme } from '../context/ThemeContext';
 import { isAuthenticated } from '../services/auth/storage';
 import { getOrders } from '../services/orders/api';
 import { Spinner } from '../components/patterns';
-import OrderModal from '../components/OrderModal';
+import OrderModal from '../components/modals/OrderModal';
 import Pagination from '../components/Pagination';
 import './Orders.css';
 

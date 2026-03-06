@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { getAllOrders, updateAdminOrderStatus } from '../services/orders/api';
-import OrderModal from './OrderModal';
+import OrderModal from './modals/OrderModal';
 import Pagination from './Pagination';
 import './AdminOrders.css';
 

@@ -16,7 +16,7 @@ const Navigation = lazy(() => import('./components/Navigation'));
 // Lazy load pages
 const Home = lazy(() => import('./pages/Home'));
 const Categories = lazy(() => import('./pages/Categories'));
-const Search = lazy(() => import('./components/Search'));
+const Search = lazy(() => import('./pages/Search'));
 const ItemDescription = lazy(() => import('./components/ItemDescription'));
 const Cart = lazy(() => import('./pages/Cart'));
 const Checkout = lazy(() => import('./pages/Checkout'));

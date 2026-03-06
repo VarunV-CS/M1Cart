@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { login, register } from '../services/auth/api';
 import { setToken, setUser } from '../services/auth/storage';
 import PasswordInput from '../components/PasswordInput';
-import ForgotPModal from '../components/ForgotPasswordModal';
+import ForgotPModal from '../components/modals/ForgotPasswordModal';
 import './Login.css';
 
 function Login() {

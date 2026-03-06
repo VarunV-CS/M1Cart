@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import { fetchProducts, fetchCategories } from '../services/products/api';
-import ProductCard from './ProductCard';
-import Pagination from './Pagination';
-import Footer from './Footer';
+import ProductCard from '../components/ProductCard';
+import Pagination from '../components/Pagination';
+import Footer from '../components/Footer';
 import './Search.css';
 
 // Page size options for user selection
@@ -13,18 +13,18 @@ const Search = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const query = searchParams.get('q') || '';
-  
+
   // Data state
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   // Filter state
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [sortBy, setSortBy] = useState('name-asc');
-  
+
   // Pagination state
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(12);
@@ -34,7 +34,7 @@ const Search = () => {
   // Build filter object
   const buildFilters = () => {
     const filters = {};
-    
+
     // Always include the search query
     if (query) {
       filters.search = query;
@@ -51,7 +51,7 @@ const Search = () => {
     if (sortBy) {
       filters.sortBy = sortBy;
     }
-    
+
     return filters;
   };
 
@@ -60,17 +60,17 @@ const Search = () => {
     try {
       setLoading(true);
       setError(null);
-      
+
       // Load categories
       const categoriesData = await fetchCategories();
       setCategories(categoriesData);
-      
+
       // Build filters
       const filters = buildFilters();
-      
+
       // Fetch products with pagination and filters
       const productsData = await fetchProducts(pageNum, limitNum, filters);
-      
+
       // Handle the response format
       if (productsData.products) {
         setProducts(productsData.products);
@@ -149,7 +149,7 @@ const Search = () => {
         {query && (
           <p className="search-query">Searching for: "{query}"</p>
         )}
-        
+
         {/* Filters Section */}
         <div className="filters-section">
           <div className="filters-grid">
@@ -171,7 +171,7 @@ const Search = () => {
                 ))}
               </select>
             </div>
-            
+
             <div className="filter-group">
               <label htmlFor="price-min">Min Price:</label>
               <input
@@ -185,7 +185,7 @@ const Search = () => {
                 step="0.01"
               />
             </div>
-            
+
             <div className="filter-group">
               <label htmlFor="price-max">Max Price:</label>
               <input
@@ -199,7 +199,7 @@ const Search = () => {
                 step="0.01"
               />
             </div>
-            
+
             <div className="filter-group">
               <label htmlFor="sort-by">Sort by:</label>
               <select
@@ -215,19 +215,19 @@ const Search = () => {
               </select>
             </div>
           </div>
-          
+
           <button onClick={clearFilters} className="clear-filters-btn">
             Clear Filters
           </button>
         </div>
-        
+
         {/* Results Info and Page Size Selector */}
         <div className="results-header">
           <div className="results-count">
             {total} product{total !== 1 ? 's' : ''} found
             {total > 0 && <span className="total-count"> (showing {products.length} of {total})</span>}
           </div>
-          
+
           <div className="page-size-selector">
             <label htmlFor="page-size">Show:</label>
             <select
@@ -242,19 +242,19 @@ const Search = () => {
             </select>
           </div>
         </div>
-        
+
         <div className="products-grid">
           {products.map(product => (
             <ProductCard key={product.pid} product={product} />
           ))}
         </div>
-        
+
         {products.length === 0 && (
           <div className="no-products">
             <p>No products found matching your criteria.</p>
           </div>
         )}
-        
+
         {/* Pagination Controls */}
         {totalPages > 1 && (
           <Pagination
@@ -264,7 +264,7 @@ const Search = () => {
           />
         )}
       </div>
-      
+
       <Footer />
     </div>
   );

@@ -4,7 +4,7 @@ import {
   getLatestProductId,
   getMyProducts,
 } from '../services/products/api';
-import ProductModal from './ProductModal';
+import ProductModal from './modals/ProductModal';
 import './SellerProducts.css';
 
 function SellerProducts() {

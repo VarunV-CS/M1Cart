@@ -8,7 +8,7 @@ import {
   isAuthenticated,
   setUser as setStoredUser,
 } from '../services/auth/storage';
-import VerificationModal from '../components/VerificationModal';
+import VerificationModal from '../components/modals/VerificationModal';
 import PasswordInput from '../components/PasswordInput';
 import './Dashboard.css';
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useTheme } from '../context/ThemeContext';
-import { updatePassword } from '../services/auth/api';
-import PasswordInput from './PasswordInput';
+import { useTheme } from '../../context/ThemeContext';
+import { updatePassword } from '../../services/auth/api';
+import PasswordInput from '../PasswordInput';
 import './PasswordUpdateModal.css';
 
 function PasswordUpdateModal({ isOpen, onClose }) {

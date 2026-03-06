@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getAllUsers } from '../services/users/api';
-import UserModal from './UserModal';
+import UserModal from './modals/UserModal';
 import Pagination from './Pagination';
 import './Users.css';
 

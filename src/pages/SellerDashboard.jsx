@@ -7,8 +7,8 @@ import {
   isAuthenticated,
   setUser as setStoredUser,
 } from '../services/auth/storage';
-import VerificationModal from '../components/VerificationModal';
-import PasswordUpdateModal from '../components/PasswordUpdateModal';
+import VerificationModal from '../components/modals/VerificationModal';
+import PasswordUpdateModal from '../components/modals/PasswordUpdateModal';
 import SellerProducts from '../components/SellerProducts';
 import SellerOrders from '../components/SellerOrders';
 import './SellerDashboard.css';

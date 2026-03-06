@@ -8,7 +8,7 @@ import {
   setUser as setStoredUser,
 } from '../services/auth/storage';
 import Analysis from '../components/Analysis';
-import VerificationModal from '../components/VerificationModal';
+import VerificationModal from '../components/modals/VerificationModal';
 import Users from '../components/Users';
 import Products from '../components/Products';
 import AdminOrders from '../components/AdminOrders';

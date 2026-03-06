@@ -1,10 +1,10 @@
 import { useEffect, useCallback, useState } from 'react';
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from '../../context/ThemeContext';
 import {
   changeUserPassword,
   deactivateUser,
   updateUser,
-} from '../services/users/api';
+} from '../../services/users/api';
 import './UserModal.css';
 
 const UserModal = ({ user, onClose, onUserUpdated, isAdminView = true }) => {

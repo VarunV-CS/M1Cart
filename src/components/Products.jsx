@@ -7,7 +7,7 @@ import {
   updateProductStatus,
 } from '../services/products/api';
 import Pagination from './Pagination';
-import ProductModal from './ProductModal';
+import ProductModal from './modals/ProductModal';
 import './Products.css';
 
 const PAGE_SIZE_OPTIONS = [5, 10, 20];
