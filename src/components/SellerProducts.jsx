@@ -1,13 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTheme } from '../context/ThemeContext';
 import {
   createProduct,
   getLatestProductId,
   getMyProducts,
 } from '../services/products/api';
 import ProductModal from './modals/ProductModal';
+import Pagination from './Pagination';
 import './SellerProducts.css';
 
+const PAGE_SIZE_OPTIONS = [8, 16, 20];
+
 function SellerProducts() {
+  const { isDark } = useTheme();
+  
   const [products, setProducts] = useState([]);
   const [productsLoading, setProductsLoading] = useState(false);
   const [statusFilter, setStatusFilter] = useState('all');
@@ -26,12 +32,49 @@ function SellerProducts() {
   const [error, setError] = useState('');
   const [expandedProduct, setExpandedProduct] = useState(null);
 
+  // Pagination state
+  const [productsPage, setProductsPage] = useState(1);
+  const [productsLimit, setProductsLimit] = useState(8);
+  const [productsTotalPages, setProductsTotalPages] = useState(1);
+  const [productsTotal, setProductsTotal] = useState(0);
+
   const isFetchingProductsRef = useRef(false);
   const formContainerRef = useRef(null);
 
+  const fetchMyProducts = useCallback(async (filter = statusFilter) => {
+    if (isFetchingProductsRef.current) return;
+
+    setProductsLoading(true);
+    isFetchingProductsRef.current = true;
+
+    try {
+      const response = await getMyProducts(filter);
+      if (response.success) {
+        const allFetchedProducts = response.products || [];
+        setProductsTotal(allFetchedProducts.length);
+        
+        // Calculate total pages based on fetched products
+        const totalPages = Math.ceil(allFetchedProducts.length / productsLimit);
+        setProductsTotalPages(totalPages);
+        
+        // Apply client-side pagination
+        const startIndex = (productsPage - 1) * productsLimit;
+        const endIndex = startIndex + productsLimit;
+        const paginatedProducts = allFetchedProducts.slice(startIndex, endIndex);
+        setProducts(paginatedProducts);
+      }
+    } catch (err) {
+      console.error('Error fetching products:', err);
+      setError('Failed to fetch products. Please try again.');
+    } finally {
+      setProductsLoading(false);
+      isFetchingProductsRef.current = false;
+    }
+  }, [statusFilter, productsPage, productsLimit]);
+
   useEffect(() => {
     fetchMyProducts();
-  }, [statusFilter]);
+  }, [fetchMyProducts]);
 
   // Handle click outside to collapse the form
   useEffect(() => {
@@ -52,28 +95,21 @@ function SellerProducts() {
     };
   }, [showForm]);
 
-  const fetchMyProducts = async (filter = statusFilter) => {
-    if (isFetchingProductsRef.current) return;
-
-    setProductsLoading(true);
-    isFetchingProductsRef.current = true;
-
-    try {
-      const response = await getMyProducts(filter);
-      if (response.success) {
-        setProducts(response.products || []);
-      }
-    } catch (err) {
-      console.error('Error fetching products:', err);
-      setError('Failed to fetch products. Please try again.');
-    } finally {
-      setProductsLoading(false);
-      isFetchingProductsRef.current = false;
-    }
-  };
-
   const handleStatusFilterChange = (newStatus) => {
     setStatusFilter(newStatus);
+    setProductsPage(1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleProductsPageChange = (newPage) => {
+    setProductsPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleProductsLimitChange = (newLimit) => {
+    setProductsLimit(newLimit);
+    setProductsPage(1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const fetchLatestPid = async () => {
@@ -201,7 +237,7 @@ function SellerProducts() {
   };
 
   return (
-    <div className="seller-products-section">
+    <div className={`seller-products-section ${isDark ? 'dark' : ''}`}>
       <div className="seller-products-header">
         <h2>Products</h2>
         <div className="seller-products-header-actions">
@@ -380,41 +416,74 @@ function SellerProducts() {
             <p>No products found</p>
           </div>
         ) : (
-          <div className="seller-products-grid">
-            {products.map((product) => (
-              <div
-                key={product.pid}
-                className="seller-product-card"
-                onClick={() => setExpandedProduct(product)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    setExpandedProduct(product);
-                  }
-                }}
-              >
-                <div className="seller-product-image">
-                  {product.image ? (
-                    <img src={product.image} alt={product.name} />
-                  ) : (
-                    <div className="seller-product-no-image">No Image</div>
-                  )}
-                </div>
-                <div className="seller-product-info">
-                  <h4>{product.name}</h4>
-                  <p className="seller-product-category">{product.category}</p>
-                  <p className="seller-product-price">${product.price?.toFixed(2)}</p>
-                  <p className={`seller-product-stock ${product.inStock ? 'in-stock' : 'out-of-stock'}`}>
-                    {product.inStock ? 'In Stock' : 'Out of Stock'}
-                  </p>
-                  <p className={`seller-product-status status-${product.status?.toLowerCase() || 'submitted'}`}>
-                    {product.status || 'Submitted'}
-                  </p>
-                </div>
+          <>
+            <div className="results-header">
+              <div className="results-count">
+                {productsTotal} product{productsTotal !== 1 ? 's' : ''} found
+                <span className="total-count"> (showing {products.length} of {productsTotal})</span>
               </div>
-            ))}
-          </div>
+
+              <div className="page-size-selector">
+                <label htmlFor="seller-products-page-size">Show:</label>
+                <select
+                  id="seller-products-page-size"
+                  value={productsLimit}
+                  onChange={(e) => handleProductsLimitChange(Number(e.target.value))}
+                  className="filter-select"
+                >
+                  {PAGE_SIZE_OPTIONS.map((size) => (
+                    <option key={size} value={size}>
+                      {size}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="seller-products-grid">
+              {products.map((product) => (
+                <div
+                  key={product.pid}
+                  className="seller-product-card"
+                  onClick={() => setExpandedProduct(product)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      setExpandedProduct(product);
+                    }
+                  }}
+                >
+                  <div className="seller-product-image">
+                    {product.image ? (
+                      <img src={product.image} alt={product.name} />
+                    ) : (
+                      <div className="seller-product-no-image">No Image</div>
+                    )}
+                  </div>
+                  <div className="seller-product-info">
+                    <h4>{product.name}</h4>
+                    <p className="seller-product-category">{product.category}</p>
+                    <p className="seller-product-price">${product.price?.toFixed(2)}</p>
+                    <p className={`seller-product-stock ${product.inStock ? 'in-stock' : 'out-of-stock'}`}>
+                      {product.inStock ? 'In Stock' : 'Out of Stock'}
+                    </p>
+                    <p className={`seller-product-status status-${product.status?.toLowerCase() || 'submitted'}`}>
+                      {product.status || 'Submitted'}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {productsTotalPages > 1 && (
+              <Pagination
+                currentPage={productsPage}
+                totalPages={productsTotalPages}
+                onPageChange={handleProductsPageChange}
+              />
+            )}
+          </>
         )}
       </div>
 
