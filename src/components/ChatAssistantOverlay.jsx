@@ -57,7 +57,7 @@ function ChatAssistantOverlay() {
 
   return (
     <div className={`chat-assistant-overlay ${isOpen ? 'is-open' : ''}`}>
-      <button
+      {/* <button
         type="button"
         className={`chat-sub-button chat-sub-button-mid ${isOpen ? 'show' : ''}`}
         onClick={handleWhatsAppToggle}
@@ -69,7 +69,7 @@ function ChatAssistantOverlay() {
           alt="WhatsApp support"
           className="chat-sub-button-logo"
         />
-      </button>
+      </button> */}
 
       {/* <button
         type="button"
@@ -86,7 +86,7 @@ function ChatAssistantOverlay() {
         aria-label={isWhatsAppWidgetOpen ? 'Close WhatsApp widget' : 'Open WhatsApp widget'}
         aria-expanded={isWhatsAppWidgetOpen}
       >
-        <img src="/WA_square.png" alt="WhatsApp widget" className="chat-sub-button-logo" />
+        <img src={isWhatsAppWidgetOpen ? '/WA_square.png' : '/WA_circle.png'} alt="WhatsApp widget" className="chat-sub-button-logo" />
       </button>
 
       <button
