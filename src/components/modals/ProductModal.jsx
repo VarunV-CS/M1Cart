@@ -128,13 +128,13 @@ const ProductModal = ({
               <span className={`product-modal-status status-${product.status?.toLowerCase() || 'submitted'}`}>
                 {product.status || 'Submitted'}
               </span>
-              <button 
+              {/*<button 
                 className="product-modal-refresh" 
                 aria-label="Refresh status"
                 onClick={(e) => e.stopPropagation()}
               >
                 Q
-              </button>
+              </button>*/}
             </div>
             
             <div className="product-modal-price">
