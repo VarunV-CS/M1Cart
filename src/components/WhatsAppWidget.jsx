@@ -1,6 +1,6 @@
 import { FloatingWhatsApp } from 'react-floating-whatsapp';
 import { whatsappConfig } from '../config/env';
-import './WhatsAppWidget.css';
+import '../styles/components/WhatsAppWidget.css';
 
 function WhatsAppWidget({ className = '' }) {
   const containerClassName = ['whatsapp-widget-container', className].filter(Boolean).join(' ');

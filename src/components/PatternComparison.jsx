@@ -16,7 +16,7 @@ import {
   Text,
   Flex
 } from './patterns';
-import './PatternComparison.css';
+import '../styles/components/PatternComparison.css';
 
 /**
  * ObserverPatternDemo - Components "observe" state changes through Context

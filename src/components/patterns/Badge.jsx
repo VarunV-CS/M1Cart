@@ -1,4 +1,4 @@
-import './Badge.css';
+import '../../styles/components/patterns/Badge.css';
 
 const Badge = ({
   children,

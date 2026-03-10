@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { Badge, Button } from './patterns';
 import withLogger from '../hocs/withLogger';
-import './ProductCard.css';
+import '../styles/components/ProductCard.css';
 
 const ProductCard = ({ product, children, className = '', ...props }) => {
   if (children) {

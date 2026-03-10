@@ -1,4 +1,4 @@
-import './Typography.css';
+import '../../styles/components/patterns/Typography.css';
 
 export const Heading1 = ({ children, className = '', ...props }) => (
   <h1 className={`heading heading-1 ${className}`} {...props}>{children}</h1>

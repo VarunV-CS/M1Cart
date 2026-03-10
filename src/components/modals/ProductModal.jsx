@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
-import './ProductModal.css';
+import '../../styles/components/modals/ProductModal.css';
 
 const ProductModal = ({ 
   product, 

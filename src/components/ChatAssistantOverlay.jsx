@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { whatsappConfig } from '../config/env';
 import WhatsAppWidget from './WhatsAppWidget';
-import './ChatAssistantOverlay.css';
+import '../styles/components/ChatAssistantOverlay.css';
 
 function ChatAssistantOverlay() {
   const [isOpen, setIsOpen] = useState(false);

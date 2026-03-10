@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { updatePassword } from '../../services/auth/api';
 import PasswordInput from '../PasswordInput';
-import './PasswordUpdateModal.css';
+import '../../styles/components/modals/PasswordUpdateModal.css';
 
 function PasswordUpdateModal({ isOpen, onClose }) {
   const { isDark } = useTheme();

@@ -6,7 +6,7 @@ import {
 } from '../services/orders/api';
 import OrderModal from './modals/OrderModal';
 import Pagination from './Pagination';
-import './SellerOrders.css';
+import '../styles/components/SellerOrders.css';
 
 const PAGE_SIZE_OPTIONS = [5, 10, 20];
 const ORDER_STATUS_FILTERS = ['all', 'completed', 'pending', 'failed', 'cancelled', 'dispatched', 'delivered'];

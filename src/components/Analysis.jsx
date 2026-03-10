@@ -8,7 +8,7 @@ import { getAllOrders } from '../services/orders/api';
 import { getAllProducts } from '../services/products/api';
 import { getAllUsers } from '../services/users/api';
 import PieChart from './PieChart';
-import './Analysis.css';
+import '../styles/components/Analysis.css';
 
 function Analysis({ onNavigateTab = () => {} }) {
   const [analysisData, setAnalysisData] = useState({

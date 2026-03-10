@@ -10,7 +10,7 @@ import {
 } from '../services/auth/storage';
 import VerificationModal from '../components/modals/VerificationModal';
 import PasswordInput from '../components/PasswordInput';
-import './Dashboard.css';
+import '../styles/pages/Dashboard.css';
 
 function Dashboard() {
   const navigate = useNavigate();

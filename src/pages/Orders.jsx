@@ -6,7 +6,7 @@ import { getOrders } from '../services/orders/api';
 import { Spinner } from '../components/patterns';
 import OrderModal from '../components/modals/OrderModal';
 import Pagination from '../components/Pagination';
-import './Orders.css';
+import '../styles/pages/Orders.css';
 
 // Order status options
 const ORDER_STATUSES = ['All', 'completed', 'failed', 'pending', 'cancelled', 'dispatched', 'delivered', 'refunded'];

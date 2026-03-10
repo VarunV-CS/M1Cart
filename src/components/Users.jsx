@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { getAllUsers } from '../services/users/api';
 import UserModal from './modals/UserModal';
 import Pagination from './Pagination';
-import './Users.css';
+import '../styles/components/Users.css';
 
 // Page size options
 const PAGE_SIZE_OPTIONS = [5, 10, 20];

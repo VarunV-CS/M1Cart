@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import './ImageZoom.css';
+import '../styles/components/ImageZoom.css';
 
 const ImageZoom = ({ 
   src, 

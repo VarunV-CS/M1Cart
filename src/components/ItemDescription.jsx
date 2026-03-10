@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext';
 import Comments from './Comments';
 import ImageZoom from './ImageZoom';
 import Footer from './Footer';
-import './ItemDescription.css';
+import '../styles/components/ItemDescription.css';
 
 const ItemDescription = () => {
   const { pid } = useParams();

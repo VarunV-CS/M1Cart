@@ -4,7 +4,7 @@ import { fetchProducts, fetchCategories } from '../services/products/api';
 import ProductCard from '../components/ProductCard';
 import Pagination from '../components/Pagination';
 import Footer from '../components/Footer';
-import './Search.css';
+import '../styles/pages/Search.css';
 
 // Page size options for user selection
 const PAGE_SIZE_OPTIONS = [6, 12, 24, 48];

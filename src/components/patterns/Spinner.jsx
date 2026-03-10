@@ -1,5 +1,5 @@
 import React from 'react';
-import './Spinner.css';
+import '../../styles/components/patterns/Spinner.css';
 
 /**
  * Spinner Component - Consistent loading indicator

@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import PasswordInput from '../components/PasswordInput';
 import { resetPasswordWithToken } from '../services/auth/api';
-import './Reset.css';
+import '../styles/pages/Reset.css';
 
 function Reset() {
   const navigate = useNavigate();

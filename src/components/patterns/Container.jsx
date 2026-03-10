@@ -1,4 +1,4 @@
-import './Container.css';
+import '../../styles/components/patterns/Container.css';
 
 const Container = ({
   children,

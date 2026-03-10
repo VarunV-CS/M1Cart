@@ -7,7 +7,7 @@ import {
 } from '../services/products/api';
 import ProductModal from './modals/ProductModal';
 import Pagination from './Pagination';
-import './SellerProducts.css';
+import '../styles/components/SellerProducts.css';
 
 const PAGE_SIZE_OPTIONS = [8, 16, 20];
 

@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
-import './OrderModal.css';
+import '../../styles/components/modals/OrderModal.css';
 
 // Status options based on user role
 const SELLER_STATUS_OPTIONS = [

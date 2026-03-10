@@ -12,7 +12,7 @@ import VerificationModal from '../components/modals/VerificationModal';
 import Users from '../components/Users';
 import Products from '../components/Products';
 import AdminOrders from '../components/AdminOrders';
-import './AdminDashboard.css';
+import '../styles/pages/AdminDashboard.css';
 
 function AdminDashboard() {
   const navigate = useNavigate();

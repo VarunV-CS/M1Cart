@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import CartItem from '../components/CartItem';
 import CartSummary from '../components/CartSummary';
 import withLogger from '../hocs/withLogger';
-import './Cart.css';
+import '../styles/pages/Cart.css';
 
 const Cart = () => {
   const { cartItems, getCartTotal, clearCart } = useCart();

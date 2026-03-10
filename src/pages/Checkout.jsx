@@ -12,7 +12,7 @@ import {
 } from '../services/orders/api';
 import { stripeConfig } from '../config/env';
 import { Button, Card, Spinner } from '../components/patterns';
-import './Checkout.css';
+import '../styles/pages/Checkout.css';
 
 // Load Stripe with public key
 const stripePromise = loadStripe(stripeConfig.publicKey);

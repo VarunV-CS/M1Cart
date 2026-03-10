@@ -2,7 +2,7 @@ import { Card } from './patterns';
 import CartItemImage from './cart-item/CartItemImage';
 import CartItemDetails from './cart-item/CartItemDetails';
 import CartItemControls from './cart-item/CartItemControls';
-import './CartItem.css';
+import '../styles/components/CartItem.css';
 
 const CartItem = ({ item, children, className = '', ...props }) => {
   if (children) {

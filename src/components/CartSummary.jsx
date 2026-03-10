@@ -1,7 +1,7 @@
 import { Button, Card } from './patterns';
 import { useNavigate } from 'react-router-dom';
 import withCartActions from '../hocs/withCartActions';
-import './CartSummary.css';
+import '../styles/components/CartSummary.css';
 
 const CartSummary = ({ 
   cartItems, 

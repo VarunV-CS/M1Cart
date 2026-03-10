@@ -8,7 +8,7 @@ import {
   fetchRatingStats,
 } from '../services/comments/api';
 import { getUser, isAuthenticated } from '../services/auth/storage';
-import './Comments.css';
+import '../styles/components/Comments.css';
 
 const StarRating = ({ rating, onRatingChange, readOnly = false, size = 'medium' }) => {
   const [hoverRating, setHoverRating] = useState(0);

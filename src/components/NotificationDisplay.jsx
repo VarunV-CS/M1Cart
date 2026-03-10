@@ -1,5 +1,5 @@
 import { useNotification } from '../context/NotificationContext';
-import './NotificationDisplay.css';
+import '../styles/components/NotificationDisplay.css';
 
 export const NotificationDisplay = () => {
   const { notifications, removeNotification } = useNotification();

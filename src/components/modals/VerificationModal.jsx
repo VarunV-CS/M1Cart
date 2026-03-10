@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './VerificationModal.css';
+import '../../styles/components/modals/VerificationModal.css';
 
 function VerificationModal({ isOpen, onClose, onVerificationComplete }) {
   const [otp, setOtp] = useState('');

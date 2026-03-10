@@ -5,7 +5,7 @@ import { Spinner } from '../components/patterns';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
 import Footer from '../components/Footer';
-import './Home.css';
+import '../styles/pages/Home.css';
 
 const Home = () => {
   const location = useLocation();

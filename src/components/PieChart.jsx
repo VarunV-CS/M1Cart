@@ -3,7 +3,7 @@
  * No external dependencies - zero bundle size impact
  */
 
-import './PieChart.css';
+import '../styles/components/PieChart.css';
 
 function PieChart({ data, title, onClick, onKeyDown, ariaLabel, role = 'button', tabIndex = 0 }) {
   if (!data || data.length === 0 || data.every(item => item.value === 0)) {

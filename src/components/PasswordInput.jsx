@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './PasswordInput.css';
+import '../styles/components/PasswordInput.css';
 
 function PasswordInput({ 
   id, 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
-import './ScrollToTop.css';
+import '../styles/components/ScrollToTop.css';
 
 export default function ScrollToTop() {
   const { pathname } = useLocation();

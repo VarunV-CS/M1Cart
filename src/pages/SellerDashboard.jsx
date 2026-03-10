@@ -11,7 +11,7 @@ import VerificationModal from '../components/modals/VerificationModal';
 import PasswordUpdateModal from '../components/modals/PasswordUpdateModal';
 import SellerProducts from '../components/SellerProducts';
 import SellerOrders from '../components/SellerOrders';
-import './SellerDashboard.css';
+import '../styles/pages/SellerDashboard.css';
 
 function SellerDashboard() {
   const navigate = useNavigate();

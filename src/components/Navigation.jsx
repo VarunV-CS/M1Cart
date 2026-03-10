@@ -7,7 +7,7 @@ import withLogger from '../hocs/withLogger';
 import { getUser, isAuthenticated } from '../services/auth/storage';
 import { fetchSearchSuggestions } from '../services/products/api';
 import { Spinner } from '../components/patterns';
-import './Navigation.css';
+import '../styles/components/Navigation.css';
 
 const Navigation = () => {
   const location = useLocation();

@@ -1,4 +1,4 @@
-import './Card.css';
+import '../../styles/components/patterns/Card.css';
 
 const Card = ({
   children,

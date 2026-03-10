@@ -21,7 +21,7 @@ import {
 import PatternComparison from './PatternComparison';
 import { getUser, isAuthenticated } from '../services/auth/storage';
 
-import './PatternShowcase.css';
+import '../styles/components/PatternShowcase.css';
 
 const PatternShowcase = () => {
   const navigate = useNavigate();

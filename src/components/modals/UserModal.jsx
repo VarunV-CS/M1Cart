@@ -5,7 +5,7 @@ import {
   deactivateUser,
   updateUser,
 } from '../../services/users/api';
-import './UserModal.css';
+import '../../styles/components/modals/UserModal.css';
 
 const UserModal = ({ user, onClose, onUserUpdated, isAdminView = true }) => {
   const { isDark } = useTheme();

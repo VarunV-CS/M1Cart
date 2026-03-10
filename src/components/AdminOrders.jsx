@@ -3,7 +3,7 @@ import { useTheme } from '../context/ThemeContext';
 import { getAllOrders, updateAdminOrderStatus } from '../services/orders/api';
 import OrderModal from './modals/OrderModal';
 import Pagination from './Pagination';
-import './AdminOrders.css';
+import '../styles/components/AdminOrders.css';
 
 const PAGE_SIZE_OPTIONS = [5, 10, 20];
 const ORDER_STATUS_FILTERS = ['all', 'completed', 'pending', 'failed', 'cancelled', 'dispatched', 'delivered'];

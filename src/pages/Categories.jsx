@@ -5,7 +5,7 @@ import ProductCard from '../components/ProductCard';
 import Pagination from '../components/Pagination';
 import Footer from '../components/Footer';
 import { Spinner } from '../components/patterns';
-import './Categories.css';
+import '../styles/pages/Categories.css';
 
 // Page size options for user selection
 const PAGE_SIZE_OPTIONS = [6, 12, 24, 48];

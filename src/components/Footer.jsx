@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
-import './Footer.css';
+import '../styles/components/Footer.css';
 
 const Footer = () => {
   const { isDark } = useTheme();
