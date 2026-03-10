@@ -8,7 +8,7 @@ import { useTheme } from './context/ThemeContext';
 import withErrorBoundary from './hocs/withErrorBoundary';
 import { Spinner } from './components/patterns';
 import ScrollToTop, { ScrollToTopButton } from './components/ScrollToTop';
-import '.styles/App.css';
+import './styles/App.css';
 
 // Lazy load heavy components
 const Navigation = lazy(() => import('./components/Navigation'));
