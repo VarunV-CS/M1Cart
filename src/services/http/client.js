@@ -3,16 +3,28 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const REQUEST_TIMEOUT = 30000;
 
 export const fetchWithTimeout = async (url, options = {}) => {
+  const { signal: userSignal, headers: optionHeaders, ...restOptions } = options;
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
+  let removeUserAbortListener = null;
+
+  if (userSignal) {
+    if (userSignal.aborted) {
+      controller.abort(userSignal.reason);
+    } else {
+      const onAbort = () => controller.abort(userSignal.reason);
+      userSignal.addEventListener('abort', onAbort, { once: true });
+      removeUserAbortListener = () => userSignal.removeEventListener('abort', onAbort);
+    }
+  }
 
   try {
     const response = await fetch(url, {
-      ...options,
+      ...restOptions,
       signal: controller.signal,
       headers: {
         'Content-Type': 'application/json',
-        ...options.headers,
+        ...optionHeaders,
       },
     });
 
@@ -21,6 +33,10 @@ export const fetchWithTimeout = async (url, options = {}) => {
   } catch (error) {
     clearTimeout(timeoutId);
     throw error;
+  } finally {
+    if (removeUserAbortListener) {
+      removeUserAbortListener();
+    }
   }
 };
 

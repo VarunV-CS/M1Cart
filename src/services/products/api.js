@@ -1,6 +1,9 @@
 import { API_BASE_URL, fetchWithTimeout, handleResponse } from '../http/client';
 import { getAuthHeaders } from '../auth/storage';
 
+const SUGGESTIONS_CACHE_TTL_MS = 60_000;
+const suggestionsCache = new Map();
+
 export const fetchProducts = async (page = 1, limit = 10, filters = {}) => {
   try {
     const params = new URLSearchParams({
@@ -75,21 +78,36 @@ export const fetchCategories = async () => {
   }
 };
 
-export const fetchSearchSuggestions = async (query) => {
+export const fetchSearchSuggestions = async (query, options = {}) => {
   try {
-    const params = new URLSearchParams({ q: query.trim() });
-    const response = await fetchWithTimeout(`${API_BASE_URL}/products/suggestions?${params.toString()}`);
+    const trimmed = query.trim();
+    if (trimmed.length < 2) {
+      return [];
+    }
+
+    const key = trimmed.toLowerCase();
+    const cached = suggestionsCache.get(key);
+    const now = Date.now();
+
+    if (cached && now - cached.timestamp < SUGGESTIONS_CACHE_TTL_MS) {
+      return cached.data;
+    }
+
+    const params = new URLSearchParams({ q: trimmed });
+    const response = await fetchWithTimeout(`${API_BASE_URL}/products/suggestions?${params.toString()}`, {
+      signal: options.signal,
+    });
 
     if (!response.ok) {
       throw new Error(`Failed to fetch search suggestions: ${response.status}`);
     }
 
     const data = await handleResponse(response);
-    return data.suggestions || [];
+    const suggestions = data.suggestions || [];
+    suggestionsCache.set(key, { timestamp: now, data: suggestions });
+    return suggestions;
   } catch (error) {
-    if (error.name === 'AbortError') {
-      throw new Error('Suggestions request timed out. Please try again.');
-    }
+    if (error.name === 'AbortError') return [];
     console.error('Error fetching search suggestions:', error);
     throw error;
   }

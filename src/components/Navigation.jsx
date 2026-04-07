@@ -6,6 +6,7 @@ import ThemeToggle from './ThemeToggle';
 import withLogger from '../hocs/withLogger';
 import { getUser, isAuthenticated } from '../services/auth/storage';
 import { fetchSearchSuggestions } from '../services/products/api';
+import { addRecentSearch, getRecentSearches } from '../services/search/recentSearches';
 import { Spinner } from '../components/patterns';
 import '../styles/components/Navigation.css';
 
@@ -20,6 +21,7 @@ const Navigation = () => {
   const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false);
   const [isSuggestionsLoading, setIsSuggestionsLoading] = useState(false);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
+  const [recentSearches, setRecentSearches] = useState(() => getRecentSearches());
   const [user, setUser] = useState(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [isLogoHovered, setIsLogoHovered] = useState(false);
@@ -114,10 +116,11 @@ const Navigation = () => {
     }
 
     let isCurrent = true;
+    const controller = new AbortController();
     const timer = setTimeout(async () => {
       try {
         setIsSuggestionsLoading(true);
-        const nextSuggestions = await fetchSearchSuggestions(trimmedQuery);
+        const nextSuggestions = await fetchSearchSuggestions(trimmedQuery, { signal: controller.signal });
 
         if (!isCurrent) {
           return;
@@ -143,6 +146,7 @@ const Navigation = () => {
 
     return () => {
       isCurrent = false;
+      controller.abort();
       clearTimeout(timer);
     };
   }, [searchQuery]);
@@ -166,6 +170,7 @@ const Navigation = () => {
     }
 
     navigate(`/search?q=${encodeURIComponent(nextQuery)}`);
+    setRecentSearches(addRecentSearch(nextQuery));
     setSearchQuery('');
     setSuggestions([]);
     setIsSuggestionsOpen(false);
@@ -260,9 +265,22 @@ const Navigation = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => {
-                if (suggestions.length > 0) {
-                  setIsSuggestionsOpen(true);
+                if (searchQuery.trim().length < 2) {
+                  const recents = recentSearches.map((text) => ({
+                    text,
+                    type: 'recent',
+                    subtitle: 'Recent search',
+                  }));
+
+                  if (recents.length > 0) {
+                    setSuggestions(recents);
+                    setIsSuggestionsOpen(true);
+                    setActiveSuggestionIndex(0);
+                    return;
+                  }
                 }
+
+                if (suggestions.length > 0) setIsSuggestionsOpen(true);
               }}
               onKeyDown={handleSearchKeyDown}
               className="nav-search-input"

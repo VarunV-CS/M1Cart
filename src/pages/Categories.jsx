@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchProducts, fetchCategories, fetchSearchSuggestions } from '../services/products/api';
+import { addRecentSearch, getRecentSearches } from '../services/search/recentSearches';
 import ProductCard from '../components/ProductCard';
 import Pagination from '../components/Pagination';
 import Footer from '../components/Footer';
@@ -33,6 +34,7 @@ const Categories = () => {
   const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false);
   const [isSuggestionsLoading, setIsSuggestionsLoading] = useState(false);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
+  const [recentSearches, setRecentSearches] = useState(() => getRecentSearches());
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [sortBy, setSortBy] = useState('name-asc');
   
@@ -123,10 +125,11 @@ const Categories = () => {
     }
 
     let isCurrent = true;
+    const controller = new AbortController();
     const timer = setTimeout(async () => {
       try {
         setIsSuggestionsLoading(true);
-        const nextSuggestions = await fetchSearchSuggestions(trimmedQuery);
+        const nextSuggestions = await fetchSearchSuggestions(trimmedQuery, { signal: controller.signal });
 
         if (!isCurrent) {
           return;
@@ -152,6 +155,7 @@ const Categories = () => {
 
     return () => {
       isCurrent = false;
+      controller.abort();
       clearTimeout(timer);
     };
   }, [searchQuery]);
@@ -207,6 +211,7 @@ const Categories = () => {
   };
 
   const applySearchValue = (value) => {
+    setRecentSearches(addRecentSearch(value));
     setSearchQuery(value);
     setSuggestions([]);
     setIsSuggestionsOpen(false);
@@ -322,9 +327,22 @@ const Categories = () => {
                     setPage(1);
                   }}
                   onFocus={() => {
-                    if (suggestions.length > 0) {
-                      setIsSuggestionsOpen(true);
+                    if (searchQuery.trim().length < 2) {
+                      const recents = recentSearches.map((text) => ({
+                        text,
+                        type: 'recent',
+                        subtitle: 'Recent search',
+                      }));
+
+                      if (recents.length > 0) {
+                        setSuggestions(recents);
+                        setIsSuggestionsOpen(true);
+                        setActiveSuggestionIndex(0);
+                        return;
+                      }
                     }
+
+                    if (suggestions.length > 0) setIsSuggestionsOpen(true);
                   }}
                   onKeyDown={handleSearchInputKeyDown}
                   className="filter-input"
